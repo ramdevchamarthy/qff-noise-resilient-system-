@@ -1,0 +1,54 @@
+{
+  "name": "Processor B",
+  "stage": "Phase 1 Online Benchmark",
+  "num_qubits": 9,
+  "coupling_map": [
+    [0, 1], [1, 0],
+    [1, 2], [2, 1],
+    [1, 6], [6, 1],
+    [2, 3], [3, 2],
+    [2, 6], [6, 2],
+    [2, 5], [5, 2],
+    [3, 4], [4, 3],
+    [4, 5], [5, 4],
+    [5, 6], [6, 5],
+    [6, 7], [7, 6],
+    [6, 8], [8, 6],
+    [8, 0], [0, 8]
+  ],
+  "undirected_edges": [
+    [0, 1],
+    [1, 2],
+    [1, 6],
+    [2, 3],
+    [2, 6],
+    [2, 5],
+    [3, 4],
+    [4, 5],
+    [5, 6],
+    [6, 7],
+    [6, 8],
+    [8, 0]
+  ],
+  "basis_gates": ["rz", "sx", "x", "cx"],
+  "topology_type": "heavy_hex_inspired",
+  "crosstalk_mitigation": "hexagonal_sublattice",
+  "noise_calibration": {
+    "single_qubit_depolarizing_rate": 0.001,
+    "two_qubit_depolarizing_rate": 0.005,
+    "readout_error_rate_01": 0.015,
+    "readout_error_rate_10": 0.015,
+    "source": "QFF 2026 Universal Challenge Framework authoritative benchmark"
+  },
+  "layout_coordinates": {
+    "0": {"x": 40, "y": 60},
+    "1": {"x": 100, "y": 40},
+    "2": {"x": 160, "y": 40},
+    "3": {"x": 220, "y": 60},
+    "4": {"x": 220, "y": 140},
+    "5": {"x": 160, "y": 160},
+    "6": {"x": 100, "y": 160},
+    "7": {"x": 100, "y": 230},
+    "8": {"x": 40, "y": 140}
+  }
+}

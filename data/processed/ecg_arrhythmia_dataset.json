@@ -1,0 +1,2752 @@
+[
+  {
+    "id": "PAT-1000",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 855.65,
+      "qrs_duration_ms": 86.88,
+      "r_peak_mv": 1.253,
+      "st_segment_mv": 0.058
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1001",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 834.95,
+      "qrs_duration_ms": 84.13,
+      "r_peak_mv": 1.194,
+      "st_segment_mv": 0.013
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1002",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 378.85,
+      "qrs_duration_ms": 125.79,
+      "r_peak_mv": 1.284,
+      "st_segment_mv": 0.083
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1003",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 785.5,
+      "qrs_duration_ms": 87.77,
+      "r_peak_mv": 1.358,
+      "st_segment_mv": -0.027
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1004",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 601.26,
+      "qrs_duration_ms": 96.9,
+      "r_peak_mv": 1.081,
+      "st_segment_mv": 0.038
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1005",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 493.54,
+      "qrs_duration_ms": 137.96,
+      "r_peak_mv": 1.544,
+      "st_segment_mv": -0.156
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1006",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 892.01,
+      "qrs_duration_ms": 97.18,
+      "r_peak_mv": 1.308,
+      "st_segment_mv": 0.022
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1007",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 852.06,
+      "qrs_duration_ms": 81.63,
+      "r_peak_mv": 1.236,
+      "st_segment_mv": 0.021
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1008",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 838.87,
+      "qrs_duration_ms": 65.89,
+      "r_peak_mv": 1.368,
+      "st_segment_mv": -0.037
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1009",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 582.38,
+      "qrs_duration_ms": 84.83,
+      "r_peak_mv": 0.88,
+      "st_segment_mv": 0.075
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1010",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 387.23,
+      "qrs_duration_ms": 121.81,
+      "r_peak_mv": 1.504,
+      "st_segment_mv": 0.348
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1011",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 602.91,
+      "qrs_duration_ms": 114.61,
+      "r_peak_mv": 0.91,
+      "st_segment_mv": 0.017
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1012",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 542.68,
+      "qrs_duration_ms": 131.55,
+      "r_peak_mv": 1.481,
+      "st_segment_mv": -0.122
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1013",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 444.8,
+      "qrs_duration_ms": 127.69,
+      "r_peak_mv": 1.238,
+      "st_segment_mv": 0.145
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1014",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 785.87,
+      "qrs_duration_ms": 87.4,
+      "r_peak_mv": 1.223,
+      "st_segment_mv": 0.049
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1015",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 372.32,
+      "qrs_duration_ms": 141.9,
+      "r_peak_mv": 0.905,
+      "st_segment_mv": 0.456
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1016",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 635.68,
+      "qrs_duration_ms": 93.68,
+      "r_peak_mv": 1.113,
+      "st_segment_mv": 0.095
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1017",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 805.61,
+      "qrs_duration_ms": 87.19,
+      "r_peak_mv": 0.926,
+      "st_segment_mv": 0.078
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1018",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 907.89,
+      "qrs_duration_ms": 83.49,
+      "r_peak_mv": 1.411,
+      "st_segment_mv": 0.013
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1019",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 785.5,
+      "qrs_duration_ms": 84.73,
+      "r_peak_mv": 1.183,
+      "st_segment_mv": -0.001
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1020",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 713.09,
+      "qrs_duration_ms": 90.98,
+      "r_peak_mv": 1.287,
+      "st_segment_mv": -0.006
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1021",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 863.06,
+      "qrs_duration_ms": 99.93,
+      "r_peak_mv": 1.289,
+      "st_segment_mv": -0.008
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1022",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 799.92,
+      "qrs_duration_ms": 83.45,
+      "r_peak_mv": 1.232,
+      "st_segment_mv": -0.027
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1023",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 818.51,
+      "qrs_duration_ms": 85.96,
+      "r_peak_mv": 1.209,
+      "st_segment_mv": 0.015
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1024",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 881.46,
+      "qrs_duration_ms": 76.88,
+      "r_peak_mv": 1.205,
+      "st_segment_mv": 0.02
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1025",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 838.0,
+      "qrs_duration_ms": 85.03,
+      "r_peak_mv": 1.175,
+      "st_segment_mv": 0.011
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1026",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 822.34,
+      "qrs_duration_ms": 82.35,
+      "r_peak_mv": 1.07,
+      "st_segment_mv": 0.016
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1027",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 395.56,
+      "qrs_duration_ms": 138.84,
+      "r_peak_mv": 1.036,
+      "st_segment_mv": 0.184
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1028",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 547.89,
+      "qrs_duration_ms": 100.85,
+      "r_peak_mv": 0.725,
+      "st_segment_mv": 0.127
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1029",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 820.22,
+      "qrs_duration_ms": 88.55,
+      "r_peak_mv": 1.371,
+      "st_segment_mv": 0.015
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1030",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 890.52,
+      "qrs_duration_ms": 86.5,
+      "r_peak_mv": 1.262,
+      "st_segment_mv": 0.014
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1031",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 659.93,
+      "qrs_duration_ms": 95.18,
+      "r_peak_mv": 0.899,
+      "st_segment_mv": 0.02
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1032",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 393.51,
+      "qrs_duration_ms": 130.87,
+      "r_peak_mv": 1.148,
+      "st_segment_mv": 0.236
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1033",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 381.89,
+      "qrs_duration_ms": 140.29,
+      "r_peak_mv": 1.034,
+      "st_segment_mv": 0.25
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1034",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 840.38,
+      "qrs_duration_ms": 85.68,
+      "r_peak_mv": 1.131,
+      "st_segment_mv": 0.026
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1035",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 820.25,
+      "qrs_duration_ms": 90.55,
+      "r_peak_mv": 1.101,
+      "st_segment_mv": 0.02
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1036",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 562.32,
+      "qrs_duration_ms": 124.07,
+      "r_peak_mv": 1.704,
+      "st_segment_mv": -0.327
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1037",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 496.06,
+      "qrs_duration_ms": 134.9,
+      "r_peak_mv": 1.798,
+      "st_segment_mv": 0.18
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1038",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 846.05,
+      "qrs_duration_ms": 92.98,
+      "r_peak_mv": 1.247,
+      "st_segment_mv": 0.04
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1039",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 679.69,
+      "qrs_duration_ms": 92.13,
+      "r_peak_mv": 1.186,
+      "st_segment_mv": 0.011
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1040",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 546.6,
+      "qrs_duration_ms": 124.56,
+      "r_peak_mv": 1.051,
+      "st_segment_mv": 0.171
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1041",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 624.2,
+      "qrs_duration_ms": 95.4,
+      "r_peak_mv": 0.945,
+      "st_segment_mv": 0.032
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1042",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 458.34,
+      "qrs_duration_ms": 119.65,
+      "r_peak_mv": 1.627,
+      "st_segment_mv": -0.217
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1043",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 845.28,
+      "qrs_duration_ms": 88.17,
+      "r_peak_mv": 1.071,
+      "st_segment_mv": -0.015
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1044",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 636.97,
+      "qrs_duration_ms": 121.48,
+      "r_peak_mv": 1.495,
+      "st_segment_mv": -0.191
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1045",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 377.92,
+      "qrs_duration_ms": 127.67,
+      "r_peak_mv": 1.474,
+      "st_segment_mv": 0.196
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1046",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 823.21,
+      "qrs_duration_ms": 93.01,
+      "r_peak_mv": 1.172,
+      "st_segment_mv": -0.012
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1047",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 651.27,
+      "qrs_duration_ms": 129.14,
+      "r_peak_mv": 1.457,
+      "st_segment_mv": -0.194
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1048",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 796.03,
+      "qrs_duration_ms": 85.86,
+      "r_peak_mv": 1.194,
+      "st_segment_mv": 0.019
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1049",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 682.25,
+      "qrs_duration_ms": 107.85,
+      "r_peak_mv": 0.891,
+      "st_segment_mv": -0.016
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1050",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 816.8,
+      "qrs_duration_ms": 85.28,
+      "r_peak_mv": 1.261,
+      "st_segment_mv": -0.013
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1051",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 842.41,
+      "qrs_duration_ms": 84.59,
+      "r_peak_mv": 1.263,
+      "st_segment_mv": 0.019
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1052",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 811.42,
+      "qrs_duration_ms": 95.44,
+      "r_peak_mv": 1.204,
+      "st_segment_mv": -0.01
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1053",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 815.43,
+      "qrs_duration_ms": 94.07,
+      "r_peak_mv": 1.412,
+      "st_segment_mv": -0.023
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1054",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 628.62,
+      "qrs_duration_ms": 89.36,
+      "r_peak_mv": 0.91,
+      "st_segment_mv": 0.073
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1055",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 845.63,
+      "qrs_duration_ms": 92.42,
+      "r_peak_mv": 1.178,
+      "st_segment_mv": -0.027
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1056",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 461.36,
+      "qrs_duration_ms": 126.44,
+      "r_peak_mv": 1.484,
+      "st_segment_mv": 0.117
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1057",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 613.58,
+      "qrs_duration_ms": 131.46,
+      "r_peak_mv": 2.088,
+      "st_segment_mv": -0.267
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1058",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 631.28,
+      "qrs_duration_ms": 99.34,
+      "r_peak_mv": 1.158,
+      "st_segment_mv": 0.102
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1059",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 767.88,
+      "qrs_duration_ms": 91.41,
+      "r_peak_mv": 1.376,
+      "st_segment_mv": 0.067
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1060",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 901.2,
+      "qrs_duration_ms": 84.1,
+      "r_peak_mv": 1.24,
+      "st_segment_mv": 0.005
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1061",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 768.65,
+      "qrs_duration_ms": 100.07,
+      "r_peak_mv": 1.297,
+      "st_segment_mv": -0.047
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1062",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 811.65,
+      "qrs_duration_ms": 98.25,
+      "r_peak_mv": 1.409,
+      "st_segment_mv": 0.048
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1063",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 834.28,
+      "qrs_duration_ms": 98.7,
+      "r_peak_mv": 1.121,
+      "st_segment_mv": 0.016
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1064",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 821.38,
+      "qrs_duration_ms": 87.52,
+      "r_peak_mv": 1.257,
+      "st_segment_mv": 0.035
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1065",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 855.62,
+      "qrs_duration_ms": 84.83,
+      "r_peak_mv": 1.144,
+      "st_segment_mv": -0.014
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1066",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 716.24,
+      "qrs_duration_ms": 82.26,
+      "r_peak_mv": 1.458,
+      "st_segment_mv": 0.063
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1067",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 698.52,
+      "qrs_duration_ms": 95.21,
+      "r_peak_mv": 0.801,
+      "st_segment_mv": 0.122
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1068",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 842.2,
+      "qrs_duration_ms": 85.66,
+      "r_peak_mv": 1.283,
+      "st_segment_mv": -0.001
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1069",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 756.76,
+      "qrs_duration_ms": 92.24,
+      "r_peak_mv": 0.718,
+      "st_segment_mv": 0.031
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1070",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 799.52,
+      "qrs_duration_ms": 80.15,
+      "r_peak_mv": 1.38,
+      "st_segment_mv": 0.029
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1071",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 603.97,
+      "qrs_duration_ms": 87.59,
+      "r_peak_mv": 1.094,
+      "st_segment_mv": 0.015
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1072",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 787.96,
+      "qrs_duration_ms": 95.6,
+      "r_peak_mv": 1.146,
+      "st_segment_mv": 0.003
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1073",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 765.8,
+      "qrs_duration_ms": 94.0,
+      "r_peak_mv": 1.292,
+      "st_segment_mv": 0.045
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1074",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 839.23,
+      "qrs_duration_ms": 80.85,
+      "r_peak_mv": 1.272,
+      "st_segment_mv": 0.061
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1075",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 798.69,
+      "qrs_duration_ms": 92.79,
+      "r_peak_mv": 1.155,
+      "st_segment_mv": -0.022
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1076",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 891.11,
+      "qrs_duration_ms": 83.15,
+      "r_peak_mv": 1.167,
+      "st_segment_mv": -0.011
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1077",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 805.41,
+      "qrs_duration_ms": 83.89,
+      "r_peak_mv": 1.304,
+      "st_segment_mv": 0.003
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1078",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 554.79,
+      "qrs_duration_ms": 131.44,
+      "r_peak_mv": 1.851,
+      "st_segment_mv": -0.191
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1079",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 729.85,
+      "qrs_duration_ms": 90.03,
+      "r_peak_mv": 1.05,
+      "st_segment_mv": -0.012
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1080",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 623.31,
+      "qrs_duration_ms": 106.6,
+      "r_peak_mv": 1.2,
+      "st_segment_mv": 0.053
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1081",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 857.12,
+      "qrs_duration_ms": 90.57,
+      "r_peak_mv": 1.356,
+      "st_segment_mv": 0.077
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1082",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 852.39,
+      "qrs_duration_ms": 87.64,
+      "r_peak_mv": 1.297,
+      "st_segment_mv": -0.017
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1083",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 753.81,
+      "qrs_duration_ms": 67.93,
+      "r_peak_mv": 0.978,
+      "st_segment_mv": -0.031
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1084",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 765.5,
+      "qrs_duration_ms": 78.75,
+      "r_peak_mv": 0.994,
+      "st_segment_mv": 0.008
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1085",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 879.29,
+      "qrs_duration_ms": 79.05,
+      "r_peak_mv": 1.128,
+      "st_segment_mv": 0.014
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1086",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 408.16,
+      "qrs_duration_ms": 155.5,
+      "r_peak_mv": 1.203,
+      "st_segment_mv": 0.226
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1087",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 812.53,
+      "qrs_duration_ms": 81.02,
+      "r_peak_mv": 1.09,
+      "st_segment_mv": 0.064
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1088",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 554.46,
+      "qrs_duration_ms": 149.39,
+      "r_peak_mv": 1.528,
+      "st_segment_mv": -0.208
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1089",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 775.01,
+      "qrs_duration_ms": 84.08,
+      "r_peak_mv": 1.254,
+      "st_segment_mv": 0.04
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1090",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 760.06,
+      "qrs_duration_ms": 80.56,
+      "r_peak_mv": 1.347,
+      "st_segment_mv": -0.03
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1091",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 603.07,
+      "qrs_duration_ms": 123.85,
+      "r_peak_mv": 1.193,
+      "st_segment_mv": -0.072
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1092",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 748.8,
+      "qrs_duration_ms": 83.29,
+      "r_peak_mv": 1.299,
+      "st_segment_mv": -0.051
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1093",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 812.55,
+      "qrs_duration_ms": 93.99,
+      "r_peak_mv": 1.083,
+      "st_segment_mv": 0.039
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1094",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 806.07,
+      "qrs_duration_ms": 72.76,
+      "r_peak_mv": 1.515,
+      "st_segment_mv": -0.031
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1095",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 870.24,
+      "qrs_duration_ms": 80.83,
+      "r_peak_mv": 1.194,
+      "st_segment_mv": -0.001
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1096",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 839.1,
+      "qrs_duration_ms": 82.71,
+      "r_peak_mv": 1.213,
+      "st_segment_mv": 0.037
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1097",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 771.62,
+      "qrs_duration_ms": 98.28,
+      "r_peak_mv": 1.168,
+      "st_segment_mv": 0.083
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1098",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 845.8,
+      "qrs_duration_ms": 79.21,
+      "r_peak_mv": 1.22,
+      "st_segment_mv": 0.0
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1099",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 822.74,
+      "qrs_duration_ms": 88.6,
+      "r_peak_mv": 1.253,
+      "st_segment_mv": 0.008
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1100",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 545.08,
+      "qrs_duration_ms": 130.7,
+      "r_peak_mv": 1.616,
+      "st_segment_mv": -0.146
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1101",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 790.96,
+      "qrs_duration_ms": 84.08,
+      "r_peak_mv": 1.156,
+      "st_segment_mv": -0.039
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1102",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 482.03,
+      "qrs_duration_ms": 130.68,
+      "r_peak_mv": 1.371,
+      "st_segment_mv": 0.167
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1103",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 454.14,
+      "qrs_duration_ms": 136.67,
+      "r_peak_mv": 1.128,
+      "st_segment_mv": 0.016
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1104",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 437.09,
+      "qrs_duration_ms": 150.23,
+      "r_peak_mv": 1.422,
+      "st_segment_mv": 0.161
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1105",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 798.24,
+      "qrs_duration_ms": 96.08,
+      "r_peak_mv": 1.293,
+      "st_segment_mv": -0.04
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1106",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 873.67,
+      "qrs_duration_ms": 88.2,
+      "r_peak_mv": 1.196,
+      "st_segment_mv": 0.0
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1107",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 866.83,
+      "qrs_duration_ms": 86.58,
+      "r_peak_mv": 1.092,
+      "st_segment_mv": 0.012
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1108",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 602.99,
+      "qrs_duration_ms": 81.69,
+      "r_peak_mv": 0.91,
+      "st_segment_mv": -0.079
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1109",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 426.9,
+      "qrs_duration_ms": 121.74,
+      "r_peak_mv": 1.473,
+      "st_segment_mv": 0.113
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1110",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 556.55,
+      "qrs_duration_ms": 122.79,
+      "r_peak_mv": 1.671,
+      "st_segment_mv": -0.22
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1111",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 786.21,
+      "qrs_duration_ms": 81.63,
+      "r_peak_mv": 1.45,
+      "st_segment_mv": 0.02
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1112",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 502.14,
+      "qrs_duration_ms": 136.56,
+      "r_peak_mv": 1.495,
+      "st_segment_mv": -0.074
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1113",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 769.04,
+      "qrs_duration_ms": 83.1,
+      "r_peak_mv": 1.252,
+      "st_segment_mv": 0.031
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1114",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 788.62,
+      "qrs_duration_ms": 84.24,
+      "r_peak_mv": 1.033,
+      "st_segment_mv": 0.017
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1115",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 857.35,
+      "qrs_duration_ms": 86.63,
+      "r_peak_mv": 1.146,
+      "st_segment_mv": 0.023
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1116",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 781.14,
+      "qrs_duration_ms": 92.52,
+      "r_peak_mv": 0.995,
+      "st_segment_mv": 0.094
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1117",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 790.46,
+      "qrs_duration_ms": 92.18,
+      "r_peak_mv": 1.19,
+      "st_segment_mv": 0.03
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1118",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 790.31,
+      "qrs_duration_ms": 96.57,
+      "r_peak_mv": 1.395,
+      "st_segment_mv": -0.004
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1119",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 356.08,
+      "qrs_duration_ms": 136.91,
+      "r_peak_mv": 1.591,
+      "st_segment_mv": 0.204
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1120",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 573.27,
+      "qrs_duration_ms": 117.81,
+      "r_peak_mv": 1.43,
+      "st_segment_mv": -0.128
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1121",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 829.62,
+      "qrs_duration_ms": 87.53,
+      "r_peak_mv": 1.314,
+      "st_segment_mv": 0.018
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1122",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 771.27,
+      "qrs_duration_ms": 77.08,
+      "r_peak_mv": 1.235,
+      "st_segment_mv": 0.013
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1123",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 584.34,
+      "qrs_duration_ms": 94.33,
+      "r_peak_mv": 1.289,
+      "st_segment_mv": 0.088
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1124",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 839.93,
+      "qrs_duration_ms": 79.63,
+      "r_peak_mv": 1.371,
+      "st_segment_mv": 0.029
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1125",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 613.18,
+      "qrs_duration_ms": 96.32,
+      "r_peak_mv": 1.693,
+      "st_segment_mv": -0.149
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1126",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 767.62,
+      "qrs_duration_ms": 90.74,
+      "r_peak_mv": 1.067,
+      "st_segment_mv": -0.025
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1127",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 596.56,
+      "qrs_duration_ms": 104.74,
+      "r_peak_mv": 0.775,
+      "st_segment_mv": 0.078
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1128",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 475.08,
+      "qrs_duration_ms": 146.88,
+      "r_peak_mv": 1.239,
+      "st_segment_mv": 0.17
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1129",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 554.56,
+      "qrs_duration_ms": 132.91,
+      "r_peak_mv": 1.791,
+      "st_segment_mv": -0.179
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1130",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 811.63,
+      "qrs_duration_ms": 90.91,
+      "r_peak_mv": 1.17,
+      "st_segment_mv": -0.035
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1131",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 780.85,
+      "qrs_duration_ms": 71.33,
+      "r_peak_mv": 1.26,
+      "st_segment_mv": -0.031
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1132",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 863.3,
+      "qrs_duration_ms": 83.02,
+      "r_peak_mv": 1.053,
+      "st_segment_mv": -0.002
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1133",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 828.02,
+      "qrs_duration_ms": 83.61,
+      "r_peak_mv": 1.272,
+      "st_segment_mv": 0.032
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1134",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 786.32,
+      "qrs_duration_ms": 83.57,
+      "r_peak_mv": 1.35,
+      "st_segment_mv": 0.042
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1135",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 869.62,
+      "qrs_duration_ms": 83.09,
+      "r_peak_mv": 1.171,
+      "st_segment_mv": 0.01
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1136",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 612.08,
+      "qrs_duration_ms": 78.46,
+      "r_peak_mv": 1.057,
+      "st_segment_mv": 0.056
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1137",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 858.3,
+      "qrs_duration_ms": 78.85,
+      "r_peak_mv": 1.422,
+      "st_segment_mv": 0.017
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1138",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 752.23,
+      "qrs_duration_ms": 80.52,
+      "r_peak_mv": 1.286,
+      "st_segment_mv": 0.042
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1139",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 793.05,
+      "qrs_duration_ms": 109.45,
+      "r_peak_mv": 1.017,
+      "st_segment_mv": 0.032
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1140",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 774.71,
+      "qrs_duration_ms": 87.34,
+      "r_peak_mv": 1.196,
+      "st_segment_mv": 0.023
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1141",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 602.85,
+      "qrs_duration_ms": 84.27,
+      "r_peak_mv": 1.209,
+      "st_segment_mv": 0.019
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1142",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 782.46,
+      "qrs_duration_ms": 87.7,
+      "r_peak_mv": 1.079,
+      "st_segment_mv": 0.081
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1143",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 686.57,
+      "qrs_duration_ms": 84.09,
+      "r_peak_mv": 1.138,
+      "st_segment_mv": -0.021
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1144",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 836.3,
+      "qrs_duration_ms": 92.13,
+      "r_peak_mv": 1.227,
+      "st_segment_mv": -0.032
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1145",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 836.34,
+      "qrs_duration_ms": 94.46,
+      "r_peak_mv": 1.336,
+      "st_segment_mv": -0.004
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1146",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 907.49,
+      "qrs_duration_ms": 99.01,
+      "r_peak_mv": 1.151,
+      "st_segment_mv": -0.004
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1147",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 460.81,
+      "qrs_duration_ms": 136.05,
+      "r_peak_mv": 1.411,
+      "st_segment_mv": 0.391
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1148",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 512.27,
+      "qrs_duration_ms": 121.52,
+      "r_peak_mv": 1.717,
+      "st_segment_mv": -0.207
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1149",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 775.46,
+      "qrs_duration_ms": 90.07,
+      "r_peak_mv": 1.089,
+      "st_segment_mv": 0.016
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1150",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 624.06,
+      "qrs_duration_ms": 120.14,
+      "r_peak_mv": 1.869,
+      "st_segment_mv": -0.29
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1151",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 563.47,
+      "qrs_duration_ms": 106.87,
+      "r_peak_mv": 0.949,
+      "st_segment_mv": 0.054
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1152",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 850.96,
+      "qrs_duration_ms": 78.14,
+      "r_peak_mv": 1.091,
+      "st_segment_mv": -0.041
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1153",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 779.74,
+      "qrs_duration_ms": 86.62,
+      "r_peak_mv": 1.229,
+      "st_segment_mv": -0.019
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1154",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 906.37,
+      "qrs_duration_ms": 71.62,
+      "r_peak_mv": 1.228,
+      "st_segment_mv": 0.039
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1155",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 786.64,
+      "qrs_duration_ms": 89.26,
+      "r_peak_mv": 0.958,
+      "st_segment_mv": 0.021
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1156",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 435.3,
+      "qrs_duration_ms": 118.18,
+      "r_peak_mv": 1.649,
+      "st_segment_mv": 0.41
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1157",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 410.94,
+      "qrs_duration_ms": 139.8,
+      "r_peak_mv": 1.402,
+      "st_segment_mv": 0.186
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1158",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 844.99,
+      "qrs_duration_ms": 86.38,
+      "r_peak_mv": 1.439,
+      "st_segment_mv": -0.048
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1159",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 571.32,
+      "qrs_duration_ms": 105.04,
+      "r_peak_mv": 0.777,
+      "st_segment_mv": -0.029
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1160",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 847.91,
+      "qrs_duration_ms": 80.71,
+      "r_peak_mv": 1.142,
+      "st_segment_mv": 0.054
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1161",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 828.46,
+      "qrs_duration_ms": 84.64,
+      "r_peak_mv": 1.374,
+      "st_segment_mv": 0.028
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1162",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 894.57,
+      "qrs_duration_ms": 85.81,
+      "r_peak_mv": 1.17,
+      "st_segment_mv": 0.016
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1163",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 853.93,
+      "qrs_duration_ms": 80.56,
+      "r_peak_mv": 1.131,
+      "st_segment_mv": -0.051
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1164",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 519.13,
+      "qrs_duration_ms": 141.07,
+      "r_peak_mv": 1.715,
+      "st_segment_mv": -0.102
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1165",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 827.25,
+      "qrs_duration_ms": 81.88,
+      "r_peak_mv": 1.434,
+      "st_segment_mv": 0.039
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1166",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 825.72,
+      "qrs_duration_ms": 101.44,
+      "r_peak_mv": 1.303,
+      "st_segment_mv": 0.036
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1167",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 555.89,
+      "qrs_duration_ms": 73.45,
+      "r_peak_mv": 0.829,
+      "st_segment_mv": 0.059
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1168",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 916.99,
+      "qrs_duration_ms": 93.55,
+      "r_peak_mv": 1.321,
+      "st_segment_mv": 0.008
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1169",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 801.79,
+      "qrs_duration_ms": 78.8,
+      "r_peak_mv": 1.072,
+      "st_segment_mv": 0.119
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1170",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 854.56,
+      "qrs_duration_ms": 90.26,
+      "r_peak_mv": 1.156,
+      "st_segment_mv": 0.029
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1171",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 903.92,
+      "qrs_duration_ms": 87.81,
+      "r_peak_mv": 1.208,
+      "st_segment_mv": 0.012
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1172",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 841.47,
+      "qrs_duration_ms": 67.43,
+      "r_peak_mv": 1.388,
+      "st_segment_mv": -0.016
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1173",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 883.78,
+      "qrs_duration_ms": 79.07,
+      "r_peak_mv": 1.247,
+      "st_segment_mv": 0.064
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1174",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 452.7,
+      "qrs_duration_ms": 113.49,
+      "r_peak_mv": 1.491,
+      "st_segment_mv": -0.295
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1175",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 752.62,
+      "qrs_duration_ms": 75.08,
+      "r_peak_mv": 1.157,
+      "st_segment_mv": -0.011
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1176",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 755.88,
+      "qrs_duration_ms": 80.55,
+      "r_peak_mv": 1.305,
+      "st_segment_mv": 0.023
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1177",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 830.79,
+      "qrs_duration_ms": 89.33,
+      "r_peak_mv": 0.91,
+      "st_segment_mv": -0.01
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1178",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 892.56,
+      "qrs_duration_ms": 79.18,
+      "r_peak_mv": 1.21,
+      "st_segment_mv": 0.066
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1179",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 845.91,
+      "qrs_duration_ms": 75.12,
+      "r_peak_mv": 1.189,
+      "st_segment_mv": 0.023
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1180",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 894.33,
+      "qrs_duration_ms": 100.11,
+      "r_peak_mv": 1.343,
+      "st_segment_mv": -0.027
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1181",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 899.6,
+      "qrs_duration_ms": 83.42,
+      "r_peak_mv": 1.079,
+      "st_segment_mv": 0.05
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1182",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 447.36,
+      "qrs_duration_ms": 143.06,
+      "r_peak_mv": 1.349,
+      "st_segment_mv": 0.15
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1183",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 437.82,
+      "qrs_duration_ms": 132.89,
+      "r_peak_mv": 1.355,
+      "st_segment_mv": 0.24
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1184",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 727.37,
+      "qrs_duration_ms": 80.15,
+      "r_peak_mv": 1.228,
+      "st_segment_mv": 0.021
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1185",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 852.15,
+      "qrs_duration_ms": 82.8,
+      "r_peak_mv": 1.165,
+      "st_segment_mv": 0.019
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1186",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 802.44,
+      "qrs_duration_ms": 93.68,
+      "r_peak_mv": 1.425,
+      "st_segment_mv": 0.046
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1187",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 518.99,
+      "qrs_duration_ms": 109.7,
+      "r_peak_mv": 0.888,
+      "st_segment_mv": -0.009
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1188",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 806.28,
+      "qrs_duration_ms": 71.59,
+      "r_peak_mv": 1.092,
+      "st_segment_mv": -0.037
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1189",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 853.81,
+      "qrs_duration_ms": 83.88,
+      "r_peak_mv": 1.189,
+      "st_segment_mv": -0.01
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1190",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 823.72,
+      "qrs_duration_ms": 92.62,
+      "r_peak_mv": 1.334,
+      "st_segment_mv": 0.007
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1191",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 810.24,
+      "qrs_duration_ms": 84.05,
+      "r_peak_mv": 1.169,
+      "st_segment_mv": 0.088
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1192",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 828.87,
+      "qrs_duration_ms": 83.26,
+      "r_peak_mv": 1.26,
+      "st_segment_mv": 0.052
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1193",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 858.51,
+      "qrs_duration_ms": 87.97,
+      "r_peak_mv": 1.431,
+      "st_segment_mv": 0.006
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1194",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 427.42,
+      "qrs_duration_ms": 143.07,
+      "r_peak_mv": 1.472,
+      "st_segment_mv": 0.161
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1195",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 499.08,
+      "qrs_duration_ms": 135.42,
+      "r_peak_mv": 1.415,
+      "st_segment_mv": 0.257
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1196",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 663.74,
+      "qrs_duration_ms": 145.9,
+      "r_peak_mv": 1.69,
+      "st_segment_mv": -0.124
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1197",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 813.19,
+      "qrs_duration_ms": 85.34,
+      "r_peak_mv": 1.214,
+      "st_segment_mv": 0.026
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1198",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 832.32,
+      "qrs_duration_ms": 87.66,
+      "r_peak_mv": 1.112,
+      "st_segment_mv": 0.019
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1199",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 789.59,
+      "qrs_duration_ms": 87.47,
+      "r_peak_mv": 1.075,
+      "st_segment_mv": -0.022
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1200",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 799.35,
+      "qrs_duration_ms": 81.01,
+      "r_peak_mv": 1.201,
+      "st_segment_mv": 0.004
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1201",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 847.23,
+      "qrs_duration_ms": 79.96,
+      "r_peak_mv": 1.368,
+      "st_segment_mv": 0.04
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1202",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 851.99,
+      "qrs_duration_ms": 82.35,
+      "r_peak_mv": 1.257,
+      "st_segment_mv": 0.023
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1203",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 758.95,
+      "qrs_duration_ms": 80.35,
+      "r_peak_mv": 1.101,
+      "st_segment_mv": 0.038
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1204",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 405.58,
+      "qrs_duration_ms": 131.63,
+      "r_peak_mv": 1.233,
+      "st_segment_mv": 0.052
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1205",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 828.54,
+      "qrs_duration_ms": 74.9,
+      "r_peak_mv": 1.249,
+      "st_segment_mv": 0.042
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1206",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 648.29,
+      "qrs_duration_ms": 83.08,
+      "r_peak_mv": 0.933,
+      "st_segment_mv": 0.007
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1207",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 595.69,
+      "qrs_duration_ms": 96.09,
+      "r_peak_mv": 1.0,
+      "st_segment_mv": 0.041
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1208",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 836.9,
+      "qrs_duration_ms": 87.74,
+      "r_peak_mv": 1.205,
+      "st_segment_mv": -0.045
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1209",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 770.53,
+      "qrs_duration_ms": 81.35,
+      "r_peak_mv": 1.191,
+      "st_segment_mv": 0.023
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1210",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 459.11,
+      "qrs_duration_ms": 130.45,
+      "r_peak_mv": 1.406,
+      "st_segment_mv": 0.205
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1211",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 573.02,
+      "qrs_duration_ms": 102.55,
+      "r_peak_mv": 1.001,
+      "st_segment_mv": 0.121
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1212",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 480.0,
+      "qrs_duration_ms": 142.43,
+      "r_peak_mv": 1.683,
+      "st_segment_mv": -0.137
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1213",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 711.51,
+      "qrs_duration_ms": 69.6,
+      "r_peak_mv": 1.036,
+      "st_segment_mv": -0.013
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1214",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 922.12,
+      "qrs_duration_ms": 88.64,
+      "r_peak_mv": 1.265,
+      "st_segment_mv": -0.011
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1215",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 427.03,
+      "qrs_duration_ms": 108.01,
+      "r_peak_mv": 1.275,
+      "st_segment_mv": 0.266
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1216",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 402.03,
+      "qrs_duration_ms": 138.88,
+      "r_peak_mv": 1.317,
+      "st_segment_mv": 0.203
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1217",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 830.21,
+      "qrs_duration_ms": 93.13,
+      "r_peak_mv": 1.158,
+      "st_segment_mv": 0.034
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1218",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 829.78,
+      "qrs_duration_ms": 77.06,
+      "r_peak_mv": 1.254,
+      "st_segment_mv": 0.015
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1219",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 435.7,
+      "qrs_duration_ms": 136.52,
+      "r_peak_mv": 1.153,
+      "st_segment_mv": 0.253
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1220",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 793.09,
+      "qrs_duration_ms": 88.5,
+      "r_peak_mv": 1.11,
+      "st_segment_mv": 0.008
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1221",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 399.94,
+      "qrs_duration_ms": 122.52,
+      "r_peak_mv": 1.32,
+      "st_segment_mv": 0.196
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1222",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 445.47,
+      "qrs_duration_ms": 137.74,
+      "r_peak_mv": 1.672,
+      "st_segment_mv": 0.168
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1223",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 814.42,
+      "qrs_duration_ms": 89.43,
+      "r_peak_mv": 1.093,
+      "st_segment_mv": 0.011
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1224",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 406.48,
+      "qrs_duration_ms": 121.46,
+      "r_peak_mv": 1.531,
+      "st_segment_mv": 0.079
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1225",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 427.51,
+      "qrs_duration_ms": 135.61,
+      "r_peak_mv": 1.7,
+      "st_segment_mv": 0.135
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1226",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 756.64,
+      "qrs_duration_ms": 81.1,
+      "r_peak_mv": 1.168,
+      "st_segment_mv": 0.017
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1227",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 688.69,
+      "qrs_duration_ms": 113.42,
+      "r_peak_mv": 0.728,
+      "st_segment_mv": 0.069
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1228",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 645.06,
+      "qrs_duration_ms": 85.81,
+      "r_peak_mv": 0.795,
+      "st_segment_mv": 0.018
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1229",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 618.88,
+      "qrs_duration_ms": 84.92,
+      "r_peak_mv": 0.961,
+      "st_segment_mv": 0.03
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1230",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 791.0,
+      "qrs_duration_ms": 85.12,
+      "r_peak_mv": 1.238,
+      "st_segment_mv": -0.018
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1231",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 804.46,
+      "qrs_duration_ms": 82.87,
+      "r_peak_mv": 1.294,
+      "st_segment_mv": 0.024
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1232",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 547.49,
+      "qrs_duration_ms": 107.6,
+      "r_peak_mv": 1.717,
+      "st_segment_mv": -0.056
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1233",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 822.12,
+      "qrs_duration_ms": 74.18,
+      "r_peak_mv": 0.961,
+      "st_segment_mv": 0.031
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1234",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 778.44,
+      "qrs_duration_ms": 78.64,
+      "r_peak_mv": 1.331,
+      "st_segment_mv": -0.022
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1235",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 429.12,
+      "qrs_duration_ms": 131.84,
+      "r_peak_mv": 1.634,
+      "st_segment_mv": -0.283
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1236",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 507.49,
+      "qrs_duration_ms": 142.26,
+      "r_peak_mv": 1.939,
+      "st_segment_mv": -0.127
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1237",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 468.63,
+      "qrs_duration_ms": 116.99,
+      "r_peak_mv": 1.278,
+      "st_segment_mv": -0.156
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1238",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 859.03,
+      "qrs_duration_ms": 81.34,
+      "r_peak_mv": 1.284,
+      "st_segment_mv": -0.031
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1239",
+    "waveform_type": "Premature Atrial Contraction (PAC)",
+    "features": {
+      "rr_interval_ms": 469.08,
+      "qrs_duration_ms": 91.78,
+      "r_peak_mv": 0.689,
+      "st_segment_mv": 0.078
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1240",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 838.77,
+      "qrs_duration_ms": 85.68,
+      "r_peak_mv": 1.199,
+      "st_segment_mv": 0.003
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1241",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 874.75,
+      "qrs_duration_ms": 85.52,
+      "r_peak_mv": 1.132,
+      "st_segment_mv": -0.008
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1242",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 760.97,
+      "qrs_duration_ms": 93.85,
+      "r_peak_mv": 1.203,
+      "st_segment_mv": 0.001
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1243",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 799.59,
+      "qrs_duration_ms": 91.4,
+      "r_peak_mv": 1.109,
+      "st_segment_mv": -0.001
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1244",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 473.0,
+      "qrs_duration_ms": 131.38,
+      "r_peak_mv": 1.398,
+      "st_segment_mv": 0.25
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1245",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 853.6,
+      "qrs_duration_ms": 82.99,
+      "r_peak_mv": 1.122,
+      "st_segment_mv": -0.027
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1246",
+    "waveform_type": "Ventricular Tachycardia (VT)",
+    "features": {
+      "rr_interval_ms": 451.85,
+      "qrs_duration_ms": 131.08,
+      "r_peak_mv": 1.097,
+      "st_segment_mv": 0.332
+    },
+    "label": 1
+  },
+  {
+    "id": "PAT-1247",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 779.31,
+      "qrs_duration_ms": 74.47,
+      "r_peak_mv": 1.207,
+      "st_segment_mv": -0.036
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1248",
+    "waveform_type": "Normal Sinus Rhythm (N)",
+    "features": {
+      "rr_interval_ms": 791.3,
+      "qrs_duration_ms": 80.17,
+      "r_peak_mv": 1.146,
+      "st_segment_mv": 0.032
+    },
+    "label": 0
+  },
+  {
+    "id": "PAT-1249",
+    "waveform_type": "Premature Ventricular Contraction (PVC)",
+    "features": {
+      "rr_interval_ms": 465.67,
+      "qrs_duration_ms": 148.01,
+      "r_peak_mv": 1.912,
+      "st_segment_mv": 0.165
+    },
+    "label": 1
+  }
+]

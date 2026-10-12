@@ -1,0 +1,10 @@
+metric,processor_a,processor_b,processor_c_proposed,difference_a_vs_b,architectural_cause
+Physical Qubits,5,9,8,+4 Qubits,Heavy-Hex lattice layout vs star-chain
+Coupling Edges,4,12,12,+8 Edges,Heavy-Hex introduces alternate cyclic paths
+Transpiled Depth,23,22,18,0,Both require routing hops for 4-qubit cyclic ansatz
+Algorithmic CX,8,8,8,0,Identical logical ansatz
+SWAP Count,8,8,4,"0 (A=4, B=4, C=2)",Processor C reduces SWAPs by 50%
+Total Physical CX,32,32,20,"0 (A=16, B=16, C=10)",SWAP decomposition: 3 CX per SWAP
+Unmitigated Accuracy,0.88,0.88,N/A,0.00,Comparable gate error under same physical CX count
+Dual Mitigated Accuracy,0.9,0.9,N/A,0.00,ZNE + Readout recovers ideal performance
+Mitigated Recall,0.7368,0.7368,N/A,0.00,Clinical sensitivity fully preserved

@@ -1,0 +1,251 @@
+id,waveform_type,rr_interval_ms,qrs_duration_ms,r_peak_mv,st_segment_mv,label
+PAT-1000,Normal Sinus Rhythm (N),855.65,86.88,1.253,0.058,0
+PAT-1001,Normal Sinus Rhythm (N),834.95,84.13,1.194,0.013,0
+PAT-1002,Ventricular Tachycardia (VT),378.85,125.79,1.284,0.083,1
+PAT-1003,Normal Sinus Rhythm (N),785.5,87.77,1.358,-0.027,0
+PAT-1004,Premature Atrial Contraction (PAC),601.26,96.9,1.081,0.038,1
+PAT-1005,Premature Ventricular Contraction (PVC),493.54,137.96,1.544,-0.156,1
+PAT-1006,Normal Sinus Rhythm (N),892.01,97.18,1.308,0.022,0
+PAT-1007,Normal Sinus Rhythm (N),852.06,81.63,1.236,0.021,0
+PAT-1008,Normal Sinus Rhythm (N),838.87,65.89,1.368,-0.037,0
+PAT-1009,Premature Atrial Contraction (PAC),582.38,84.83,0.88,0.075,1
+PAT-1010,Ventricular Tachycardia (VT),387.23,121.81,1.504,0.348,1
+PAT-1011,Premature Atrial Contraction (PAC),602.91,114.61,0.91,0.017,1
+PAT-1012,Premature Ventricular Contraction (PVC),542.68,131.55,1.481,-0.122,1
+PAT-1013,Ventricular Tachycardia (VT),444.8,127.69,1.238,0.145,1
+PAT-1014,Normal Sinus Rhythm (N),785.87,87.4,1.223,0.049,0
+PAT-1015,Ventricular Tachycardia (VT),372.32,141.9,0.905,0.456,1
+PAT-1016,Premature Atrial Contraction (PAC),635.68,93.68,1.113,0.095,1
+PAT-1017,Normal Sinus Rhythm (N),805.61,87.19,0.926,0.078,0
+PAT-1018,Normal Sinus Rhythm (N),907.89,83.49,1.411,0.013,0
+PAT-1019,Normal Sinus Rhythm (N),785.5,84.73,1.183,-0.001,0
+PAT-1020,Normal Sinus Rhythm (N),713.09,90.98,1.287,-0.006,0
+PAT-1021,Normal Sinus Rhythm (N),863.06,99.93,1.289,-0.008,0
+PAT-1022,Normal Sinus Rhythm (N),799.92,83.45,1.232,-0.027,0
+PAT-1023,Normal Sinus Rhythm (N),818.51,85.96,1.209,0.015,0
+PAT-1024,Normal Sinus Rhythm (N),881.46,76.88,1.205,0.02,0
+PAT-1025,Normal Sinus Rhythm (N),838.0,85.03,1.175,0.011,0
+PAT-1026,Normal Sinus Rhythm (N),822.34,82.35,1.07,0.016,0
+PAT-1027,Ventricular Tachycardia (VT),395.56,138.84,1.036,0.184,1
+PAT-1028,Premature Atrial Contraction (PAC),547.89,100.85,0.725,0.127,1
+PAT-1029,Normal Sinus Rhythm (N),820.22,88.55,1.371,0.015,0
+PAT-1030,Normal Sinus Rhythm (N),890.52,86.5,1.262,0.014,0
+PAT-1031,Premature Atrial Contraction (PAC),659.93,95.18,0.899,0.02,1
+PAT-1032,Ventricular Tachycardia (VT),393.51,130.87,1.148,0.236,1
+PAT-1033,Ventricular Tachycardia (VT),381.89,140.29,1.034,0.25,1
+PAT-1034,Normal Sinus Rhythm (N),840.38,85.68,1.131,0.026,0
+PAT-1035,Normal Sinus Rhythm (N),820.25,90.55,1.101,0.02,0
+PAT-1036,Premature Ventricular Contraction (PVC),562.32,124.07,1.704,-0.327,1
+PAT-1037,Ventricular Tachycardia (VT),496.06,134.9,1.798,0.18,1
+PAT-1038,Normal Sinus Rhythm (N),846.05,92.98,1.247,0.04,0
+PAT-1039,Premature Atrial Contraction (PAC),679.69,92.13,1.186,0.011,1
+PAT-1040,Ventricular Tachycardia (VT),546.6,124.56,1.051,0.171,1
+PAT-1041,Premature Atrial Contraction (PAC),624.2,95.4,0.945,0.032,1
+PAT-1042,Premature Ventricular Contraction (PVC),458.34,119.65,1.627,-0.217,1
+PAT-1043,Normal Sinus Rhythm (N),845.28,88.17,1.071,-0.015,0
+PAT-1044,Premature Ventricular Contraction (PVC),636.97,121.48,1.495,-0.191,1
+PAT-1045,Ventricular Tachycardia (VT),377.92,127.67,1.474,0.196,1
+PAT-1046,Normal Sinus Rhythm (N),823.21,93.01,1.172,-0.012,0
+PAT-1047,Premature Ventricular Contraction (PVC),651.27,129.14,1.457,-0.194,1
+PAT-1048,Normal Sinus Rhythm (N),796.03,85.86,1.194,0.019,0
+PAT-1049,Premature Atrial Contraction (PAC),682.25,107.85,0.891,-0.016,1
+PAT-1050,Normal Sinus Rhythm (N),816.8,85.28,1.261,-0.013,0
+PAT-1051,Normal Sinus Rhythm (N),842.41,84.59,1.263,0.019,0
+PAT-1052,Normal Sinus Rhythm (N),811.42,95.44,1.204,-0.01,0
+PAT-1053,Normal Sinus Rhythm (N),815.43,94.07,1.412,-0.023,0
+PAT-1054,Premature Atrial Contraction (PAC),628.62,89.36,0.91,0.073,1
+PAT-1055,Normal Sinus Rhythm (N),845.63,92.42,1.178,-0.027,0
+PAT-1056,Ventricular Tachycardia (VT),461.36,126.44,1.484,0.117,1
+PAT-1057,Premature Ventricular Contraction (PVC),613.58,131.46,2.088,-0.267,1
+PAT-1058,Premature Atrial Contraction (PAC),631.28,99.34,1.158,0.102,1
+PAT-1059,Normal Sinus Rhythm (N),767.88,91.41,1.376,0.067,0
+PAT-1060,Normal Sinus Rhythm (N),901.2,84.1,1.24,0.005,0
+PAT-1061,Normal Sinus Rhythm (N),768.65,100.07,1.297,-0.047,0
+PAT-1062,Normal Sinus Rhythm (N),811.65,98.25,1.409,0.048,0
+PAT-1063,Normal Sinus Rhythm (N),834.28,98.7,1.121,0.016,0
+PAT-1064,Normal Sinus Rhythm (N),821.38,87.52,1.257,0.035,0
+PAT-1065,Normal Sinus Rhythm (N),855.62,84.83,1.144,-0.014,0
+PAT-1066,Normal Sinus Rhythm (N),716.24,82.26,1.458,0.063,0
+PAT-1067,Premature Atrial Contraction (PAC),698.52,95.21,0.801,0.122,1
+PAT-1068,Normal Sinus Rhythm (N),842.2,85.66,1.283,-0.001,0
+PAT-1069,Premature Atrial Contraction (PAC),756.76,92.24,0.718,0.031,1
+PAT-1070,Normal Sinus Rhythm (N),799.52,80.15,1.38,0.029,0
+PAT-1071,Premature Atrial Contraction (PAC),603.97,87.59,1.094,0.015,1
+PAT-1072,Normal Sinus Rhythm (N),787.96,95.6,1.146,0.003,0
+PAT-1073,Normal Sinus Rhythm (N),765.8,94.0,1.292,0.045,0
+PAT-1074,Normal Sinus Rhythm (N),839.23,80.85,1.272,0.061,0
+PAT-1075,Normal Sinus Rhythm (N),798.69,92.79,1.155,-0.022,0
+PAT-1076,Normal Sinus Rhythm (N),891.11,83.15,1.167,-0.011,0
+PAT-1077,Normal Sinus Rhythm (N),805.41,83.89,1.304,0.003,0
+PAT-1078,Premature Ventricular Contraction (PVC),554.79,131.44,1.851,-0.191,1
+PAT-1079,Normal Sinus Rhythm (N),729.85,90.03,1.05,-0.012,0
+PAT-1080,Premature Atrial Contraction (PAC),623.31,106.6,1.2,0.053,1
+PAT-1081,Normal Sinus Rhythm (N),857.12,90.57,1.356,0.077,0
+PAT-1082,Normal Sinus Rhythm (N),852.39,87.64,1.297,-0.017,0
+PAT-1083,Normal Sinus Rhythm (N),753.81,67.93,0.978,-0.031,0
+PAT-1084,Normal Sinus Rhythm (N),765.5,78.75,0.994,0.008,0
+PAT-1085,Normal Sinus Rhythm (N),879.29,79.05,1.128,0.014,0
+PAT-1086,Ventricular Tachycardia (VT),408.16,155.5,1.203,0.226,1
+PAT-1087,Normal Sinus Rhythm (N),812.53,81.02,1.09,0.064,0
+PAT-1088,Premature Ventricular Contraction (PVC),554.46,149.39,1.528,-0.208,1
+PAT-1089,Normal Sinus Rhythm (N),775.01,84.08,1.254,0.04,0
+PAT-1090,Normal Sinus Rhythm (N),760.06,80.56,1.347,-0.03,0
+PAT-1091,Premature Ventricular Contraction (PVC),603.07,123.85,1.193,-0.072,1
+PAT-1092,Normal Sinus Rhythm (N),748.8,83.29,1.299,-0.051,0
+PAT-1093,Normal Sinus Rhythm (N),812.55,93.99,1.083,0.039,0
+PAT-1094,Normal Sinus Rhythm (N),806.07,72.76,1.515,-0.031,0
+PAT-1095,Normal Sinus Rhythm (N),870.24,80.83,1.194,-0.001,0
+PAT-1096,Normal Sinus Rhythm (N),839.1,82.71,1.213,0.037,0
+PAT-1097,Normal Sinus Rhythm (N),771.62,98.28,1.168,0.083,0
+PAT-1098,Normal Sinus Rhythm (N),845.8,79.21,1.22,0.0,0
+PAT-1099,Normal Sinus Rhythm (N),822.74,88.6,1.253,0.008,0
+PAT-1100,Premature Ventricular Contraction (PVC),545.08,130.7,1.616,-0.146,1
+PAT-1101,Normal Sinus Rhythm (N),790.96,84.08,1.156,-0.039,0
+PAT-1102,Ventricular Tachycardia (VT),482.03,130.68,1.371,0.167,1
+PAT-1103,Ventricular Tachycardia (VT),454.14,136.67,1.128,0.016,1
+PAT-1104,Ventricular Tachycardia (VT),437.09,150.23,1.422,0.161,1
+PAT-1105,Normal Sinus Rhythm (N),798.24,96.08,1.293,-0.04,0
+PAT-1106,Normal Sinus Rhythm (N),873.67,88.2,1.196,0.0,0
+PAT-1107,Normal Sinus Rhythm (N),866.83,86.58,1.092,0.012,0
+PAT-1108,Premature Atrial Contraction (PAC),602.99,81.69,0.91,-0.079,1
+PAT-1109,Ventricular Tachycardia (VT),426.9,121.74,1.473,0.113,1
+PAT-1110,Premature Ventricular Contraction (PVC),556.55,122.79,1.671,-0.22,1
+PAT-1111,Normal Sinus Rhythm (N),786.21,81.63,1.45,0.02,0
+PAT-1112,Premature Ventricular Contraction (PVC),502.14,136.56,1.495,-0.074,1
+PAT-1113,Normal Sinus Rhythm (N),769.04,83.1,1.252,0.031,0
+PAT-1114,Normal Sinus Rhythm (N),788.62,84.24,1.033,0.017,0
+PAT-1115,Normal Sinus Rhythm (N),857.35,86.63,1.146,0.023,0
+PAT-1116,Normal Sinus Rhythm (N),781.14,92.52,0.995,0.094,0
+PAT-1117,Normal Sinus Rhythm (N),790.46,92.18,1.19,0.03,0
+PAT-1118,Normal Sinus Rhythm (N),790.31,96.57,1.395,-0.004,0
+PAT-1119,Ventricular Tachycardia (VT),356.08,136.91,1.591,0.204,1
+PAT-1120,Premature Ventricular Contraction (PVC),573.27,117.81,1.43,-0.128,1
+PAT-1121,Normal Sinus Rhythm (N),829.62,87.53,1.314,0.018,0
+PAT-1122,Normal Sinus Rhythm (N),771.27,77.08,1.235,0.013,0
+PAT-1123,Premature Atrial Contraction (PAC),584.34,94.33,1.289,0.088,1
+PAT-1124,Normal Sinus Rhythm (N),839.93,79.63,1.371,0.029,0
+PAT-1125,Premature Ventricular Contraction (PVC),613.18,96.32,1.693,-0.149,1
+PAT-1126,Normal Sinus Rhythm (N),767.62,90.74,1.067,-0.025,0
+PAT-1127,Premature Atrial Contraction (PAC),596.56,104.74,0.775,0.078,1
+PAT-1128,Ventricular Tachycardia (VT),475.08,146.88,1.239,0.17,1
+PAT-1129,Premature Ventricular Contraction (PVC),554.56,132.91,1.791,-0.179,1
+PAT-1130,Normal Sinus Rhythm (N),811.63,90.91,1.17,-0.035,0
+PAT-1131,Normal Sinus Rhythm (N),780.85,71.33,1.26,-0.031,0
+PAT-1132,Normal Sinus Rhythm (N),863.3,83.02,1.053,-0.002,0
+PAT-1133,Normal Sinus Rhythm (N),828.02,83.61,1.272,0.032,0
+PAT-1134,Normal Sinus Rhythm (N),786.32,83.57,1.35,0.042,0
+PAT-1135,Normal Sinus Rhythm (N),869.62,83.09,1.171,0.01,0
+PAT-1136,Premature Atrial Contraction (PAC),612.08,78.46,1.057,0.056,1
+PAT-1137,Normal Sinus Rhythm (N),858.3,78.85,1.422,0.017,0
+PAT-1138,Normal Sinus Rhythm (N),752.23,80.52,1.286,0.042,0
+PAT-1139,Normal Sinus Rhythm (N),793.05,109.45,1.017,0.032,0
+PAT-1140,Normal Sinus Rhythm (N),774.71,87.34,1.196,0.023,0
+PAT-1141,Premature Atrial Contraction (PAC),602.85,84.27,1.209,0.019,1
+PAT-1142,Normal Sinus Rhythm (N),782.46,87.7,1.079,0.081,0
+PAT-1143,Normal Sinus Rhythm (N),686.57,84.09,1.138,-0.021,0
+PAT-1144,Normal Sinus Rhythm (N),836.3,92.13,1.227,-0.032,0
+PAT-1145,Normal Sinus Rhythm (N),836.34,94.46,1.336,-0.004,0
+PAT-1146,Normal Sinus Rhythm (N),907.49,99.01,1.151,-0.004,0
+PAT-1147,Ventricular Tachycardia (VT),460.81,136.05,1.411,0.391,1
+PAT-1148,Premature Ventricular Contraction (PVC),512.27,121.52,1.717,-0.207,1
+PAT-1149,Normal Sinus Rhythm (N),775.46,90.07,1.089,0.016,0
+PAT-1150,Premature Ventricular Contraction (PVC),624.06,120.14,1.869,-0.29,1
+PAT-1151,Premature Atrial Contraction (PAC),563.47,106.87,0.949,0.054,1
+PAT-1152,Normal Sinus Rhythm (N),850.96,78.14,1.091,-0.041,0
+PAT-1153,Normal Sinus Rhythm (N),779.74,86.62,1.229,-0.019,0
+PAT-1154,Normal Sinus Rhythm (N),906.37,71.62,1.228,0.039,0
+PAT-1155,Normal Sinus Rhythm (N),786.64,89.26,0.958,0.021,0
+PAT-1156,Ventricular Tachycardia (VT),435.3,118.18,1.649,0.41,1
+PAT-1157,Ventricular Tachycardia (VT),410.94,139.8,1.402,0.186,1
+PAT-1158,Normal Sinus Rhythm (N),844.99,86.38,1.439,-0.048,0
+PAT-1159,Premature Atrial Contraction (PAC),571.32,105.04,0.777,-0.029,1
+PAT-1160,Normal Sinus Rhythm (N),847.91,80.71,1.142,0.054,0
+PAT-1161,Normal Sinus Rhythm (N),828.46,84.64,1.374,0.028,0
+PAT-1162,Normal Sinus Rhythm (N),894.57,85.81,1.17,0.016,0
+PAT-1163,Normal Sinus Rhythm (N),853.93,80.56,1.131,-0.051,0
+PAT-1164,Premature Ventricular Contraction (PVC),519.13,141.07,1.715,-0.102,1
+PAT-1165,Normal Sinus Rhythm (N),827.25,81.88,1.434,0.039,0
+PAT-1166,Normal Sinus Rhythm (N),825.72,101.44,1.303,0.036,0
+PAT-1167,Premature Atrial Contraction (PAC),555.89,73.45,0.829,0.059,1
+PAT-1168,Normal Sinus Rhythm (N),916.99,93.55,1.321,0.008,0
+PAT-1169,Normal Sinus Rhythm (N),801.79,78.8,1.072,0.119,0
+PAT-1170,Normal Sinus Rhythm (N),854.56,90.26,1.156,0.029,0
+PAT-1171,Normal Sinus Rhythm (N),903.92,87.81,1.208,0.012,0
+PAT-1172,Normal Sinus Rhythm (N),841.47,67.43,1.388,-0.016,0
+PAT-1173,Normal Sinus Rhythm (N),883.78,79.07,1.247,0.064,0
+PAT-1174,Premature Ventricular Contraction (PVC),452.7,113.49,1.491,-0.295,1
+PAT-1175,Normal Sinus Rhythm (N),752.62,75.08,1.157,-0.011,0
+PAT-1176,Normal Sinus Rhythm (N),755.88,80.55,1.305,0.023,0
+PAT-1177,Normal Sinus Rhythm (N),830.79,89.33,0.91,-0.01,0
+PAT-1178,Normal Sinus Rhythm (N),892.56,79.18,1.21,0.066,0
+PAT-1179,Normal Sinus Rhythm (N),845.91,75.12,1.189,0.023,0
+PAT-1180,Normal Sinus Rhythm (N),894.33,100.11,1.343,-0.027,0
+PAT-1181,Normal Sinus Rhythm (N),899.6,83.42,1.079,0.05,0
+PAT-1182,Ventricular Tachycardia (VT),447.36,143.06,1.349,0.15,1
+PAT-1183,Ventricular Tachycardia (VT),437.82,132.89,1.355,0.24,1
+PAT-1184,Normal Sinus Rhythm (N),727.37,80.15,1.228,0.021,0
+PAT-1185,Normal Sinus Rhythm (N),852.15,82.8,1.165,0.019,0
+PAT-1186,Normal Sinus Rhythm (N),802.44,93.68,1.425,0.046,0
+PAT-1187,Premature Atrial Contraction (PAC),518.99,109.7,0.888,-0.009,1
+PAT-1188,Normal Sinus Rhythm (N),806.28,71.59,1.092,-0.037,0
+PAT-1189,Normal Sinus Rhythm (N),853.81,83.88,1.189,-0.01,0
+PAT-1190,Normal Sinus Rhythm (N),823.72,92.62,1.334,0.007,0
+PAT-1191,Normal Sinus Rhythm (N),810.24,84.05,1.169,0.088,0
+PAT-1192,Normal Sinus Rhythm (N),828.87,83.26,1.26,0.052,0
+PAT-1193,Normal Sinus Rhythm (N),858.51,87.97,1.431,0.006,0
+PAT-1194,Ventricular Tachycardia (VT),427.42,143.07,1.472,0.161,1
+PAT-1195,Ventricular Tachycardia (VT),499.08,135.42,1.415,0.257,1
+PAT-1196,Premature Ventricular Contraction (PVC),663.74,145.9,1.69,-0.124,1
+PAT-1197,Normal Sinus Rhythm (N),813.19,85.34,1.214,0.026,0
+PAT-1198,Normal Sinus Rhythm (N),832.32,87.66,1.112,0.019,0
+PAT-1199,Normal Sinus Rhythm (N),789.59,87.47,1.075,-0.022,0
+PAT-1200,Normal Sinus Rhythm (N),799.35,81.01,1.201,0.004,0
+PAT-1201,Normal Sinus Rhythm (N),847.23,79.96,1.368,0.04,0
+PAT-1202,Normal Sinus Rhythm (N),851.99,82.35,1.257,0.023,0
+PAT-1203,Normal Sinus Rhythm (N),758.95,80.35,1.101,0.038,0
+PAT-1204,Ventricular Tachycardia (VT),405.58,131.63,1.233,0.052,1
+PAT-1205,Normal Sinus Rhythm (N),828.54,74.9,1.249,0.042,0
+PAT-1206,Premature Atrial Contraction (PAC),648.29,83.08,0.933,0.007,1
+PAT-1207,Premature Atrial Contraction (PAC),595.69,96.09,1.0,0.041,1
+PAT-1208,Normal Sinus Rhythm (N),836.9,87.74,1.205,-0.045,0
+PAT-1209,Normal Sinus Rhythm (N),770.53,81.35,1.191,0.023,0
+PAT-1210,Ventricular Tachycardia (VT),459.11,130.45,1.406,0.205,1
+PAT-1211,Premature Atrial Contraction (PAC),573.02,102.55,1.001,0.121,1
+PAT-1212,Premature Ventricular Contraction (PVC),480.0,142.43,1.683,-0.137,1
+PAT-1213,Premature Atrial Contraction (PAC),711.51,69.6,1.036,-0.013,1
+PAT-1214,Normal Sinus Rhythm (N),922.12,88.64,1.265,-0.011,0
+PAT-1215,Ventricular Tachycardia (VT),427.03,108.01,1.275,0.266,1
+PAT-1216,Ventricular Tachycardia (VT),402.03,138.88,1.317,0.203,1
+PAT-1217,Normal Sinus Rhythm (N),830.21,93.13,1.158,0.034,0
+PAT-1218,Normal Sinus Rhythm (N),829.78,77.06,1.254,0.015,0
+PAT-1219,Ventricular Tachycardia (VT),435.7,136.52,1.153,0.253,1
+PAT-1220,Normal Sinus Rhythm (N),793.09,88.5,1.11,0.008,0
+PAT-1221,Ventricular Tachycardia (VT),399.94,122.52,1.32,0.196,1
+PAT-1222,Ventricular Tachycardia (VT),445.47,137.74,1.672,0.168,1
+PAT-1223,Normal Sinus Rhythm (N),814.42,89.43,1.093,0.011,0
+PAT-1224,Ventricular Tachycardia (VT),406.48,121.46,1.531,0.079,1
+PAT-1225,Ventricular Tachycardia (VT),427.51,135.61,1.7,0.135,1
+PAT-1226,Normal Sinus Rhythm (N),756.64,81.1,1.168,0.017,0
+PAT-1227,Premature Atrial Contraction (PAC),688.69,113.42,0.728,0.069,1
+PAT-1228,Premature Atrial Contraction (PAC),645.06,85.81,0.795,0.018,1
+PAT-1229,Premature Atrial Contraction (PAC),618.88,84.92,0.961,0.03,1
+PAT-1230,Normal Sinus Rhythm (N),791.0,85.12,1.238,-0.018,0
+PAT-1231,Normal Sinus Rhythm (N),804.46,82.87,1.294,0.024,0
+PAT-1232,Premature Ventricular Contraction (PVC),547.49,107.6,1.717,-0.056,1
+PAT-1233,Normal Sinus Rhythm (N),822.12,74.18,0.961,0.031,0
+PAT-1234,Normal Sinus Rhythm (N),778.44,78.64,1.331,-0.022,0
+PAT-1235,Premature Ventricular Contraction (PVC),429.12,131.84,1.634,-0.283,1
+PAT-1236,Premature Ventricular Contraction (PVC),507.49,142.26,1.939,-0.127,1
+PAT-1237,Premature Ventricular Contraction (PVC),468.63,116.99,1.278,-0.156,1
+PAT-1238,Normal Sinus Rhythm (N),859.03,81.34,1.284,-0.031,0
+PAT-1239,Premature Atrial Contraction (PAC),469.08,91.78,0.689,0.078,1
+PAT-1240,Normal Sinus Rhythm (N),838.77,85.68,1.199,0.003,0
+PAT-1241,Normal Sinus Rhythm (N),874.75,85.52,1.132,-0.008,0
+PAT-1242,Normal Sinus Rhythm (N),760.97,93.85,1.203,0.001,0
+PAT-1243,Normal Sinus Rhythm (N),799.59,91.4,1.109,-0.001,0
+PAT-1244,Ventricular Tachycardia (VT),473.0,131.38,1.398,0.25,1
+PAT-1245,Normal Sinus Rhythm (N),853.6,82.99,1.122,-0.027,0
+PAT-1246,Ventricular Tachycardia (VT),451.85,131.08,1.097,0.332,1
+PAT-1247,Normal Sinus Rhythm (N),779.31,74.47,1.207,-0.036,0
+PAT-1248,Normal Sinus Rhythm (N),791.3,80.17,1.146,0.032,0
+PAT-1249,Premature Ventricular Contraction (PVC),465.67,148.01,1.912,0.165,1
