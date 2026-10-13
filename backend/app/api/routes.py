@@ -350,100 +350,71 @@ def run_experiment(req: ExperimentRequest):
     transpiler = Transpiler(processor)
     _, transpile_metrics = transpiler.transpile(logical_qc)
 
-    # Ideal expectation
-    from src.quantum_core import StatevectorSimulator
-    sim = StatevectorSimulator(4)
-    sim.execute_circuit(logical_qc)
-    ideal_probs = sim.probabilities()
-    ideal_exp = sim.expectation_value_z(0)
-    ideal_pred = 1 if ((1.0 - ideal_exp) / 2.0) >= 0.5 else 0
+    # Execute via Qiskit Aer
+    from src.noise import build_qiskit_noise_model
+    from src.routing import transpile_for_processor
+    from src.quantum_executor import QuantumExecutor
+    from src.mitigation import QiskitGateFolder, QiskitReadoutMitigator, ZeroNoiseExtrapolator
 
-    # Noise model setup
+    qiskit_logical = build_vqc_circuit(norm_vec, weights_to_use, 4, 2, include_measurements=True)
+    t_qc, q_metrics = transpile_for_processor(qiskit_logical, proc_stats, seed_transpiler=req.seed)
+
+    # Ideal expectation via analytic Statevector
+    ideal_exp, ideal_prob_1 = QuantumExecutor.run_ideal_statevector(qiskit_logical, target_qubit=0)
+    ideal_pred = 1 if ideal_prob_1 >= 0.5 else 0
+
+    # Noise parameters setup
     multiplier = req.noise_intensity_multiplier if req.noise_enabled else 0.0
     p2 = req.custom_p_2q if req.custom_p_2q is not None else (proc_stats["two_qubit_noise_rate"] * multiplier)
     p_ro = req.custom_p_ro if req.custom_p_ro is not None else (proc_stats["readout_noise_rate"] * multiplier)
     p1 = p2 * 0.2
 
-    noise_model = CalibratedNoiseModel(p_1q=p1, p_2q=p2, p_ro_01=p_ro, p_ro_10=p_ro)
+    # Build Qiskit NoiseModel
+    qiskit_noise = None
+    if req.noise_enabled and (p2 > 0.0 or p_ro > 0.0):
+        qiskit_noise, _ = build_qiskit_noise_model(
+            proc_stats,
+            custom_p_2q=p2 if p2 > 0 else None,
+            custom_p_ro=p_ro if p_ro > 0 else None
+        )
 
-    # Physical circuit execution
-    phys_cx = transpile_metrics["total_physical_cx"]
-    phys_1q = sum(cnt for op, cnt in logical_qc.count_ops().items() if op not in ["cx", "swap"])
-    rem = ReadoutMitigator(noise_model, 4)
-    rng = random.Random(req.seed)
-    dim = 16
-    mixed_p = 1.0 / dim
+    executor = QuantumExecutor(noise_model=qiskit_noise, seed_simulator=req.seed)
+    rem_mitigator = QiskitReadoutMitigator(num_qubits=4, noise_model=qiskit_noise, seed_simulator=req.seed) if qiskit_noise else None
 
     circuits_count = 1
     total_shots = req.shots
 
-    if not req.noise_enabled or (p2 == 0.0 and p_ro == 0.0):
+    if not req.noise_enabled or qiskit_noise is None:
         final_exp = ideal_exp
         method_name = "Ideal Simulator"
     elif req.mitigation_method == "none":
         method_name = "Unmitigated Noisy"
-        F_gate = ((1.0 - p1) ** phys_1q) * ((1.0 - p2) ** phys_cx)
-        p_noisy = [F_gate * p + (1.0 - F_gate) * mixed_p for p in ideal_probs]
-        cal_matrix = noise_model.get_readout_calibration_matrix(4)
-        p_dev = [sum(cal_matrix[r][c] * p_noisy[c] for c in range(dim)) for r in range(dim)]
-        indices = rng.choices(range(dim), weights=p_dev, k=req.shots)
-        n_counts: Dict[str, int] = {}
-        for idx in indices:
-            b_str = format(idx, "04b")
-            n_counts[b_str] = n_counts.get(b_str, 0) + 1
-        final_exp = sum((1.0 if int(b[-1]) == 0 else -1.0) * (c / req.shots) for b, c in n_counts.items())
-
+        res = executor.run_shots(t_qc, shots=req.shots, seed=req.seed)
+        final_exp = res["expectation_z0"]
     elif req.mitigation_method == "readout":
         method_name = "Readout Error Mitigation (REM)"
-        F_gate = ((1.0 - p1) ** phys_1q) * ((1.0 - p2) ** phys_cx)
-        p_noisy = [F_gate * p + (1.0 - F_gate) * mixed_p for p in ideal_probs]
-        cal_matrix = noise_model.get_readout_calibration_matrix(4)
-        p_dev = [sum(cal_matrix[r][c] * p_noisy[c] for c in range(dim)) for r in range(dim)]
-        indices = rng.choices(range(dim), weights=p_dev, k=req.shots)
-        n_counts = {}
-        for idx in indices:
-            b_str = format(idx, "04b")
-            n_counts[b_str] = n_counts.get(b_str, 0) + 1
-        _, final_exp = rem.mitigate_counts(n_counts)
-
+        res = executor.run_shots(t_qc, shots=req.shots, seed=req.seed)
+        _, final_exp = rem_mitigator.mitigate_counts(res["counts"]) if rem_mitigator else ({}, res["expectation_z0"])
     elif req.mitigation_method == "zne":
         method_name = "Zero-Noise Extrapolation (ZNE)"
         circuits_count = 3
         total_shots = 3 * req.shots
         zne_curves = []
         for r in [1, 3, 5]:
-            r_cx = r * phys_cx
-            F_r = ((1.0 - p1) ** phys_1q) * ((1.0 - p2) ** r_cx)
-            p_r = [F_r * p + (1.0 - F_r) * mixed_p for p in ideal_probs]
-            cal_matrix = noise_model.get_readout_calibration_matrix(4)
-            p_dev = [sum(cal_matrix[row][c] * p_r[c] for c in range(dim)) for row in range(dim)]
-            indices = rng.choices(range(dim), weights=p_dev, k=req.shots)
-            r_counts = {}
-            for idx in indices:
-                b_str = format(idx, "04b")
-                r_counts[b_str] = r_counts.get(b_str, 0) + 1
-            r_exp = sum((1.0 if int(b[-1]) == 0 else -1.0) * (c / req.shots) for b, c in r_counts.items())
-            zne_curves.append(r_exp)
+            folded = QiskitGateFolder.fold_circuit(t_qc, scale_factor=r)
+            r_res = executor.run_shots(folded, shots=req.shots, seed=req.seed)
+            zne_curves.append(r_res["expectation_z0"])
         final_exp = ZeroNoiseExtrapolator.richardson_extrapolate([1, 3, 5], zne_curves)
-
     else:  # dual
         method_name = "Dual-Layer (ZNE + Readout)"
         circuits_count = 3
         total_shots = 3 * req.shots
         zne_curves = []
         for r in [1, 3, 5]:
-            r_cx = r * phys_cx
-            F_r = ((1.0 - p1) ** phys_1q) * ((1.0 - p2) ** r_cx)
-            p_r = [F_r * p + (1.0 - F_r) * mixed_p for p in ideal_probs]
-            cal_matrix = noise_model.get_readout_calibration_matrix(4)
-            p_dev = [sum(cal_matrix[row][c] * p_r[c] for c in range(dim)) for row in range(dim)]
-            indices = rng.choices(range(dim), weights=p_dev, k=req.shots)
-            r_counts = {}
-            for idx in indices:
-                b_str = format(idx, "04b")
-                r_counts[b_str] = r_counts.get(b_str, 0) + 1
-            _, r_exp_mit = rem.mitigate_counts(r_counts)
-            zne_curves.append(r_exp_mit)
+            folded = QiskitGateFolder.fold_circuit(t_qc, scale_factor=r)
+            r_res = executor.run_shots(folded, shots=req.shots, seed=req.seed)
+            _, mit_exp = rem_mitigator.mitigate_counts(r_res["counts"]) if rem_mitigator else ({}, r_res["expectation_z0"])
+            zne_curves.append(mit_exp)
         final_exp = ZeroNoiseExtrapolator.richardson_extrapolate([1, 3, 5], zne_curves)
 
     prob_arr = max(0.0, min(1.0, (1.0 - final_exp) / 2.0))
@@ -715,5 +686,5 @@ def get_results_summary(force_refresh: bool = False):
     global _CACHED_BENCHMARK_RESULTS
     if _CACHED_BENCHMARK_RESULTS is None or force_refresh:
         from src.vqc import run_full_benchmark_suite
-        _CACHED_BENCHMARK_RESULTS = run_full_benchmark_suite()
+        _CACHED_BENCHMARK_RESULTS = run_full_benchmark_suite(SPLIT["X_test"], SPLIT["y_test"])
     return _CACHED_BENCHMARK_RESULTS

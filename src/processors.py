@@ -105,6 +105,9 @@ class QuantumProcessor:
             "readout_noise_rate": self.noise_calibration.get("readout_error_rate_01", 0.015),
             "layout_coordinates": self.layout_coordinates,
             "edges": self.undirected_edges,
+            "coupling_map": [list(e) for e in self.coupling_map],
+            "basis_gates": self.basis_gates,
+            "noise_calibration": self.noise_calibration,
         }
 
 

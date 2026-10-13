@@ -26,11 +26,18 @@ class Transpiler:
         if num_logical > self.processor.num_qubits:
             return {i: i for i in range(num_logical)}
 
-        cx_edges = [
-            (qubits[0], qubits[1])
-            for name, qubits, _ in logical_circuit.instructions
-            if len(qubits) == 2
-        ]
+        cx_edges = []
+        if hasattr(logical_circuit, "instructions") and isinstance(logical_circuit.instructions, list):
+            for name, qubits, _ in logical_circuit.instructions:
+                if len(qubits) == 2:
+                    cx_edges.append((qubits[0], qubits[1]))
+        elif hasattr(logical_circuit, "data"):
+            for instruction in logical_circuit.data:
+                if len(instruction.qubits) == 2:
+                    # In Qiskit, qubits are Qubit objects; get their indices
+                    q0 = logical_circuit.find_bit(instruction.qubits[0]).index
+                    q1 = logical_circuit.find_bit(instruction.qubits[1]).index
+                    cx_edges.append((q0, q1))
         if not cx_edges:
             return {i: i for i in range(num_logical)}
 
@@ -74,12 +81,25 @@ class Transpiler:
         # Reverse layout: physical qubit -> logical qubit
         physical_to_logical = {p: l for l, p in logical_to_physical.items()}
 
-        transpiled_qc = QuantumCircuit(self.processor.num_qubits, f"{logical_circuit.name}_{self.processor.name}")
         swap_count = 0
         algorithmic_cx_count = 0
         total_cx_decomposed = 0
 
-        for name, qubits, params in logical_circuit.instructions:
+        qc_name = getattr(logical_circuit, "name", "qc")
+        transpiled_qc = QuantumCircuit(self.processor.num_qubits, f"{qc_name}_{self.processor.name}")
+
+        # Extract instructions list from either custom QuantumCircuit or Qiskit QuantumCircuit
+        circuit_instructions = []
+        if hasattr(logical_circuit, "instructions") and isinstance(logical_circuit.instructions, list):
+            circuit_instructions = logical_circuit.instructions
+        elif hasattr(logical_circuit, "data"):
+            for instruction in logical_circuit.data:
+                op_name = instruction.operation.name
+                q_indices = [logical_circuit.find_bit(q).index for q in instruction.qubits]
+                params = list(instruction.operation.params) if hasattr(instruction.operation, "params") else []
+                circuit_instructions.append((op_name, q_indices, params))
+
+        for name, qubits, params in circuit_instructions:
             if len(qubits) == 1:
                 phys_q = logical_to_physical[qubits[0]]
                 if name == "h":

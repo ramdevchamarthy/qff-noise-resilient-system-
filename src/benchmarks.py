@@ -84,10 +84,9 @@ def run_and_save_all_benchmarks():
         arch_a = res_a["dual"]["architecture_metrics"]
         arch_b = res_b["dual"]["architecture_metrics"]
         # transpile on C
-        from src.transpiler import Transpiler
-        sample_qc = vqc.predict_single_ideal(X_test[0])
+        from src.routing import transpile_for_processor
         from src.vqc import build_vqc_circuit
-        c_qc, c_arch = Transpiler(proc_c).transpile(build_vqc_circuit(X_test[0], vqc.weights))
+        c_qc, c_arch = transpile_for_processor(build_vqc_circuit(X_test[0], vqc.weights, include_measurements=True), st_c)
 
         writer.writerow(["Physical Qubits", st_a["num_qubits"], st_b["num_qubits"], st_c["num_qubits"], f"+{st_b['num_qubits'] - st_a['num_qubits']} Qubits", "Heavy-Hex lattice layout vs star-chain"])
         writer.writerow(["Coupling Edges", st_a["edge_count"], st_b["edge_count"], st_c["edge_count"], f"+{st_b['edge_count'] - st_a['edge_count']} Edges", "Heavy-Hex introduces alternate cyclic paths"])

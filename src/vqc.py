@@ -1,11 +1,11 @@
 """
-Variational Quantum Classifier (VQC) Engine for QFF 2026 PS-Q3.
+Variational Quantum Classifier (VQC) Engine for QFF 2026 PS-Q3 using genuine Qiskit circuits and Qiskit Aer.
 Implements:
-  - 4-qubit Quantum Feature Map (Angle Encoding of biomedical ECG biomarkers)
-  - Parameterized Variational Ansatz (Hardware-efficient SU(2) rotations + entanglers)
-  - Classical training on ideal simulator using parameter-shift/finite differences
-  - Classical baseline models (Logistic Regression & Linear Classifier)
-  - Multi-processor hardware execution and error mitigation evaluation
+  - 4-qubit Quantum Feature Map (Angle Encoding into qiskit.QuantumCircuit)
+  - Parameterized Variational Ansatz (SU(2) rotations + cyclic CNOT entanglement)
+  - Exact Ideal Statevector inference and finite-shot AerSimulator execution
+  - Hardware topology transpilation onto Processor A and Processor B
+  - Quantum Error Mitigation (Readout mitigation via calibration matrix & ZNE via gate folding)
 """
 
 import math
@@ -15,23 +15,34 @@ import time
 from pathlib import Path
 from typing import Dict, List, Tuple, Any, Optional
 
-from src.quantum_core import QuantumCircuit, StatevectorSimulator
-from src.processors import load_processor, QuantumProcessor
-from src.transpiler import Transpiler
-from src.noise_models import CalibratedNoiseModel, NoisyCircuitExecutor
-from src.mitigation import QuantumMitigationEngine, ReadoutMitigator, ZeroNoiseExtrapolator
-from src.metrics import compute_classification_metrics, compute_architecture_metrics
+import numpy as np
+from qiskit import QuantumCircuit
+from qiskit_aer import AerSimulator
+from qiskit_aer.noise import NoiseModel
+
+from src.routing import transpile_for_processor
+from src.noise import build_qiskit_noise_model
+from src.quantum_executor import QuantumExecutor
+from src.mitigation import QiskitGateFolder, QiskitReadoutMitigator, ZeroNoiseExtrapolator
+from src.metrics import compute_classification_metrics
 
 WEIGHTS_FILE = Path(__file__).resolve().parent.parent / "data" / "processed" / "trained_vqc_weights.json"
 
 
-def build_vqc_circuit(features: List[float], weights: List[float], num_qubits: int = 4, layers: int = 2) -> QuantumCircuit:
+def build_vqc_circuit(
+    features: List[float],
+    weights: List[float],
+    num_qubits: int = 4,
+    layers: int = 2,
+    include_measurements: bool = False
+) -> QuantumCircuit:
     """
-    Constructs logical quantum circuit for a given feature vector and variational weights.
+    Constructs a genuine qiskit.QuantumCircuit for given feature vector and variational weights.
     features: 4 clinical features in [0, pi].
     weights: 2 * layers * num_qubits parameters (RY and RZ angles).
     """
-    qc = QuantumCircuit(num_qubits, "vqc_cardiac_classifier")
+    clbits = num_qubits if include_measurements else 0
+    qc = QuantumCircuit(num_qubits, clbits, name="vqc_cardiac_classifier")
 
     # 1. Feature Map: Hadamard superposition + Angle encoding
     for q in range(num_qubits):
@@ -56,6 +67,9 @@ def build_vqc_circuit(features: List[float], weights: List[float], num_qubits: i
         qc.cx(2, 3)
         qc.cx(3, 0)
 
+    if include_measurements:
+        qc.measure(range(num_qubits), range(num_qubits))
+
     return qc
 
 
@@ -68,7 +82,7 @@ class ClassicalLogisticRegression:
         self.weights = [0.0] * num_features
         self.bias = 0.0
 
-    def fit(self, X: List[List[float]], y: List[int], epochs: int = 150, lr: float = 0.05, seed: int = 42):
+    def fit(self, X: List[List[float]], y: List[int], epochs: int = 150, lr: float = 0.08, seed: int = 42):
         rng = random.Random(seed)
         self.weights = [(rng.random() - 0.5) * 0.2 for _ in range(len(self.weights))]
         self.bias = 0.0
@@ -104,7 +118,7 @@ class ClassicalLogisticRegression:
 
 class VariationalQuantumClassifier:
     """
-    Full Variational Quantum Classifier with support for ideal simulation,
+    Full Qiskit-based Variational Quantum Classifier with support for ideal simulation,
     hardware transpilation onto Processors A/B/C, and quantum error mitigation.
     """
 
@@ -166,14 +180,11 @@ class VariationalQuantumClassifier:
         return False
 
     def predict_single_ideal(self, features: List[float]) -> Tuple[float, int]:
-        """Runs ideal statevector inference on a single sample."""
+        """Runs ideal statevector inference on a single sample using Qiskit."""
         qc = build_vqc_circuit(features, self.weights, self.num_qubits, self.layers)
-        sim = StatevectorSimulator(self.num_qubits)
-        sim.execute_circuit(qc)
-        exp_z0 = sim.expectation_value_z(0)
-        prob = max(0.0, min(1.0, (1.0 - exp_z0) / 2.0))
-        pred = 1 if prob >= 0.5 else 0
-        return prob, pred
+        exp_z0, prob_1 = QuantumExecutor.run_ideal_statevector(qc, target_qubit=0)
+        pred = 1 if prob_1 >= 0.5 else 0
+        return prob_1, pred
 
     def _loss_on_batch(self, X_batch: List[List[float]], y_batch: List[int], weights: List[float], weight_class_1: float = 1.6) -> float:
         """Computes class-weighted binary cross-entropy loss on a mini-batch."""
@@ -196,13 +207,11 @@ class VariationalQuantumClassifier:
         y_train: List[int],
         epochs: int = 80,
         batch_size: int = 40,
-        lr: float = 0.25,
         seed: int = 42,
         **kwargs
     ) -> List[float]:
         """
-        Trains VQC weights on ideal simulator using Simultaneous Perturbation
-        Stochastic Approximation (SPSA), the standard optimizer for variational circuits.
+        Trains VQC weights on ideal simulator using Simultaneous Perturbation Stochastic Approximation (SPSA).
         """
         self.initialize_weights(seed=seed)
         rng = random.Random(seed)
@@ -211,11 +220,8 @@ class VariationalQuantumClassifier:
         best_loss = 999.0
         best_weights = list(self.weights)
 
-        # SPSA hyperparameters
-        a = 0.25
-        c = 0.12
-        alpha = 0.602
-        gamma = 0.101
+        a, c = 0.25, 0.12
+        alpha, gamma = 0.602, 0.101
 
         for k in range(epochs):
             indices = list(range(n))
@@ -253,19 +259,18 @@ class VariationalQuantumClassifier:
         self.save_weights()
         return loss_history
 
-
     def evaluate_batch(
         self,
         X_test: List[List[float]],
         y_test: List[int],
-        processor: Optional[QuantumProcessor] = None,
-        noise_model: Optional[CalibratedNoiseModel] = None,
-        mitigation_method: str = "none",  # "none", "zne", "readout", "dual"
+        processor: Optional[Any] = None,
+        noise_model: Optional[Any] = None,
+        mitigation_method: str = "none",  # "none", "zne", "readout", "dual", "ideal"
         shots: int = 1024,
         seed: Optional[int] = 42
     ) -> Dict[str, Any]:
         """
-        Evaluates test dataset under specified processor and mitigation conditions.
+        Evaluates test dataset under specified processor and mitigation conditions using genuine Qiskit Aer simulation.
         """
         start_t = time.time()
         y_probs = []
@@ -273,147 +278,153 @@ class VariationalQuantumClassifier:
         circuits_executed_total = 0
         total_shots = 0
 
-        # Pre-transpile once to obtain exact physical hardware operations and SWAP counts
-        sample_logical = build_vqc_circuit(X_test[0], self.weights, self.num_qubits, self.layers)
-        transpile_metrics = {
-            "transpiled_depth": sample_logical.depth(),
-            "algorithmic_cx": 4 * self.layers,
-            "swap_count": 0,
-            "total_physical_cx": 4 * self.layers,
-            "physical_qubits": self.num_qubits,
-        }
-        if processor is not None:
-            transpiler = Transpiler(processor)
-            _, transpile_metrics = transpiler.transpile(sample_logical)
+        # Extract processor stats / dictionary
+        proc_dict = processor.get_stats() if hasattr(processor, "get_stats") else (processor if isinstance(processor, dict) else None)
 
-        phys_cx = transpile_metrics["total_physical_cx"]
-        phys_1q = sum(cnt for op, cnt in sample_logical.count_ops().items() if op not in ["cx", "swap"])
-        rem = ReadoutMitigator(noise_model, self.num_qubits) if noise_model else None
+        sample_logical = build_vqc_circuit(X_test[0], self.weights, self.num_qubits, self.layers, include_measurements=True)
+        if proc_dict is not None:
+            _, transpile_metrics = transpile_for_processor(sample_logical, proc_dict, seed_transpiler=seed)
+        else:
+            transpile_metrics = {
+                "transpiled_depth": sample_logical.depth(),
+                "algorithmic_cx": 4 * self.layers,
+                "swap_count": 0,
+                "total_physical_cx": 4 * self.layers,
+                "physical_qubits": self.num_qubits,
+                "gate_counts": dict(sample_logical.count_ops())
+            }
 
+        # Convert noise_model if it's our legacy class or construct Qiskit NoiseModel
+        qiskit_noise_model = None
+        if noise_model is not None:
+            if isinstance(noise_model, NoiseModel):
+                qiskit_noise_model = noise_model
+            else:
+                p2 = getattr(noise_model, "p_2q", None)
+                p1 = getattr(noise_model, "p_1q", None)
+                pro = getattr(noise_model, "p_ro_01", None)
+                if p2 is None and isinstance(noise_model, dict):
+                    p2 = noise_model.get("two_qubit_noise_rate", noise_model.get("p_2q"))
+                    pro = noise_model.get("readout_noise_rate", noise_model.get("p_ro_01"))
+                    p1 = (p2 * 0.2) if p2 is not None else None
+
+                basis = proc_dict.get("basis_gates", ["rz", "sx", "x", "cx"]) if proc_dict else ["rz", "sx", "x", "cx"]
+                cal_dict = proc_dict.get("noise_calibration", {}) if proc_dict else {}
+                p1 = p1 if p1 is not None else cal_dict.get("single_qubit_depolarizing_rate", 0.001)
+                p2 = p2 if p2 is not None else cal_dict.get("two_qubit_depolarizing_rate", 0.005)
+                pro = pro if pro is not None else cal_dict.get("readout_error_rate_01", 0.015)
+
+                dummy_proc = {
+                    "basis_gates": basis,
+                    "noise_calibration": {
+                        "single_qubit_depolarizing_rate": p1,
+                        "two_qubit_depolarizing_rate": p2,
+                        "readout_error_rate_01": pro,
+                        "readout_error_rate_10": pro
+                    }
+                }
+                qiskit_noise_model, _ = build_qiskit_noise_model(dummy_proc)
+
+        # Setup executor
+        executor = QuantumExecutor(noise_model=qiskit_noise_model, seed_simulator=seed)
+        rem = QiskitReadoutMitigator(num_qubits=self.num_qubits, noise_model=qiskit_noise_model, seed_simulator=seed) if (qiskit_noise_model and mitigation_method in ["readout", "dual"]) else None
+        cal_circuits = rem.calibration_circuits_count if rem else 0
+        cal_shots = rem.calibration_shots_count if rem else 0
+
+        # Evaluate each sample in test set
         for i, x in enumerate(X_test):
             sample_seed = (seed + i) if seed is not None else None
-            rng = random.Random(sample_seed)
-            logical_qc = build_vqc_circuit(x, self.weights, self.num_qubits, self.layers)
+            logical_qc = build_vqc_circuit(x, self.weights, self.num_qubits, self.layers, include_measurements=True)
 
-            # Compute ideal statevector for this sample
-            sim = StatevectorSimulator(self.num_qubits)
-            sim.execute_circuit(logical_qc)
-            ideal_probs = sim.probabilities()
-            ideal_exp = sim.expectation_value_z(0)
+            if proc_dict is not None:
+                transpiled_qc, _ = transpile_for_processor(logical_qc, proc_dict, seed_transpiler=sample_seed)
+            else:
+                transpiled_qc = logical_qc
 
-            if noise_model is None or mitigation_method == "ideal":
-                exp_val = ideal_exp
+            if qiskit_noise_model is None or mitigation_method == "ideal":
+                # Ideal reference evaluation on logical circuit
+                exp_z, prob_1 = QuantumExecutor.run_ideal_statevector(logical_qc, target_qubit=0)
                 circuits_executed_total += 1
                 total_shots += shots
+
+            elif mitigation_method == "none":
+                # Unmitigated noisy execution
+                res = executor.run_shots(transpiled_qc, shots=shots, seed=sample_seed)
+                prob_1 = res["prob_1"]
+                circuits_executed_total += 1
+                total_shots += shots
+
+            elif mitigation_method == "readout":
+                # Readout error mitigation only
+                res = executor.run_shots(transpiled_qc, shots=shots, seed=sample_seed)
+                _, mit_exp = rem.mitigate_counts(res["counts"])
+                prob_1 = max(0.0, min(1.0, (1.0 - mit_exp) / 2.0))
+                circuits_executed_total += 1
+                total_shots += shots
+
+            elif mitigation_method == "zne":
+                # ZNE only (r in [1, 3, 5])
+                curves = []
+                for r in [1, 3, 5]:
+                    folded = QiskitGateFolder.fold_circuit(transpiled_qc, scale_factor=r)
+                    r_res = executor.run_shots(folded, shots=shots, seed=sample_seed)
+                    curves.append(r_res["expectation_z0"])
+                    circuits_executed_total += 1
+                    total_shots += shots
+                extrap_exp = ZeroNoiseExtrapolator.richardson_extrapolate([1, 3, 5], curves)
+                prob_1 = max(0.0, min(1.0, (1.0 - extrap_exp) / 2.0))
+
+            elif mitigation_method == "dual":
+                # Dual mitigation: Fold -> Readout correct -> Richardson extrapolate
+                curves = []
+                for r in [1, 3, 5]:
+                    folded = QiskitGateFolder.fold_circuit(transpiled_qc, scale_factor=r)
+                    r_res = executor.run_shots(folded, shots=shots, seed=sample_seed)
+                    _, mit_exp = rem.mitigate_counts(r_res["counts"])
+                    curves.append(mit_exp)
+                    circuits_executed_total += 1
+                    total_shots += shots
+                extrap_exp = ZeroNoiseExtrapolator.richardson_extrapolate([1, 3, 5], curves)
+                prob_1 = max(0.0, min(1.0, (1.0 - extrap_exp) / 2.0))
+
             else:
-                dim = 1 << self.num_qubits
-                mixed_p = 1.0 / dim
+                raise ValueError(f"Unknown mitigation_method: {mitigation_method}")
 
-                if mitigation_method == "none":
-                    # Unmitigated on physical processor with routing CX noise
-                    F_gate = ((1.0 - noise_model.p_1q) ** phys_1q) * ((1.0 - noise_model.p_2q) ** phys_cx)
-                    p_noisy = [F_gate * p + (1.0 - F_gate) * mixed_p for p in ideal_probs]
-                    cal_matrix = noise_model.get_readout_calibration_matrix(self.num_qubits)
-                    p_dev = [sum(cal_matrix[r][c] * p_noisy[c] for c in range(dim)) for r in range(dim)]
-                    p_dev = [max(0.0, p) for p in p_dev]
-                    tot = sum(p_dev)
-                    p_dev = [p / tot for p in p_dev] if tot > 0 else p_dev
-                    counts = sim.sample_counts(shots=shots, seed=sample_seed)
-                    # Sample with noise
-                    indices = rng.choices(range(dim), weights=p_dev, k=shots)
-                    n_counts: Dict[str, int] = {}
-                    for idx in indices:
-                        b_str = format(idx, f"0{self.num_qubits}b")
-                        n_counts[b_str] = n_counts.get(b_str, 0) + 1
-                    exp_val = sum((1.0 if int(b[-1]) == 0 else -1.0) * (c / shots) for b, c in n_counts.items())
-                    circuits_executed_total += 1
-                    total_shots += shots
-
-                elif mitigation_method == "readout":
-                    F_gate = ((1.0 - noise_model.p_1q) ** phys_1q) * ((1.0 - noise_model.p_2q) ** phys_cx)
-                    p_noisy = [F_gate * p + (1.0 - F_gate) * mixed_p for p in ideal_probs]
-                    cal_matrix = noise_model.get_readout_calibration_matrix(self.num_qubits)
-                    p_dev = [sum(cal_matrix[r][c] * p_noisy[c] for c in range(dim)) for r in range(dim)]
-                    indices = rng.choices(range(dim), weights=p_dev, k=shots)
-                    n_counts: Dict[str, int] = {}
-                    for idx in indices:
-                        b_str = format(idx, f"0{self.num_qubits}b")
-                        n_counts[b_str] = n_counts.get(b_str, 0) + 1
-                    _, exp_val = rem.mitigate_counts(n_counts)
-                    circuits_executed_total += 1
-                    total_shots += shots
-
-                elif mitigation_method == "zne":
-                    # Evaluate at scale factors r in [1, 3, 5]
-                    zne_curves = []
-                    for r in [1, 3, 5]:
-                        r_cx = r * phys_cx
-                        F_r = ((1.0 - noise_model.p_1q) ** phys_1q) * ((1.0 - noise_model.p_2q) ** r_cx)
-                        p_r = [F_r * p + (1.0 - F_r) * mixed_p for p in ideal_probs]
-                        cal_matrix = noise_model.get_readout_calibration_matrix(self.num_qubits)
-                        p_dev = [sum(cal_matrix[row][c] * p_r[c] for c in range(dim)) for row in range(dim)]
-                        indices = rng.choices(range(dim), weights=p_dev, k=shots)
-                        r_counts: Dict[str, int] = {}
-                        for idx in indices:
-                            b_str = format(idx, f"0{self.num_qubits}b")
-                            r_counts[b_str] = r_counts.get(b_str, 0) + 1
-                        r_exp = sum((1.0 if int(b[-1]) == 0 else -1.0) * (c / shots) for b, c in r_counts.items())
-                        zne_curves.append(r_exp)
-                    from src.mitigation import ZeroNoiseExtrapolator
-                    exp_val = ZeroNoiseExtrapolator.richardson_extrapolate([1, 3, 5], zne_curves)
-                    circuits_executed_total += 3
-                    total_shots += 3 * shots
-
-                elif mitigation_method == "dual":
-                    # Dual: Readout mitigation on each folded run + Richardson ZNE
-                    zne_curves = []
-                    for r in [1, 3, 5]:
-                        r_cx = r * phys_cx
-                        F_r = ((1.0 - noise_model.p_1q) ** phys_1q) * ((1.0 - noise_model.p_2q) ** r_cx)
-                        p_r = [F_r * p + (1.0 - F_r) * mixed_p for p in ideal_probs]
-                        cal_matrix = noise_model.get_readout_calibration_matrix(self.num_qubits)
-                        p_dev = [sum(cal_matrix[row][c] * p_r[c] for c in range(dim)) for row in range(dim)]
-                        indices = rng.choices(range(dim), weights=p_dev, k=shots)
-                        r_counts: Dict[str, int] = {}
-                        for idx in indices:
-                            b_str = format(idx, f"0{self.num_qubits}b")
-                            r_counts[b_str] = r_counts.get(b_str, 0) + 1
-                        _, r_exp_mit = rem.mitigate_counts(r_counts)
-                        zne_curves.append(r_exp_mit)
-                    from src.mitigation import ZeroNoiseExtrapolator
-                    exp_val = ZeroNoiseExtrapolator.richardson_extrapolate([1, 3, 5], zne_curves)
-                    circuits_executed_total += 3
-                    total_shots += 3 * shots
-
-            # Clinical decision boundary: P(arrhythmia) >= 0.5
-            p_arrhythmia = max(0.0, min(1.0, (1.0 - exp_val) / 2.0))
-            pred = 1 if p_arrhythmia >= 0.5 else 0
-            y_probs.append(round(p_arrhythmia, 4))
+            pred = 1 if prob_1 >= 0.5 else 0
+            y_probs.append(round(prob_1, 6))
             y_preds.append(pred)
 
-        latency_ms = (time.time() - start_t) * 1000.0
         ml_metrics = compute_classification_metrics(y_test, y_preds, y_probs)
+        arch_metrics = {
+            "circuit_depth": transpile_metrics.get("circuit_depth", 0),
+            "algorithmic_cx": transpile_metrics.get("algorithmic_cx", 8),
+            "swap_count": transpile_metrics.get("swap_count", 0),
+            "total_physical_cx": transpile_metrics.get("total_physical_cx", 8),
+            "two_qubit_gate_count": transpile_metrics.get("total_physical_cx", 8),
+            "circuits_executed": circuits_executed_total,
+            "total_shots": total_shots,
+            "calibration_circuits": cal_circuits,
+            "calibration_shots": cal_shots,
+            "evaluation_time_sec": round(time.time() - start_t, 3),
+            "latency_ms": round((time.time() - start_t) * 1000.0, 2),
+        }
 
         return {
             "ml_metrics": ml_metrics,
-            "architecture_metrics": {
-                "processor_name": processor.name if processor else "Ideal Statevector Simulator",
-                "physical_qubits": processor.num_qubits if processor else self.num_qubits,
-                "circuit_depth": transpile_metrics.get("transpiled_depth", sample_logical.depth()),
-                "algorithmic_cx": transpile_metrics.get("algorithmic_cx", 4 * self.layers),
-                "swap_count": transpile_metrics.get("swap_count", 0),
-                "total_physical_cx": transpile_metrics.get("total_physical_cx", 4 * self.layers),
-                "circuits_executed": circuits_executed_total,
-                "total_shots": total_shots,
-                "latency_ms": round(latency_ms, 2),
-            },
-            "mitigation_method": mitigation_method,
-            "predictions": y_preds,
+            "architecture_metrics": arch_metrics,
+            "y_probs": y_probs,
+            "y_preds": y_preds,
             "probabilities": y_probs,
+            "predictions": y_preds,
+            "mitigation_method": mitigation_method,
         }
 
 
-def run_full_benchmark_suite() -> Dict[str, Any]:
+def run_full_benchmark_suite(
+    X_test: Optional[List[List[float]]] = None,
+    y_test: Optional[List[int]] = None,
+    seed: int = 42
+) -> Dict[str, Any]:
     """
     Executes the complete QFF 2026 Phase 1 Benchmark across:
       1. Classical Logistic Regression Baseline
@@ -426,10 +437,15 @@ def run_full_benchmark_suite() -> Dict[str, Any]:
     from src.data_loader import generate_ecg_dataset, get_train_test_split
     from src.processors import load_all_processors
 
-    raw_samples = generate_ecg_dataset(250, seed=42)
-    split = get_train_test_split(raw_samples, train_ratio=0.8, seed=42)
-    X_train, y_train = split["X_train"], split["y_train"]
-    X_test, y_test = split["X_test"], split["y_test"]
+    if X_test is None or y_test is None:
+        raw_samples = generate_ecg_dataset(250, seed=42)
+        split = get_train_test_split(raw_samples, train_ratio=0.8, seed=42)
+        X_train, y_train = split["X_train"], split["y_train"]
+        X_test, y_test = split["X_test"], split["y_test"]
+    else:
+        raw_samples = generate_ecg_dataset(250, seed=42)
+        split = get_train_test_split(raw_samples, train_ratio=0.8, seed=42)
+        X_train, y_train = split["X_train"], split["y_train"]
 
     # 1. Classical Baseline
     clf = ClassicalLogisticRegression(4)
@@ -440,31 +456,20 @@ def run_full_benchmark_suite() -> Dict[str, Any]:
 
     # 2. VQC Model
     vqc = VariationalQuantumClassifier(num_qubits=4, layers=2)
-    if not vqc.load_weights():
-        print("Training VQC on ideal simulator...")
-        vqc.fit_ideal(X_train, y_train, epochs=25, lr=0.15, seed=42)
+    vqc.load_weights()
 
     procs = load_all_processors()
     proc_a = procs["A"]
     proc_b = procs["B"]
 
-    noise_a = CalibratedNoiseModel.from_processor(proc_a.get_stats())
-    noise_b = CalibratedNoiseModel.from_processor(proc_b.get_stats())
+    noise_a = proc_a.get_stats()
+    noise_b = proc_b.get_stats()
 
-    print("Running Ideal Reference...")
-    res_ideal = vqc.evaluate_batch(X_test, y_test, mitigation_method="ideal")
-
-    print("Running Processor A (Unmitigated)...")
-    res_a_unmit = vqc.evaluate_batch(X_test, y_test, processor=proc_a, noise_model=noise_a, mitigation_method="none")
-
-    print("Running Processor A (Dual Mitigated)...")
-    res_a_mit = vqc.evaluate_batch(X_test, y_test, processor=proc_a, noise_model=noise_a, mitigation_method="dual")
-
-    print("Running Processor B (Unmitigated)...")
-    res_b_unmit = vqc.evaluate_batch(X_test, y_test, processor=proc_b, noise_model=noise_b, mitigation_method="none")
-
-    print("Running Processor B (Dual Mitigated)...")
-    res_b_mit = vqc.evaluate_batch(X_test, y_test, processor=proc_b, noise_model=noise_b, mitigation_method="dual")
+    res_ideal = vqc.evaluate_batch(X_test, y_test, mitigation_method="ideal", seed=seed)
+    res_a_unmit = vqc.evaluate_batch(X_test, y_test, processor=proc_a, noise_model=noise_a, mitigation_method="none", seed=seed)
+    res_a_mit = vqc.evaluate_batch(X_test, y_test, processor=proc_a, noise_model=noise_a, mitigation_method="dual", seed=seed)
+    res_b_unmit = vqc.evaluate_batch(X_test, y_test, processor=proc_b, noise_model=noise_b, mitigation_method="none", seed=seed)
+    res_b_mit = vqc.evaluate_batch(X_test, y_test, processor=proc_b, noise_model=noise_b, mitigation_method="dual", seed=seed)
 
     return {
         "classical_baseline": {"ml_metrics": cls_metrics, "name": "Classical Logistic Regression"},
@@ -474,14 +479,3 @@ def run_full_benchmark_suite() -> Dict[str, Any]:
         "processor_b_unmitigated": res_b_unmit,
         "processor_b_mitigated": res_b_mit,
     }
-
-
-if __name__ == "__main__":
-    results = run_full_benchmark_suite()
-    print("\n================== FULL BENCHMARK SUMMARY ==================")
-    print(f"Classical Baseline:   Acc={results['classical_baseline']['ml_metrics']['accuracy']}, Recall={results['classical_baseline']['ml_metrics']['recall']}")
-    print(f"Ideal VQC:            Acc={results['ideal_vqc']['ml_metrics']['accuracy']}, Recall={results['ideal_vqc']['ml_metrics']['recall']}")
-    print(f"Processor A (Noisy):  Acc={results['processor_a_unmitigated']['ml_metrics']['accuracy']}, Recall={results['processor_a_unmitigated']['ml_metrics']['recall']}")
-    print(f"Processor A (Dual):   Acc={results['processor_a_mitigated']['ml_metrics']['accuracy']}, Recall={results['processor_a_mitigated']['ml_metrics']['recall']}")
-    print(f"Processor B (Noisy):  Acc={results['processor_b_unmitigated']['ml_metrics']['accuracy']}, Recall={results['processor_b_unmitigated']['ml_metrics']['recall']}")
-    print(f"Processor B (Dual):   Acc={results['processor_b_mitigated']['ml_metrics']['accuracy']}, Recall={results['processor_b_mitigated']['ml_metrics']['recall']}")
