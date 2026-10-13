@@ -20,7 +20,7 @@ notebook = {
                 "---\n",
                 "### Executive Summary\n",
                 "This reproducible notebook provides an end-to-end implementation and benchmarking suite for **PS-Q3**.\n",
-                "We evaluate a 4-qubit **Variational Quantum Classifier (VQC)** trained on clinical ECG arrhythmia screening data under:\n",
+                "We evaluate a 4-qubit **Variational Quantum Classifier (VQC)** trained on synthetic clinical ECG feature data (calibrated to MIT-BIH Arrhythmia biomarker distributions) under:\n",
                 "1. **Ideal Statevector Simulation** (Reference baseline)\n",
                 "2. **Processor A** (5-Qubit Star-Linear Topology, Hub at Q1)\n",
                 "3. **Processor B** (9-Qubit Heavy-Hex Inspired Lattice)\n",
@@ -74,7 +74,7 @@ notebook = {
             "cell_type": "markdown",
             "metadata": {},
             "source": [
-                "### Step 2: Load Biomedical Dataset & Check Train/Test Separation"
+                "### Step 2: Load Synthetic Biomedical Dataset (MIT-BIH Calibrated) & Check Train/Test Separation"
             ]
         },
         {
@@ -160,7 +160,9 @@ notebook = {
             "metadata": {},
             "source": [
                 "### Step 5: Hardware Transpilation & Architecture Benchmarking (A vs B vs C)\n",
-                "Compare the physical gate routing across all three architectures for the 4-qubit cyclic ansatz."
+                "Compare the physical gate routing across all three architectures for the 4-qubit cyclic ansatz.\n",
+                "*Note on Transpilation Models*: This step displays the structural graph-routing model (`src/transpiler.py`) with layout swap-back preservation (Depth 23, 8 SWAPs, 32 physical CX on Proc A; Depth 15, 0 SWAPs, 8 physical CX on Proc B).\n",
+                "In Step 6 and the benchmark tables, Qiskit's native basis-gate transpiler (`src/routing.py`, `rz/sx/x/cx`, Sabre layout) is used for Aer simulation (Depth 31, 3 SWAPs, 17 physical CX on Proc A; Depth 18, 0 SWAPs, 8 physical CX on Proc B)."
             ]
         },
         {
@@ -334,10 +336,11 @@ notebook = {
             "metadata": {},
             "source": [
                 "### Step 10: Scientific Conclusions & Hackathon Deliverables Summary\n",
-                "1. **Noise Resilience on Processor A**: Unmitigated noisy execution on the 5-qubit star topology degrades test accuracy to $72.0\\%$ (recall $26.3\\%$). Dual-layer mitigation (ZNE + REM) successfully restores performance to $76.0\\%$ accuracy and $36.8\\%$ sensitivity (+10.5 percentage points recall improvement).\n",
-                "2. **Heavy-Hex Native Routing on Processor B**: Transpilation onto Processor B natively embeds the 4-qubit cycle ($0-1-6-8$) without requiring SWAP gates ($0$ SWAPs, $8$ physical CX gates vs $32$ on Processor A). Unmitigated accuracy on Processor B achieves $76.0\\%$.\n",
-                "3. **Extrapolation Variance in Low-Noise Regimes**: Because Processor B has minimal gate depth (depth 15 vs 23), linear Richardson gate folding at high scale factors ($r=5$) exhibits statistical sampling noise rather than dominant depolarizing decay, demonstrating that ZNE must be calibrated to circuit depth.\n",
-                "4. **Phase 2 Processor C Proposal**: Processor C (8-qubit ring-augmented architecture) matches the optimal depth 15 and 0 SWAP overhead of Processor B with reduced physical footprint."
+                "1. **Noise Resilience on Processor A**: On the 5-qubit star topology (hub at Q1), unmitigated device noise increases cross-entropy loss from ideal $0.5427$ to $0.5552$ (accuracy $74.0\\%$, recall $31.6\\%$, $3$ SWAPs, $17$ physical CX under Qiskit Sabre). Dual-layer mitigation (ZNE + REM) successfully recovers loss to $0.5499$. In the noise stress-test sweep ($p_{2q}=1.0\\%$), dual mitigation restores accuracy from $76.0\\%$ to $78.0\\%$ and recall from $36.8\\%$ to $42.1\\%$ (+5.3 pp sensitivity gain).\n",
+                "2. **Heavy-Hex Native Routing on Processor B**: Transpilation onto Processor B natively embeds the 4-qubit cycle ($0-1-6-8$) without requiring SWAP gates ($0$ SWAPs, $8$ physical CX gates, basis-gate depth $18$ vs $31$ on Processor A). Unmitigated accuracy on Processor B achieves $76.0\\%$ ($36.8\\%$ recall).\n",
+                "3. **Extrapolation Variance in Low-Noise Regimes**: Because Processor B has minimal gate depth (depth 18 vs 31), linear Richardson gate folding at high scale factors ($r=5$) exhibits statistical shot sampling noise, illustrating the importance of depth-aware mitigation scaling.\n",
+                "4. **Phase 2 Processor C Proposal**: Processor C (8-qubit ring-augmented architecture) matches the optimal depth 18 and 0 SWAP overhead of Processor B with reduced physical footprint.\n",
+                "5. **Dataset & Model Provenance Disclosure**: Benchmarks were conducted on a physiologically calibrated synthetic ECG feature dataset modeling MIT-BIH distributions ($N=250$ samples, $200$ train / $50$ held-out test). Upstream PS-Q1/PS-Q2 pre-trained model checkpoint artifacts were not provided in this workspace, so the 4-qubit VQC was trained independently on the ideal simulator."
             ]
         }
     ],
