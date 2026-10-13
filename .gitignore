@@ -37,6 +37,7 @@ yarn-error.log*
 # Local uploads and experiment outputs
 data/uploads/
 data/experiments/
+data/models/
 
 # Python runtime caches
 __pycache__/

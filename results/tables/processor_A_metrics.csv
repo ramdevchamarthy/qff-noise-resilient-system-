@@ -1,6 +1,6 @@
 condition,accuracy,recall,precision,f1_score,loss,circuit_depth,algorithmic_cx,swap_count,total_physical_cx,circuits_executed,total_shots
-Ideal Reference,0.9,0.7368,1.0,0.8485,0.428,23,8,8,32,50,51200
-Unmitigated Noisy,0.88,0.6842,1.0,0.8125,0.474,23,8,8,32,50,51200
-ZNE Mitigated,0.9,0.7368,1.0,0.8485,0.4425,23,8,8,32,150,153600
-Readout Mitigated,0.88,0.6842,1.0,0.8125,0.4683,23,8,8,32,50,51200
-Dual Mitigated,0.9,0.7368,1.0,0.8485,0.4362,23,8,8,32,150,153600
+Ideal Reference,0.74,0.3158,1.0,0.48,0.5427,23,8,8,32,50,51200
+Unmitigated Noisy,0.72,0.2632,1.0,0.4167,0.5663,23,8,8,32,50,51200
+ZNE Mitigated,0.76,0.3684,1.0,0.5385,0.5456,23,8,8,32,150,153600
+Readout Mitigated,0.72,0.2632,1.0,0.4167,0.5633,23,8,8,32,50,51200
+Dual Mitigated,0.76,0.3684,1.0,0.5385,0.5425,23,8,8,32,150,153600

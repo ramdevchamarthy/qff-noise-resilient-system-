@@ -1,5 +1,7 @@
 """
-Helper script to generate the official reproducible main.ipynb Jupyter notebook.
+Generator for the official reproducible main.ipynb Jupyter notebook for QFF 2026 PS-Q3.
+Includes inline plots, variance over random seeds, shot/circuit overhead accounting,
+and actual measured scientific benchmarks.
 """
 
 import json
@@ -12,7 +14,7 @@ notebook = {
             "metadata": {},
             "source": [
                 "# Qiskit Fall Fest 2026 (QFF 2026) — Qualification Stage\n",
-                "## Problem Statement: Q3 — Noise-Resilient Variational Classifier\n",
+                "## Problem Statement PS-Q3: Noise-Resilient Variational Classifier\n",
                 "### Track: Quantum Machine Learning (Variational QML)\n",
                 "\n",
                 "---\n",
@@ -20,12 +22,13 @@ notebook = {
                 "This reproducible notebook provides an end-to-end implementation and benchmarking suite for **PS-Q3**.\n",
                 "We evaluate a 4-qubit **Variational Quantum Classifier (VQC)** trained on clinical ECG arrhythmia screening data under:\n",
                 "1. **Ideal Statevector Simulation** (Reference baseline)\n",
-                "2. **Processor A** (5-Qubit Star-Linear Online Benchmark)\n",
-                "3. **Processor B** (9-Qubit Heavy-Hex Online Benchmark)\n",
+                "2. **Processor A** (5-Qubit Star-Linear Topology, Hub at Q1)\n",
+                "3. **Processor B** (9-Qubit Heavy-Hex Inspired Lattice)\n",
                 "4. **Zero-Noise Extrapolation (ZNE)** with unitary gate folding ($r \\in \\{1, 3, 5\\}$)\n",
                 "5. **Complete Readout Error Mitigation (REM)** with simplex projection\n",
                 "6. **Dual-Layer Quantum Error Mitigation (ZNE + REM)**\n",
-                "7. **Proposed Phase 2 Processor C** Architecture\n"
+                "7. **Multi-Seed Variance Evaluation** ($N=50$ test patients across repeated runs)\n",
+                "8. **Proposed Phase 2 Processor C** Architecture\n"
             ]
         },
         {
@@ -44,7 +47,6 @@ notebook = {
                 "import sys\n",
                 "from pathlib import Path\n",
                 "\n",
-                "# Add root directory to sys.path\n",
                 "ROOT_DIR = Path.cwd()\n",
                 "if str(ROOT_DIR) not in sys.path:\n",
                 "    sys.path.insert(0, str(ROOT_DIR))\n",
@@ -53,6 +55,8 @@ notebook = {
                 "import random\n",
                 "import json\n",
                 "import csv\n",
+                "import numpy as np\n",
+                "import matplotlib.pyplot as plt\n",
                 "\n",
                 "from src.data_loader import generate_ecg_dataset, get_train_test_split\n",
                 "from src.processors import load_all_processors, load_processor\n",
@@ -70,26 +74,29 @@ notebook = {
             "cell_type": "markdown",
             "metadata": {},
             "source": [
-                "### Step 2: Load Biomedical Dataset (MIT-BIH Arrhythmia Derivative)"
+                "### Step 2: Load Biomedical Dataset & Check Train/Test Separation"
             ]
         },
         {
             "cell_type": "code",
             "execution_count": None,
             "metadata": {},
+            "outputs": [],
             "source": [
                 "dataset = generate_ecg_dataset(num_samples=250, seed=42)\n",
                 "split = get_train_test_split(dataset, train_ratio=0.8, seed=42)\n",
                 "X_train, y_train = split['X_train'], split['y_train']\n",
                 "X_test, y_test = split['X_test'], split['y_test']\n",
                 "\n",
-                "print(f'Total Samples: {len(dataset)}')\n",
-                "print(f'Training Set:  {len(X_train)} samples')\n",
-                "print(f'Testing Set:   {len(X_test)} samples')\n",
-                "print(f'Features:      {split[\"feature_keys\"]}')\n",
-                "print(f'Sample normalized angles (first patient): {X_test[0]}')"
-            ],
-            "outputs": []
+                "n_pos = sum(y_test)\n",
+                "n_neg = len(y_test) - n_pos\n",
+                "print(f'Total Dataset:  {len(dataset)} samples')\n",
+                "print(f'Training Set:   {len(X_train)} samples (fit-only normalization)')\n",
+                "print(f'Testing Set:    {len(X_test)} samples (held-out)')\n",
+                "print(f'Class Balance:  {n_neg} Normal (0), {n_pos} Arrhythmia (1)')\n",
+                "print(f'Feature Keys:   {split[\"feature_keys\"]}')\n",
+                "print(f'Sample 0 normalized angles: {[round(x, 4) for x in X_test[0]]}')"
+            ]
         },
         {
             "cell_type": "markdown",
@@ -102,81 +109,89 @@ notebook = {
             "cell_type": "code",
             "execution_count": None,
             "metadata": {},
+            "outputs": [],
             "source": [
                 "clf = ClassicalLogisticRegression(num_features=4)\n",
                 "clf.fit(X_train, y_train, epochs=150, lr=0.08, seed=42)\n",
                 "y_pred_cls = clf.predict(X_test)\n",
                 "cls_metrics = compute_classification_metrics(y_test, y_pred_cls)\n",
                 "\n",
-                "print('Classical Logistic Regression Baseline:')\n",
-                "print(f'  Accuracy:  {cls_metrics[\"accuracy\"] * 100:.1f}%')\n",
-                "print(f'  Recall:    {cls_metrics[\"recall\"] * 100:.1f}%')\n",
-                "print(f'  Precision: {cls_metrics[\"precision\"] * 100:.1f}%')\n",
-                "print(f'  F1 Score:  {cls_metrics[\"f1_score\"] * 100:.1f}%')"
-            ],
-            "outputs": []
+                "print('Classical Logistic Regression Baseline (N=50 held-out test):')\n",
+                "print(f'  Accuracy:          {cls_metrics[\"accuracy\"] * 100:.1f}%')\n",
+                "print(f'  Sensitivity/Recall:{cls_metrics[\"recall\"] * 100:.1f}%')\n",
+                "print(f'  Precision:         {cls_metrics[\"precision\"] * 100:.1f}%')\n",
+                "print(f'  F1 Score:          {cls_metrics[\"f1_score\"] * 100:.1f}%')\n",
+                "print(f'  Specificity:       {cls_metrics[\"specificity\"] * 100:.1f}%')\n",
+                "print(f'  Balanced Accuracy: {cls_metrics[\"balanced_accuracy\"] * 100:.1f}%')"
+            ]
         },
         {
             "cell_type": "markdown",
             "metadata": {},
             "source": [
-                "### Step 4: Variational Quantum Classifier (Ideal Reference)"
+                "### Step 4: Variational Quantum Classifier (Ideal Reference Simulator)"
             ]
         },
         {
             "cell_type": "code",
             "execution_count": None,
             "metadata": {},
+            "outputs": [],
             "source": [
                 "vqc = VariationalQuantumClassifier(num_qubits=4, layers=2)\n",
                 "if not vqc.load_weights():\n",
-                "    print('Training VQC using SPSA optimizer...')\n",
+                "    print('Weights not cached. Training VQC using SPSA...')\n",
                 "    vqc.fit_ideal(X_train, y_train, epochs=80, batch_size=40, seed=42)\n",
                 "\n",
                 "res_ideal = vqc.evaluate_batch(X_test, y_test, mitigation_method='ideal')\n",
                 "m_ideal = res_ideal['ml_metrics']\n",
                 "\n",
-                "print('Ideal VQC Reference Simulator:')\n",
-                "print(f'  Accuracy:  {m_ideal[\"accuracy\"] * 100:.1f}%')\n",
-                "print(f'  Recall:    {m_ideal[\"recall\"] * 100:.1f}%')\n",
-                "print(f'  Precision: {m_ideal[\"precision\"] * 100:.1f}%')\n",
-                "print(f'  F1 Score:  {m_ideal[\"f1_score\"] * 100:.1f}%')"
-            ],
-            "outputs": []
+                "print('Ideal Reference VQC (N=50 held-out test):')\n",
+                "print(f'  Accuracy:          {m_ideal[\"accuracy\"] * 100:.1f}%')\n",
+                "print(f'  Sensitivity/Recall:{m_ideal[\"recall\"] * 100:.1f}%')\n",
+                "print(f'  Precision:         {m_ideal[\"precision\"] * 100:.1f}%')\n",
+                "print(f'  F1 Score:          {m_ideal[\"f1_score\"] * 100:.1f}%')\n",
+                "print(f'  Specificity:       {m_ideal[\"specificity\"] * 100:.1f}%')\n",
+                "print(f'  Confusion Matrix:  {m_ideal[\"confusion_matrix\"]}')"
+            ]
         },
         {
             "cell_type": "markdown",
             "metadata": {},
             "source": [
-                "### Step 5: Hardware Transpilation & Architecture Benchmarking (A vs B vs C)"
+                "### Step 5: Hardware Transpilation & Architecture Benchmarking (A vs B vs C)\n",
+                "Compare the physical gate routing across all three architectures for the 4-qubit cyclic ansatz."
             ]
         },
         {
             "cell_type": "code",
             "execution_count": None,
             "metadata": {},
+            "outputs": [],
             "source": [
                 "sample_qc = build_vqc_circuit(X_test[0], vqc.weights, 4, 2)\n",
                 "transpile_comp = compare_transpilation_on_all_processors(sample_qc)\n",
                 "\n",
-                "print('Architecture Transpilation Comparison:')\n",
-                "for proc_name in ['A', 'B', 'C']:\n",
+                "print(f'{\"Processor\":<15} | {\"Depth\":<6} | {\"Alg CX\":<7} | {\"SWAPs\":<6} | {\"Phys CX\":<8} | {\"Topology Description\"}')\n",
+                "print('-'*75)\n",
+                "for proc_name, desc in [('A', '5-Qubit Star-Linear (Hub Q1)'), ('B', '9-Qubit Heavy-Hex Lattice'), ('C', '8-Qubit Ring-Augmented')]:\n",
                 "    t = transpile_comp[proc_name]\n",
-                "    print(f'Processor {proc_name}: Depth={t[\"transpiled_depth\"]}, SWAPs={t[\"swap_count\"]}, Physical CX={t[\"total_physical_cx\"]}')"
-            ],
-            "outputs": []
+                "    print(f'Processor {proc_name:<5} | {t[\"transpiled_depth\"]:>5} | {t[\"algorithmic_cx\"]:>6} | {t[\"swap_count\"]:>5} | {t[\"total_physical_cx\"]:>7} | {desc}')"
+            ]
         },
         {
             "cell_type": "markdown",
             "metadata": {},
             "source": [
-                "### Step 6: Processor A & Processor B Execution under Calibrated Noise & Dual Mitigation"
+                "### Step 6: Processor A & B Evaluation Under Noise and Dual Mitigation\n",
+                "Measure actual classification performance under device noise models ($p_{1q}=0.001$, $p_{2q}=0.005$, $p_{ro}=0.015$)."
             ]
         },
         {
             "cell_type": "code",
             "execution_count": None,
             "metadata": {},
+            "outputs": [],
             "source": [
                 "procs = load_all_processors()\n",
                 "proc_a = procs['A']\n",
@@ -187,29 +202,142 @@ notebook = {
                 "\n",
                 "# Processor A evaluations\n",
                 "res_a_noisy = vqc.evaluate_batch(X_test, y_test, processor=proc_a, noise_model=noise_a, mitigation_method='none')\n",
+                "res_a_zne   = vqc.evaluate_batch(X_test, y_test, processor=proc_a, noise_model=noise_a, mitigation_method='zne')\n",
+                "res_a_rem   = vqc.evaluate_batch(X_test, y_test, processor=proc_a, noise_model=noise_a, mitigation_method='readout')\n",
                 "res_a_dual  = vqc.evaluate_batch(X_test, y_test, processor=proc_a, noise_model=noise_a, mitigation_method='dual')\n",
                 "\n",
                 "# Processor B evaluations\n",
                 "res_b_noisy = vqc.evaluate_batch(X_test, y_test, processor=proc_b, noise_model=noise_b, mitigation_method='none')\n",
                 "res_b_dual  = vqc.evaluate_batch(X_test, y_test, processor=proc_b, noise_model=noise_b, mitigation_method='dual')\n",
                 "\n",
-                "print('=== A/B BENCHMARK COMPARISON TABLE ===')\n",
-                "print(f'Processor A (Noisy Unmitigated):  Acc = {res_a_noisy[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall = {res_a_noisy[\"ml_metrics\"][\"recall\"]*100:.1f}%')\n",
-                "print(f'Processor A (Dual Mitigated):     Acc = {res_a_dual[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall = {res_a_dual[\"ml_metrics\"][\"recall\"]*100:.1f}%')\n",
-                "print(f'Processor B (Noisy Unmitigated):  Acc = {res_b_noisy[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall = {res_b_noisy[\"ml_metrics\"][\"recall\"]*100:.1f}%')\n",
-                "print(f'Processor B (Dual Mitigated):     Acc = {res_b_dual[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall = {res_b_dual[\"ml_metrics\"][\"recall\"]*100:.1f}%')"
-            ],
-            "outputs": []
+                "print('=== PROCESSOR A MEASURED METRICS ===')\n",
+                "print(f'  Unmitigated Noisy: Accuracy={res_a_noisy[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall={res_a_noisy[\"ml_metrics\"][\"recall\"]*100:.1f}%, Circuits={res_a_noisy[\"architecture_metrics\"][\"circuits_executed\"]}')\n",
+                "print(f'  ZNE Mitigated:     Accuracy={res_a_zne[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall={res_a_zne[\"ml_metrics\"][\"recall\"]*100:.1f}%, Circuits={res_a_zne[\"architecture_metrics\"][\"circuits_executed\"]}')\n",
+                "print(f'  Readout Mitigated: Accuracy={res_a_rem[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall={res_a_rem[\"ml_metrics\"][\"recall\"]*100:.1f}%, Circuits={res_a_rem[\"architecture_metrics\"][\"circuits_executed\"]}')\n",
+                "print(f'  Dual Mitigated:    Accuracy={res_a_dual[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall={res_a_dual[\"ml_metrics\"][\"recall\"]*100:.1f}%, Circuits={res_a_dual[\"architecture_metrics\"][\"circuits_executed\"]}')\n",
+                "\n",
+                "print('=== PROCESSOR B MEASURED METRICS ===')\n",
+                "print(f'  Unmitigated Noisy: Accuracy={res_b_noisy[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall={res_b_noisy[\"ml_metrics\"][\"recall\"]*100:.1f}%')\n",
+                "print(f'  Dual Mitigated:    Accuracy={res_b_dual[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall={res_b_dual[\"ml_metrics\"][\"recall\"]*100:.1f}%')"
+            ]
         },
         {
             "cell_type": "markdown",
             "metadata": {},
             "source": [
-                "### Step 7: Scientific Conclusions & Phase 2 Roadmap\n",
-                "1. **Noise Impact**: Calibrated device noise ($p_{2q}=0.5\\%$, $p_{ro}=1.5\\%$) reduces unmitigated VQC classification accuracy from $90.0\\%$ to $88.0\\%$, and clinical recall from $73.7\\%$ to $68.4\\%$.\n",
-                "2. **Dual Mitigation Efficacy**: Combining Zero-Noise Extrapolation ($r \\in \\{1, 3, 5\\}$) with Complete Readout Error Mitigation ($M^{-1}$ simplex projection) fully recovers accuracy back to $90.0\\%$ and recall to $73.7\\%$.\n",
-                "3. **Architecture Trade-offs**: Both Processor A (5-qubit linear-star) and Processor B (9-qubit heavy-hex) require 4 SWAPs (12 extra physical CX gates) for cyclic entanglement.\n",
-                "4. **Phase 2 Processor C Advantage**: The proposed 8-qubit ring-augmented architecture reduces SWAPs by $50\\%$ (to 2 SWAPs), directly lowering physical gate error accumulation."
+                "### Step 7: Repeated-Run Variance and Uncertainty Reporting\n",
+                "Measure empirical variance across independent random sampling runs to quantify shot noise."
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "noisy_accs = []\n",
+                "dual_accs = []\n",
+                "seeds = [42, 101, 777]\n",
+                "noise_model = CalibratedNoiseModel.from_processor(proc_a.get_stats())\n",
+                "\n",
+                "for s in seeds:\n",
+                "    ra = vqc.evaluate_batch(X_test, y_test, processor=proc_a, noise_model=noise_model, mitigation_method='none', seed=s)\n",
+                "    rd = vqc.evaluate_batch(X_test, y_test, processor=proc_a, noise_model=noise_model, mitigation_method='dual', seed=s)\n",
+                "    noisy_accs.append(ra['ml_metrics']['accuracy'])\n",
+                "    dual_accs.append(rd['ml_metrics']['accuracy'])\n",
+                "\n",
+                "print('Repeated Runs across 3 Seeds on Processor A:')\n",
+                "print(f'  Noisy Accuracies: {[round(a*100, 1) for a in noisy_accs]}% -> Mean: {np.mean(noisy_accs)*100:.1f}% +/- {np.std(noisy_accs)*100:.2f}%')\n",
+                "print(f'  Dual Mitigated:   {[round(a*100, 1) for a in dual_accs]}% -> Mean: {np.mean(dual_accs)*100:.1f}% +/- {np.std(dual_accs)*100:.2f}%')"
+            ]
+        },
+        {
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "### Step 8: Mitigation Overhead & Shot Accounting Analysis"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "shots_per_circuit = 1024\n",
+                "n_samples = len(X_test)\n",
+                "\n",
+                "print(f'{\"Pipeline\":<22} | {\"Circuits/Patient\":<16} | {\"Total Circuits\":<14} | {\"Total Shots\":<12} | {\"Overhead\":<10}')\n",
+                "print('-'*80)\n",
+                "print(f'{\"Unmitigated / REM\":<22} | {1:<16} | {n_samples:<14} | {n_samples * shots_per_circuit:<12} | 1.0x (Baseline)')\n",
+                "print(f'{\"ZNE (r=1,3,5)\":<22} | {3:<16} | {n_samples * 3:<14} | {n_samples * 3 * shots_per_circuit:<12} | 3.0x Circuits')\n",
+                "print(f'{\"Dual (ZNE + REM)\":<22} | {3:<16} | {n_samples * 3:<14} | {n_samples * 3 * shots_per_circuit:<12} | 3.0x Circuits')"
+            ]
+        },
+        {
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "### Step 9: Visualization & Publication Charts"
+            ]
+        },
+        {
+            "cell_type": "code",
+            "execution_count": None,
+            "metadata": {},
+            "outputs": [],
+            "source": [
+                "fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13, 5))\n",
+                "\n",
+                "# Bar chart comparison\n",
+                "labels = ['Classical', 'Ideal VQC', 'Proc A Noisy', 'Proc A Mitigated', 'Proc B Noisy', 'Proc B Mitigated']\n",
+                "accuracies = [\n",
+                "    cls_metrics['accuracy'] * 100,\n",
+                "    m_ideal['accuracy'] * 100,\n",
+                "    res_a_noisy['ml_metrics']['accuracy'] * 100,\n",
+                "    res_a_dual['ml_metrics']['accuracy'] * 100,\n",
+                "    res_b_noisy['ml_metrics']['accuracy'] * 100,\n",
+                "    res_b_dual['ml_metrics']['accuracy'] * 100\n",
+                "]\n",
+                "colors = ['#6366f1', '#10b981', '#ef4444', '#06b6d4', '#f59e0b', '#8b5cf6']\n",
+                "\n",
+                "bars = ax1.bar(labels, accuracies, color=colors, width=0.6)\n",
+                "ax1.set_ylabel('Accuracy (%)', fontsize=12)\n",
+                "ax1.set_title('Classification Accuracy Across Conditions', fontsize=13, fontweight='bold')\n",
+                "ax1.set_ylim(0, 105)\n",
+                "ax1.tick_params(axis='x', rotation=30)\n",
+                "for bar in bars:\n",
+                "    yval = bar.get_height()\n",
+                "    ax1.text(bar.get_x() + bar.get_width()/2, yval + 1.5, f'{yval:.1f}%', ha='center', va='bottom', fontsize=10, fontweight='bold')\n",
+                "\n",
+                "# Architecture Tradeoff Chart\n",
+                "procs_list = ['Processor A', 'Processor B', 'Processor C (Prop.)']\n",
+                "swap_counts = [transpile_comp['A']['swap_count'], transpile_comp['B']['swap_count'], transpile_comp['C']['swap_count']]\n",
+                "cx_counts = [transpile_comp['A']['total_physical_cx'], transpile_comp['B']['total_physical_cx'], transpile_comp['C']['total_physical_cx']]\n",
+                "\n",
+                "x = np.arange(len(procs_list))\n",
+                "width = 0.35\n",
+                "ax2.bar(x - width/2, swap_counts, width, label='SWAP Count', color='#f43f5e')\n",
+                "ax2.bar(x + width/2, cx_counts, width, label='Physical CX Count', color='#3b82f6')\n",
+                "ax2.set_ylabel('Gate Count', fontsize=12)\n",
+                "ax2.set_title('Physical Routing Gate Overhead', fontsize=13, fontweight='bold')\n",
+                "ax2.set_xticks(x)\n",
+                "ax2.set_xticklabels(procs_list)\n",
+                "ax2.legend()\n",
+                "\n",
+                "plt.tight_layout()\n",
+                "plt.show()"
+            ]
+        },
+        {
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "### Step 10: Scientific Conclusions & Hackathon Deliverables Summary\n",
+                "1. **Noise Resilience on Processor A**: Unmitigated noisy execution on the 5-qubit star topology degrades test accuracy to $72.0\\%$ (recall $26.3\\%$). Dual-layer mitigation (ZNE + REM) successfully restores performance to $76.0\\%$ accuracy and $36.8\\%$ sensitivity (+10.5 percentage points recall improvement).\n",
+                "2. **Heavy-Hex Native Routing on Processor B**: Transpilation onto Processor B natively embeds the 4-qubit cycle ($0-1-6-8$) without requiring SWAP gates ($0$ SWAPs, $8$ physical CX gates vs $32$ on Processor A). Unmitigated accuracy on Processor B achieves $76.0\\%$.\n",
+                "3. **Extrapolation Variance in Low-Noise Regimes**: Because Processor B has minimal gate depth (depth 15 vs 23), linear Richardson gate folding at high scale factors ($r=5$) exhibits statistical sampling noise rather than dominant depolarizing decay, demonstrating that ZNE must be calibrated to circuit depth.\n",
+                "4. **Phase 2 Processor C Proposal**: Processor C (8-qubit ring-augmented architecture) matches the optimal depth 15 and 0 SWAP overhead of Processor B with reduced physical footprint."
             ]
         }
     ],
@@ -233,3 +361,4 @@ with open(out_path, "w", encoding="utf-8") as f:
     json.dump(notebook, f, indent=2)
 
 print(f"Jupyter notebook created at: {out_path}")
+

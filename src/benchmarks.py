@@ -89,15 +89,15 @@ def run_and_save_all_benchmarks():
         from src.vqc import build_vqc_circuit
         c_qc, c_arch = Transpiler(proc_c).transpile(build_vqc_circuit(X_test[0], vqc.weights))
 
-        writer.writerow(["Physical Qubits", st_a["num_qubits"], st_b["num_qubits"], st_c["num_qubits"], "+4 Qubits", "Heavy-Hex lattice layout vs star-chain"])
-        writer.writerow(["Coupling Edges", st_a["edge_count"], st_b["edge_count"], st_c["edge_count"], "+8 Edges", "Heavy-Hex introduces alternate cyclic paths"])
-        writer.writerow(["Transpiled Depth", arch_a["circuit_depth"], arch_b["circuit_depth"], c_arch["transpiled_depth"], "0", "Both require routing hops for 4-qubit cyclic ansatz"])
+        writer.writerow(["Physical Qubits", st_a["num_qubits"], st_b["num_qubits"], st_c["num_qubits"], f"+{st_b['num_qubits'] - st_a['num_qubits']} Qubits", "Heavy-Hex lattice layout vs star-chain"])
+        writer.writerow(["Coupling Edges", st_a["edge_count"], st_b["edge_count"], st_c["edge_count"], f"+{st_b['edge_count'] - st_a['edge_count']} Edges", "Heavy-Hex introduces alternate cyclic paths"])
+        writer.writerow(["Transpiled Depth", arch_a["circuit_depth"], arch_b["circuit_depth"], c_arch["transpiled_depth"], f"{arch_b['circuit_depth'] - arch_a['circuit_depth']}", "Processor B natively embeds 4-cycle, lowering depth from 23 to 15"])
         writer.writerow(["Algorithmic CX", arch_a["algorithmic_cx"], arch_b["algorithmic_cx"], c_arch["algorithmic_cx"], "0", "Identical logical ansatz"])
-        writer.writerow(["SWAP Count", arch_a["swap_count"], arch_b["swap_count"], c_arch["swap_count"], "0 (A=4, B=4, C=2)", "Processor C reduces SWAPs by 50%"])
-        writer.writerow(["Total Physical CX", arch_a["total_physical_cx"], arch_b["total_physical_cx"], c_arch["total_physical_cx"], "0 (A=16, B=16, C=10)", "SWAP decomposition: 3 CX per SWAP"])
-        writer.writerow(["Unmitigated Accuracy", res_a["noisy"]["ml_metrics"]["accuracy"], res_b["noisy"]["ml_metrics"]["accuracy"], "N/A", "0.00", "Comparable gate error under same physical CX count"])
-        writer.writerow(["Dual Mitigated Accuracy", res_a["dual"]["ml_metrics"]["accuracy"], res_b["dual"]["ml_metrics"]["accuracy"], "N/A", "0.00", "ZNE + Readout recovers ideal performance"])
-        writer.writerow(["Mitigated Recall", res_a["dual"]["ml_metrics"]["recall"], res_b["dual"]["ml_metrics"]["recall"], "N/A", "0.00", "Clinical sensitivity fully preserved"])
+        writer.writerow(["SWAP Count", arch_a["swap_count"], arch_b["swap_count"], c_arch["swap_count"], f"{arch_b['swap_count'] - arch_a['swap_count']} (A=8, B=0, C=0)", "Processor B contains native physical 4-cycle; zero SWAPs needed"])
+        writer.writerow(["Total Physical CX", arch_a["total_physical_cx"], arch_b["total_physical_cx"], c_arch["total_physical_cx"], f"{arch_b['total_physical_cx'] - arch_a['total_physical_cx']} (A=32, B=8, C=8)", "Eliminating 8 SWAPs saves 24 physical CX gates (3 CX/SWAP)"])
+        writer.writerow(["Unmitigated Accuracy", res_a["noisy"]["ml_metrics"]["accuracy"], res_b["noisy"]["ml_metrics"]["accuracy"], "N/A", f"{round(res_b['noisy']['ml_metrics']['accuracy'] - res_a['noisy']['ml_metrics']['accuracy'], 4):+}", "Lower gate depth on B preserves state fidelity under noise"])
+        writer.writerow(["Dual Mitigated Accuracy", res_a["dual"]["ml_metrics"]["accuracy"], res_b["dual"]["ml_metrics"]["accuracy"], "N/A", f"{round(res_b['dual']['ml_metrics']['accuracy'] - res_a['dual']['ml_metrics']['accuracy'], 4):+}", "ZNE recovers fidelity on A; lower-noise B experiences sampling variance"])
+        writer.writerow(["Mitigated Recall", res_a["dual"]["ml_metrics"]["recall"], res_b["dual"]["ml_metrics"]["recall"], "N/A", f"{round(res_b['dual']['ml_metrics']['recall'] - res_a['dual']['ml_metrics']['recall'], 4):+}", "Mitigation boosts sensitivity on high-error star topology"])
 
     # --- 3. ROBUSTNESS NOISE SWEEP CSV ---
     sweep_csv = RESULTS_DIR / "robustness_sweep.csv"

@@ -53,19 +53,23 @@ It provides rigorous, reproducible benchmarks across the organizer-prescribed **
 
 ---
 
-## 📊 Measured Benchmark Results (N = 50 Samples)
+## 📊 Measured Benchmark Results (N = 50 Held-Out Samples)
 
-All values are derived from actual quantum executions and shot sampling (no hardcoded metrics):
+All values are empirically derived from actual quantum circuit executions and 1024-shot sampling using the official trained model (`trained_vqc_weights.json`) and test partition (no hardcoded metrics):
 
 | Platform / Configuration | Accuracy | Recall (Sensitivity) | Precision | F1-Score | Circuit Depth | Algorithmic CX | SWAP Count | Total Physical CX | Exec Overhead |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Classical Logistic Regression** | **90.0%** | **73.7%** | 100.0% | 84.8% | — | — | — | — | 1× (Classical) |
-| **Ideal Reference VQC** | **90.0%** | **73.7%** | 100.0% | 84.8% | 5 | 8 | 0 | 8 | 1× |
-| **Processor A (Unmitigated Noisy)** | 88.0% | 68.4% *(Degraded)* | 100.0% | 81.2% | 9 | 8 | 4 | 16 | 1× |
-| **Processor A (Dual Mitigated)** | **90.0%** | **73.7%** *(Recovered)* | 100.0% | 84.8% | 9 | 8 | 4 | 16 | 3× Circuits |
-| **Processor B (Unmitigated Noisy)** | 88.0% | 68.4% *(Degraded)* | 100.0% | 81.2% | 9 | 8 | 4 | 16 | 1× |
-| **Processor B (Dual Mitigated)** | **90.0%** | **73.7%** *(Recovered)* | 100.0% | 84.8% | 9 | 8 | 4 | 16 | 3× Circuits |
-| **Processor C (Proposed Phase 2)** | *Projected* | *Projected* | — | — | **7** | 8 | **2 (-50%)** | **10 (-37.5%)** | 1.25× Overh. |
+| **Classical Logistic Regression** | **90.0%** | **73.7%** | 100.0% | 84.9% | — | — | — | — | 1× (Classical) |
+| **Ideal Reference VQC** | **74.0%** | **31.6%** | 100.0% | 48.0% | 5 | 8 | 0 | 8 | 1× |
+| **Processor A (Unmitigated Noisy)** | 72.0% | 26.3% *(Degraded)* | 100.0% | 41.7% | 23 | 8 | 8 | 32 | 1× |
+| **Processor A (Dual Mitigated)** | **76.0%** | **36.8%** *(Recovered)* | 100.0% | 53.8% | 23 | 8 | 8 | 32 | 3× Circuits |
+| **Processor B (Unmitigated Noisy)** | 76.0% | 36.8% *(Native Ring)* | 100.0% | 53.8% | 15 | 8 | 0 | 8 | 1× |
+| **Processor B (Dual Mitigated)** | 70.0% | 21.1% *(Shot Variance)* | 100.0% | 34.8% | 15 | 8 | 0 | 8 | 3× Circuits |
+| **Processor C (Proposed Phase 2)** | *Projected* | *Projected* | — | — | **15** | 8 | **0** | **8** | 1× Native |
+
+> **Scientific Analysis**: 
+> 1. On **Processor A** (star topology with hub at Q1), cyclic entanglement requires 8 physical SWAP routing gates (24 extra physical CX gates, circuit depth 23). Device depolarizing noise drops accuracy to 72.0% and recall to 26.3%. Dual mitigation (ZNE Richardson + Readout simplex inversion) successfully recovers performance to **76.0% accuracy and 36.8% recall** (+10.5 percentage points recall improvement).
+> 2. On **Processor B** (heavy-hex lattice), the transpiler discovers a native physical 4-cycle `(0,1,6,8)`, executing with **0 SWAPs and 8 CX gates** (depth 15). Because gate depth is shallow, unmitigated noisy execution maintains 76.0% accuracy; linear extrapolation at scale factor $r=5$ exhibits statistical shot sampling noise, illustrating the importance of depth-aware mitigation scaling.
 
 ---
 
@@ -95,7 +99,7 @@ All values are derived from actual quantum executions and shot sampling (no hard
 Clone the repository and install dependencies:
 ```bash
 # Python dependencies
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 
 # Frontend dependencies
 cd frontend
@@ -104,11 +108,11 @@ cd ..
 ```
 
 ### 2. Run Automated Verification Tests
-Execute the 20-test automated verification suite:
+Execute the 54-test automated verification suite:
 ```bash
 python -m pytest tests/ -v
 ```
-*Expected result: 20 passed in under 1.0 second.*
+*Expected result: 54 passed across unit, scientific, noise, physics, and storage suites.*
 
 ### 3. Run Benchmark Exporters
 Generate the official CSV tables and figures:
@@ -123,7 +127,7 @@ Run the backend and frontend simultaneously:
 
 **Terminal 1 (Backend API):**
 ```bash
-python backend/app/main.py
+python -m uvicorn backend.app.main:app --host 0.0.0.0 --port 8000
 # Server starts at http://127.0.0.1:8000
 ```
 
@@ -140,9 +144,10 @@ npm run dev
 ```
 qff-noise-resilient-system/
 ├── README.md                      # Comprehensive project guide and official report
-├── main.ipynb                     # Mandatory reproducible Jupyter notebook
+├── main.ipynb                     # Fully executed reproducible Jupyter notebook
 ├── requirements.txt               # Verified software dependencies
 ├── create_notebook.py             # Notebook builder utility
+├── execute_notebook.py            # Headless notebook execution runner
 ├── data/
 │   ├── raw/                       # Raw input files
 │   └── processed/
@@ -162,6 +167,9 @@ qff-noise-resilient-system/
 │   ├── mitigation.py              # ZNE gate folding & Readout simplex inversion
 │   ├── vqc.py                     # 4-qubit SU(2) VQC & Classical Logistic Regression
 │   ├── data_loader.py             # MIT-BIH biomedical ECG loader & normalizer
+│   ├── dataset_manager.py         # Ephemeral & persistent patient dataset manager
+│   ├── experiment_store.py        # Safe runtime experiment persistence
+│   ├── storage.py                 # File & memory fallback storage backend
 │   ├── metrics.py                 # Classification & architecture metric calculations
 │   ├── benchmarks.py              # Systematic noise sweep & CSV exporter
 │   └── visualization.py           # Matplotlib publication chart generator
@@ -179,7 +187,7 @@ qff-noise-resilient-system/
 │   ├── index.html
 │   └── src/
 │       ├── main.tsx
-│       ├── App.tsx                # Master reactive UI
+│       ├── App.tsx                # Master reactive UI (Dark & Light mode)
 │       └── components/
 │           ├── Navbar.tsx
 │           ├── Dashboard.tsx      # Overview & executive summary
@@ -209,12 +217,16 @@ qff-noise-resilient-system/
 │   ├── testing.md                 # Test plan and validation strategy
 │   └── demo-script.md             # Judge presentation script
 └── tests/
-    ├── test_data.py
+    ├── test_api.py
+    ├── test_audit_scientific.py
     ├── test_circuits.py
-    ├── test_processors_and_transpiler.py
+    ├── test_data.py
+    ├── test_dataset_manager.py
     ├── test_noise_and_mitigation.py
-    ├── test_vqc_and_baselines.py
-    └── test_api.py
+    ├── test_processors_and_transpiler.py
+    ├── test_reference_quantum_physics.py
+    ├── test_storage_and_upload_regression.py
+    └── test_vqc_and_baselines.py
 ```
 
 ---

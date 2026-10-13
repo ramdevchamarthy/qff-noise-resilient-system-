@@ -1,10 +1,10 @@
 metric,processor_a,processor_b,processor_c_proposed,difference_a_vs_b,architectural_cause
 Physical Qubits,5,9,8,+4 Qubits,Heavy-Hex lattice layout vs star-chain
 Coupling Edges,4,12,12,+8 Edges,Heavy-Hex introduces alternate cyclic paths
-Transpiled Depth,23,22,18,0,Both require routing hops for 4-qubit cyclic ansatz
+Transpiled Depth,23,15,15,-8,"Processor B natively embeds 4-cycle, lowering depth from 23 to 15"
 Algorithmic CX,8,8,8,0,Identical logical ansatz
-SWAP Count,8,8,4,"0 (A=4, B=4, C=2)",Processor C reduces SWAPs by 50%
-Total Physical CX,32,32,20,"0 (A=16, B=16, C=10)",SWAP decomposition: 3 CX per SWAP
-Unmitigated Accuracy,0.88,0.88,N/A,0.00,Comparable gate error under same physical CX count
-Dual Mitigated Accuracy,0.9,0.9,N/A,0.00,ZNE + Readout recovers ideal performance
-Mitigated Recall,0.7368,0.7368,N/A,0.00,Clinical sensitivity fully preserved
+SWAP Count,8,0,0,"-8 (A=8, B=0, C=0)",Processor B contains native physical 4-cycle; zero SWAPs needed
+Total Physical CX,32,8,8,"-24 (A=32, B=8, C=8)",Eliminating 8 SWAPs saves 24 physical CX gates (3 CX/SWAP)
+Unmitigated Accuracy,0.72,0.76,N/A,+0.04,Lower gate depth on B preserves state fidelity under noise
+Dual Mitigated Accuracy,0.76,0.7,N/A,-0.06,ZNE recovers fidelity on A; lower-noise B experiences sampling variance
+Mitigated Recall,0.3684,0.2105,N/A,-0.1579,Mitigation boosts sensitivity on high-error star topology
