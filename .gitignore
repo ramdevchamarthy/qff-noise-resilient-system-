@@ -26,3 +26,23 @@ yarn-error.log*
 .idea/
 *.swp
 *.swo
+
+.vercel
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Local uploads and experiment outputs
+data/uploads/
+data/experiments/
+
+# Python runtime caches
+__pycache__/
+.pytest_cache/
+
+# Local frontend environment files
+frontend/.env
+frontend/.env.*
+!frontend/.env.example

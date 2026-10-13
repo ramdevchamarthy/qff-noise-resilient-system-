@@ -78,32 +78,70 @@ export const Methodology: React.FC = () => {
         </div>
       </div>
 
+      {/* Simulation Engine & Numerical Physics */}
+      <div className="rounded-2xl bg-space-900 border border-space-700/80 p-6 space-y-4">
+        <h3 className="text-sm font-bold text-white uppercase font-mono tracking-wider flex items-center gap-2">
+          <Cpu className="w-4 h-4 text-cyan-400" />
+          3. Pure-Python Statevector Simulator & Physics Mechanics
+        </h3>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div className="p-4 rounded-xl bg-space-850 border border-space-800 space-y-2">
+            <h4 className="font-semibold text-cyan-300">Zero-C-Dependency Architecture</h4>
+            <p className="text-slate-300 leading-relaxed">
+              Implemented in <code className="text-white font-mono bg-space-950 px-1 py-0.5 rounded">src/quantum_core.py</code> using native Python linear algebra (<code className="text-slate-400">math</code>, <code className="text-slate-400">cmath</code>). Eliminates external C-extension binary dependencies (<code className="text-slate-400">.pyd</code>) and bypasses Windows Code Integrity / AppLocker blocks, guaranteeing 100% reliable execution.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-xl bg-space-850 border border-space-800 space-y-2">
+            <h4 className="font-semibold text-cyan-300">Exact Statevector & Finite Shots</h4>
+            <p className="text-slate-300 leading-relaxed">
+              Maintains an exact 16-dimensional complex statevector |ψ⟩ in ℂ¹⁶ for 4 active qubits. Born rule probability distributions P(i) = |⟨i|ψ⟩|² drive deterministic pseudo-random multinomial shot sampling with reproducible seeds (<code className="text-slate-400">seed=42</code>).
+            </p>
+          </div>
+
+          <div className="p-4 rounded-xl bg-space-850 border border-space-800 space-y-2">
+            <h4 className="font-semibold text-cyan-300">Calibrated Device Noise Injection</h4>
+            <p className="text-slate-300 leading-relaxed">
+              Simulates two-qubit depolarizing gate error via an analytical global gate-survival heuristic (F_gate = (1 - p_1q)^N1 · (1 - p_2q)^N2) mixing pure state probabilities toward the maximally mixed ensemble I/16, paired with an asymmetric 16×16 classical readout Markov transition matrix modeling SPAM bit-flip transitions. Note that (1-p)^N is an uncorrelated gate-survival heuristic rather than an explicitly calculated density matrix state fidelity.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-xl bg-space-850 border border-space-800 space-y-2">
+            <h4 className="font-semibold text-cyan-300">Dual Error Mitigation (ZNE + REM)</h4>
+            <p className="text-slate-300 leading-relaxed">
+              Combines 2nd-order Richardson extrapolation over scale factors r ∈ [1, 3, 5] with calibration matrix inversion M⁻¹ and Michelot-Duchi probability simplex projection to cancel measurement bias and depolarizing decay.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Hardware Assumptions & Limitations */}
       <div className="rounded-2xl bg-space-900 border border-space-700/80 p-6 space-y-4">
         <h3 className="text-sm font-bold text-white uppercase font-mono tracking-wider flex items-center gap-2">
-          <Cpu className="w-4 h-4 text-amber-400" />
-          Hardware Assumptions & Honest Scientific Scope
+          <ShieldCheck className="w-4 h-4 text-amber-400" />
+          4. Hardware Assumptions & Honest Scientific Scope
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
           <div className="p-4 rounded-xl bg-space-850 border border-space-800 space-y-2">
-            <h4 className="font-semibold text-white">Not Fault-Tolerant</h4>
+            <h4 className="font-semibold text-white">Local Target Emulation</h4>
             <p className="text-slate-400 leading-relaxed">
-              Error mitigation does not correct errors during circuit runtime. It reconstructs expectation values statistically from an ensemble of noisy shots.
+              Simulations model target processor topologies (Processor A and B) locally. No physical quantum processor execution or clinical validation was conducted. ECG inputs are synthetic demonstration records.
             </p>
           </div>
 
           <div className="p-4 rounded-xl bg-space-850 border border-space-800 space-y-2">
-            <h4 className="font-semibold text-white">Sampling Overhead Cost</h4>
+            <h4 className="font-semibold text-white">Theoretical ZNE Variance Amplification</h4>
             <p className="text-slate-400 leading-relaxed">
-              Extrapolation amplifies shot noise variance. To achieve equivalent standard error σ_E, ZNE requires 3× circuit evaluations and at least 1024 shots per fold.
+              Zero-Noise Extrapolation amplifies shot noise variance. Under an equal-variance assumption across scale factors, Richardson extrapolation weights (15/8, -10/8, 3/8) yield a theoretical variance amplification factor of approximately 5.22 (sum of squared coefficients).
             </p>
           </div>
 
           <div className="p-4 rounded-xl bg-space-850 border border-space-800 space-y-2">
-            <h4 className="font-semibold text-white">High Noise Breakdown</h4>
+            <h4 className="font-semibold text-white">High Noise Breakdown (p_2q &gt; 3.5%)</h4>
             <p className="text-slate-400 leading-relaxed">
-              For gate error rates p_2q &gt; 3.5%, states depolarize toward the maximally mixed ensemble, reducing signal-to-noise ratio below usable statistical thresholds.
+              Beyond 3.5% error, quantum states collapse toward the maximally mixed ensemble I/16. Extrapolation noise overwhelms the attenuated signal, proving error mitigation cannot replace fault-tolerant error correction.
             </p>
           </div>
         </div>

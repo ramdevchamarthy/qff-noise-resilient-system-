@@ -3,11 +3,188 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    background-color: #060911;
-    color: #f1f5f9;
-    font-family: 'Inter', system-ui, sans-serif;
+  :root {
+    /* Default is dark mode space palette */
+    --space-950: 6 9 17;
+    --space-900: 11 15 25;
+    --space-850: 16 22 38;
+    --space-800: 21 30 51;
+    --space-700: 30 41 59;
+    --space-600: 51 65 85;
   }
+
+  html.dark {
+    --space-950: 6 9 17;
+    --space-900: 11 15 25;
+    --space-850: 16 22 38;
+    --space-800: 21 30 51;
+    --space-700: 30 41 59;
+    --space-600: 51 65 85;
+  }
+
+  html.light {
+    /* Light Mode palette: crisp, clean scientific lab theme */
+    --space-950: 248 250 252;  /* #f8fafc: canvas background */
+    --space-900: 255 255 255;  /* #ffffff: card background */
+    --space-850: 241 245 249;  /* #f1f5f9: sub-cards, table headers */
+    --space-800: 226 232 240;  /* #e2e8f0: interactive controls, inputs */
+    --space-700: 203 213 225;  /* #cbd5e1: card borders */
+    --space-600: 148 163 184;  /* #94a3b8: active borders */
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+}
+
+/* Light mode text contrast enhancements */
+html.light {
+  color-scheme: light;
+}
+html.light body {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+html.light .text-white {
+  color: #0f172a !important;
+}
+html.light .text-slate-100 {
+  color: #0f172a !important;
+}
+html.light .text-slate-200 {
+  color: #1e293b !important;
+}
+html.light .text-slate-300 {
+  color: #334155 !important;
+}
+html.light .text-slate-400 {
+  color: #475569 !important;
+}
+html.light .text-slate-500 {
+  color: #64748b !important;
+}
+
+/* Maintain light text on colored action buttons in light mode (ONLY buttons) */
+html.light button.bg-gradient-to-r:not(.from-cyan-500),
+html.light button.bg-gradient-to-r:not(.from-cyan-500) *,
+html.light button.bg-blue-600,
+html.light button.bg-blue-600 *,
+html.light button.bg-purple-600,
+html.light button.bg-purple-600 *,
+html.light button.bg-emerald-600,
+html.light button.bg-emerald-600 *,
+html.light button.bg-rose-600,
+html.light button.bg-rose-600 * {
+  color: #ffffff !important;
+}
+
+/* Primary CTA cyan gradient button keeps dark text in both modes */
+html.light .bg-gradient-to-r.from-cyan-500,
+html.light .bg-gradient-to-r.from-cyan-500 *,
+html.light button.from-cyan-500,
+html.light button.from-cyan-500 * {
+  color: #020617 !important;
+}
+
+/* Light mode form inputs, selects, textareas */
+html.light input[type="text"],
+html.light input[type="number"],
+html.light input[type="search"],
+html.light select,
+html.light textarea {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+html.light select option {
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
+/* Light mode status badges & indicator cards */
+html.light .bg-emerald-950,
+html.light .bg-emerald-950\/20,
+html.light .bg-emerald-950\/30,
+html.light .bg-emerald-950\/40,
+html.light .bg-emerald-950\/60 {
+  background-color: #ecfdf5 !important;
+  border-color: #a7f3d0 !important;
+}
+html.light .text-emerald-300,
+html.light .text-emerald-400 {
+  color: #047857 !important;
+}
+
+html.light .bg-rose-950,
+html.light .bg-rose-950\/20,
+html.light .bg-rose-950\/30,
+html.light .bg-rose-950\/40,
+html.light .bg-rose-950\/60 {
+  background-color: #fff1f2 !important;
+  border-color: #fecdd3 !important;
+}
+html.light .text-rose-300,
+html.light .text-rose-400 {
+  color: #be123c !important;
+}
+
+html.light .bg-amber-950,
+html.light .bg-amber-950\/20,
+html.light .bg-amber-950\/30,
+html.light .bg-amber-950\/40,
+html.light .bg-amber-950\/60 {
+  background-color: #fefce8 !important;
+  border-color: #fef08a !important;
+}
+html.light .text-amber-300,
+html.light .text-amber-400 {
+  color: #b45309 !important;
+}
+
+html.light .bg-cyan-950,
+html.light .bg-cyan-950\/20,
+html.light .bg-cyan-950\/30,
+html.light .bg-cyan-950\/40,
+html.light .bg-cyan-950\/60 {
+  background-color: #ecfeff !important;
+  border-color: #a5f3fc !important;
+}
+html.light .text-cyan-300,
+html.light .text-cyan-400 {
+  color: #0e7490 !important;
+}
+
+html.light .bg-purple-950,
+html.light .bg-purple-950\/20,
+html.light .bg-purple-950\/30,
+html.light .bg-purple-950\/40,
+html.light .bg-purple-950\/60 {
+  background-color: #faf5ff !important;
+  border-color: #e9d5ff !important;
+}
+html.light .text-purple-300,
+html.light .text-purple-400 {
+  color: #7e22ce !important;
+}
+
+html.light .bg-blue-950,
+html.light .bg-blue-950\/20,
+html.light .bg-blue-950\/30,
+html.light .bg-blue-950\/40,
+html.light .bg-blue-950\/60 {
+  background-color: #eff6ff !important;
+  border-color: #bfdbfe !important;
+}
+html.light .text-blue-300,
+html.light .text-blue-400 {
+  color: #1d4ed8 !important;
+}
+
+/* Crisp subtle card shadow in light mode */
+html.light .bg-space-900 {
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05), 0 1px 2px -1px rgb(0 0 0 / 0.05);
 }
 
 /* Custom scrollbars */
@@ -15,13 +192,24 @@
   width: 8px;
   height: 8px;
 }
-::-webkit-scrollbar-track {
+html.dark ::-webkit-scrollbar-track {
   background: #0b0f19;
 }
-::-webkit-scrollbar-thumb {
+html.dark ::-webkit-scrollbar-thumb {
   background: #1e293b;
   border-radius: 4px;
 }
-::-webkit-scrollbar-thumb:hover {
+html.dark ::-webkit-scrollbar-thumb:hover {
   background: #334155;
+}
+
+html.light ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+html.light ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }

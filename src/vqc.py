@@ -119,25 +119,51 @@ class VariationalQuantumClassifier:
         self.weights = [round(rng.uniform(-math.pi / 2, math.pi / 2), 4) for _ in range(self.num_params)]
 
     def save_weights(self, path: Path = WEIGHTS_FILE):
-        path.parent.mkdir(parents=True, exist_ok=True)
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump({
-                "weights": self.weights,
-                "num_qubits": self.num_qubits,
-                "layers": self.layers,
-                "num_params": self.num_params,
-            }, f, indent=2)
+        try:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump({
+                    "weights": self.weights,
+                    "num_qubits": self.num_qubits,
+                    "layers": self.layers,
+                    "num_params": self.num_params,
+                }, f, indent=2)
+        except (OSError, PermissionError):
+            try:
+                from src.storage import get_writable_dir
+                fallback_path = get_writable_dir("processed") / "trained_vqc_weights.json"
+                with open(fallback_path, "w", encoding="utf-8") as f:
+                    json.dump({
+                        "weights": self.weights,
+                        "num_qubits": self.num_qubits,
+                        "layers": self.layers,
+                        "num_params": self.num_params,
+                    }, f, indent=2)
+            except Exception:
+                pass
 
     def load_weights(self, path: Path = WEIGHTS_FILE) -> bool:
-        if not path.exists():
-            return False
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-            self.weights = data["weights"]
-            self.num_qubits = data.get("num_qubits", 4)
-            self.layers = data.get("layers", 2)
-            self.num_params = len(self.weights)
-        return True
+        search_paths = [path]
+        try:
+            from src.storage import get_read_dirs
+            for r_dir in get_read_dirs("processed"):
+                search_paths.append(r_dir / "trained_vqc_weights.json")
+        except Exception:
+            pass
+
+        for p in search_paths:
+            if p.exists():
+                try:
+                    with open(p, "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                    self.weights = data["weights"]
+                    self.num_qubits = data.get("num_qubits", 4)
+                    self.layers = data.get("layers", 2)
+                    self.num_params = len(self.weights)
+                    return True
+                except Exception:
+                    continue
+        return False
 
     def predict_single_ideal(self, features: List[float]) -> Tuple[float, int]:
         """Runs ideal statevector inference on a single sample."""

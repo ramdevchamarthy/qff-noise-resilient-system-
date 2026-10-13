@@ -1,0 +1,44 @@
+{
+  "model_id": "vqc_1791829092_42",
+  "name": "Custom Pipeline VQC",
+  "num_qubits": 4,
+  "layers": 2,
+  "num_params": 16,
+  "weights": [
+    0.40145,
+    -1.50997,
+    -0.80279,
+    -0.79823,
+    0.61209,
+    0.59165,
+    1.01215,
+    -1.48283,
+    -0.06017,
+    -1.49497,
+    -0.75309,
+    0.14761,
+    -1.70735,
+    -0.99869,
+    0.65603,
+    0.27201
+  ],
+  "epochs": 5,
+  "final_loss": 0.5692,
+  "train_loss_history": [
+    0.7498,
+    0.7293,
+    0.5761,
+    0.6585,
+    0.5692
+  ],
+  "dataset_fingerprint": "1e659b72f60cdd0f",
+  "train_accuracy": 0.9091,
+  "feature_columns": [
+    "rr_interval_ms",
+    "qrs_duration_ms",
+    "r_peak_mv",
+    "st_segment_mv"
+  ],
+  "target_column": "arrhythmia_label",
+  "created_at": "2026-10-12T18:18:12Z"
+}

@@ -2,15 +2,123 @@
 <html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2306b6d4' stroke-width='2'><circle cx='12' cy='12' r='10'/><path d='m4.93 4.93 4.24 4.24'/><path d='m14.83 9.17 4.24-4.24'/><path d='m14.83 14.83 4.24 4.24'/><path d='m9.17 14.83-4.24 4.24'/></svg>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QFF 2026 — Noise-Resilient Variational Classifier (PS-Q3)</title>
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('qresq-theme');
+          if (saved === 'light') {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+            document.documentElement.style.colorScheme = 'light';
+          } else {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+            document.documentElement.style.colorScheme = 'dark';
+          }
+        } catch(e) {}
+      })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2306b6d4' stroke-width='2'><circle cx='12' cy='12' r='10'/><path d='m4.93 4.93 4.24 4.24'/><path d='m14.83 9.17 4.24-4.24'/><path d='m14.83 14.83 4.24 4.24'/><path d='m9.17 14.83-4.24 4.24'/></svg>" />
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        min-height: 100%;
+        transition: background-color 0.2s ease, color 0.2s ease;
+      }
+      html.dark, html.dark body {
+        background-color: #060911 !important;
+        color: #f1f5f9 !important;
+        color-scheme: dark;
+      }
+      html.light, html.light body {
+        background-color: #f8fafc !important;
+        color: #0f172a !important;
+        color-scheme: light;
+      }
+      @keyframes qresq-spin { to { transform: rotate(360deg); } }
+    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   </head>
   <body class="bg-space-950 text-slate-100 antialiased selection:bg-cyan-500/30 selection:text-cyan-300">
-    <div id="root"></div>
+    <div id="root">
+      <div style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #060911; color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; padding: 20px; box-sizing: border-box; text-align: center;">
+        <div style="position: relative; width: 56px; height: 56px; margin-bottom: 20px;">
+          <div style="position: absolute; inset: 0; border-radius: 50%; border: 3px solid rgba(6, 182, 212, 0.2);"></div>
+          <div style="position: absolute; inset: 0; border-radius: 50%; border: 3px solid transparent; border-top-color: #06b6d4; animation: qresq-spin 1s linear infinite;"></div>
+          <div style="position: absolute; inset: 10px; border-radius: 50%; border: 2px solid transparent; border-bottom-color: #38bdf8; animation: qresq-spin 0.6s linear infinite reverse;"></div>
+        </div>
+        <div style="font-size: 15px; font-weight: 700; letter-spacing: -0.01em; color: #ffffff; margin-bottom: 6px;">
+          Q-ResQ Quantum Machine Learning
+        </div>
+        <div style="font-size: 12px; color: #94a3b8; font-family: 'JetBrains Mono', monospace; max-width: 320px; line-height: 1.5;">
+          Initializing Variational Classifier & Mitigation Engine...
+        </div>
+      </div>
+    </div>
+    <script>
+      (function() {
+        window.__QRESQ_MOUNTED__ = false;
+        var startupErrors = [];
+        window.addEventListener('error', function(e) {
+          if (!window.__QRESQ_MOUNTED__) {
+            var msg = e.message || (e.error && e.error.message) || 'Script execution error';
+            startupErrors.push(msg);
+            showStartupRecovery(msg);
+          }
+        });
+        window.addEventListener('unhandledrejection', function(e) {
+          if (!window.__QRESQ_MOUNTED__) {
+            var msg = (e.reason && e.reason.message) || String(e.reason) || 'Unhandled promise rejection';
+            startupErrors.push(msg);
+            showStartupRecovery(msg);
+          }
+        });
+
+        function showStartupRecovery(detail) {
+          if (window.__QRESQ_MOUNTED__) return;
+          var root = document.getElementById('root');
+          if (!root) return;
+          if (root.querySelector('header') || root.querySelector('main') || root.querySelector('nav')) {
+            window.__QRESQ_MOUNTED__ = true;
+            return;
+          }
+          var errSummary = detail || (startupErrors.length ? startupErrors.join('; ') : 'Client interface took longer than 18 seconds to initialize. This typically occurs when a network interruption or cached older bundle stalled module evaluation.');
+          root.innerHTML = `
+            <div style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #060911; color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 24px; box-sizing: border-box; text-align: center;">
+              <div style="max-width: 480px; width: 100%; background: #0b0f19; border: 1px solid rgba(244, 63, 94, 0.4); border-radius: 16px; padding: 24px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);">
+                <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(244, 63, 94, 0.3); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; color: #fb7185; font-size: 20px; font-weight: bold;">!</div>
+                <h2 style="font-size: 16px; font-weight: 700; color: #ffffff; margin: 0 0 8px 0;">Initialization Timeout</h2>
+                <p style="font-size: 12px; color: #94a3b8; line-height: 1.5; margin: 0 0 16px 0;">
+                  The quantum application interface could not finish mounting.
+                </p>
+                <div style="background: #04060a; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #f43f5e; text-align: left; max-height: 120px; overflow-y: auto; word-break: break-word; margin-bottom: 20px;">
+                  ` + errSummary + `
+                </div>
+                <div style="display: flex; gap: 10px; flex-direction: column;">
+                  <button onclick="window.location.reload(true)" style="width: 100%; padding: 10px 16px; border-radius: 10px; background: #06b6d4; color: #020617; font-weight: 700; font-size: 12px; border: none; cursor: pointer;">
+                    Force Reload & Clear Cache
+                  </button>
+                  <button onclick="window.location.href='/'" style="width: 100%; padding: 10px 16px; border-radius: 10px; background: #1e293b; color: #e2e8f0; font-weight: 500; font-size: 12px; border: 1px solid #334155; cursor: pointer;">
+                    Return to Root
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        window.__qresqWatchdog = setTimeout(function() {
+          if (!window.__QRESQ_MOUNTED__) {
+            showStartupRecovery();
+          }
+        }, 18000);
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

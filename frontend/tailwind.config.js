@@ -9,12 +9,12 @@ export default {
     extend: {
       colors: {
         space: {
-          950: '#060911',
-          900: '#0b0f19',
-          850: '#101626',
-          800: '#151e33',
-          700: '#1e293b',
-          600: '#334155',
+          950: 'rgb(var(--space-950, 6 9 17) / <alpha-value>)',
+          900: 'rgb(var(--space-900, 11 15 25) / <alpha-value>)',
+          850: 'rgb(var(--space-850, 16 22 38) / <alpha-value>)',
+          800: 'rgb(var(--space-800, 21 30 51) / <alpha-value>)',
+          700: 'rgb(var(--space-700, 30 41 59) / <alpha-value>)',
+          600: 'rgb(var(--space-600, 51 65 85) / <alpha-value>)',
         },
         cyan: {
           400: '#22d3ee',

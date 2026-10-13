@@ -17,6 +17,39 @@ class Transpiler:
     def __init__(self, processor: QuantumProcessor):
         self.processor = processor
 
+    def find_optimal_layout(self, logical_circuit: QuantumCircuit) -> Dict[int, int]:
+        """
+        Discovers the initial physical qubit embedding that minimizes routing SWAP overhead.
+        Uses distance matrix scoring across 2-qubit interaction pairs.
+        """
+        num_logical = logical_circuit.num_qubits
+        if num_logical > self.processor.num_qubits:
+            return {i: i for i in range(num_logical)}
+
+        cx_edges = [
+            (qubits[0], qubits[1])
+            for name, qubits, _ in logical_circuit.instructions
+            if len(qubits) == 2
+        ]
+        if not cx_edges:
+            return {i: i for i in range(num_logical)}
+
+        import itertools
+        qubit_pool = list(range(self.processor.num_qubits))
+        best_layout = {i: i for i in range(num_logical)}
+        min_score = float("inf")
+
+        for perm in itertools.permutations(qubit_pool, num_logical):
+            cand_layout = {l_idx: perm[l_idx] for l_idx in range(num_logical)}
+            score = sum(self.processor.distance_matrix[cand_layout[c]][cand_layout[t]] for c, t in cx_edges)
+            if score < min_score:
+                min_score = score
+                best_layout = cand_layout
+                # Perfect native adjacency embedding (distance = 1 for all interactions)
+                if score == len(cx_edges):
+                    break
+        return best_layout
+
     def transpile(
         self,
         logical_circuit: QuantumCircuit,
@@ -32,10 +65,9 @@ class Transpiler:
                 f"Logical circuit requires {num_logical} qubits, but processor has only {self.processor.num_qubits} qubits."
             )
 
-        # Default greedy or identity placement
+        # Find layout that minimizes routing SWAPs if none specified
         if initial_layout is None:
-            # For 4 qubits on Processor A (5 qubits), layout: 0->0, 1->1, 2->2, 3->3
-            initial_layout = {i: i for i in range(num_logical)}
+            initial_layout = self.find_optimal_layout(logical_circuit)
 
         # Current layout: logical qubit -> physical qubit
         logical_to_physical = dict(initial_layout)

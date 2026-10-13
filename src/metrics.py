@@ -9,7 +9,7 @@ Calculates problem-specific clinical ML metrics and common architecture metrics:
 """
 
 import math
-from typing import Dict, List, Tuple, Any
+from typing import Dict, List, Tuple, Any, Optional
 
 
 def compute_classification_metrics(y_true: List[int], y_pred: List[int], y_probs: Optional[List[float]] = None) -> Dict[str, Any]:
@@ -32,6 +32,8 @@ def compute_classification_metrics(y_true: List[int], y_pred: List[int], y_probs
     recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
     precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
     f1 = (2 * precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+    specificity = tn / (tn + fp) if (tn + fp) > 0 else 0.0
+    balanced_accuracy = (recall + specificity) / 2.0
 
     # Cross-entropy loss if probabilities provided
     loss = 0.0
@@ -45,14 +47,24 @@ def compute_classification_metrics(y_true: List[int], y_pred: List[int], y_probs
     # Standard error of proportion for accuracy: sigma_p = sqrt(p(1-p)/N)
     std_err = math.sqrt(accuracy * (1.0 - accuracy) / n) if n > 0 else 0.0
 
+    is_small_sample = (n < 30)
+    small_sample_warning = (
+        f"Small evaluation cohort (N={n} < 30). Standard error is ±{std_err * 100:.1f}%. "
+        "Metrics should not be interpreted as validated clinical performance estimates."
+    ) if is_small_sample else None
+
     return {
         "sample_count": n,
         "accuracy": round(accuracy, 4),
         "recall": round(recall, 4),
         "precision": round(precision, 4),
         "f1_score": round(f1, 4),
+        "specificity": round(specificity, 4),
+        "balanced_accuracy": round(balanced_accuracy, 4),
         "loss": round(loss, 4),
         "std_error": round(std_err, 4),
+        "is_small_sample": is_small_sample,
+        "small_sample_warning": small_sample_warning,
         "confusion_matrix": {
             "tn": tn,
             "fp": fp,

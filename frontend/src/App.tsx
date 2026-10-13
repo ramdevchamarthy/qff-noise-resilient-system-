@@ -7,23 +7,29 @@ import { RobustnessLab } from './components/RobustnessLab';
 import { ArchitectureComparator } from './components/ArchitectureComparator';
 import { Methodology } from './components/Methodology';
 
+import { API_BASE } from './config';
+
 export function App() {
   const [activeTab, setActiveTab] = useState<string>('dashboard');
   const [samples, setSamples] = useState<any[]>([]);
   const [lastResult, setLastResult] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Fetch initial samples from API on mount
+  // Fetch initial samples from API on mount with bounded timeout
   useEffect(() => {
-    fetch('/api/samples')
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+    fetch(`${API_BASE}/api/samples`, { signal: controller.signal })
       .then((res) => {
         if (res.ok) return res.json();
         throw new Error('Failed to fetch samples');
       })
-      .then((data) => setSamples(data))
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) setSamples(data);
+      })
       .catch((err) => {
-        console.warn('Using built-in patient samples', err);
-        // Fallback sample data in case API is launching
+        console.warn('Using built-in patient samples:', err.message || err);
         setSamples([
           {
             id: 'PAT-1000',
@@ -40,37 +46,54 @@ export function App() {
             waveform: Array.from({ length: 60 }, (_, i) => ({ step: i, voltage: Math.sin(i / 8) * 0.4 })),
           },
         ]);
-      });
+      })
+      .finally(() => clearTimeout(timeoutId));
+
+    return () => {
+      clearTimeout(timeoutId);
+      controller.abort();
+    };
   }, []);
 
-  const handleRunExperiment = async (payload: any) => {
+  const handleRunExperiment = async (payload: any, isBatch: boolean = false) => {
     setIsLoading(true);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 45000);
+
     try {
-      const res = await fetch('/api/experiments/run', {
+      const endpoint = isBatch ? `${API_BASE}/api/experiments/evaluate_batch` : `${API_BASE}/api/experiments/run`;
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
+        signal: controller.signal,
       });
       if (res.ok) {
         const data = await res.json();
         setLastResult(data);
         setActiveTab('results');
       } else {
-        alert('Experiment execution failed on backend.');
+        const errJson = await res.json().catch(() => ({}));
+        alert(`Experiment execution failed: ${errJson.detail || 'Server error'}`);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Experiment request error:', err);
-      alert('Unable to reach backend API. Ensure server is running on http://127.0.0.1:8000.');
+      if (err.name === 'AbortError') {
+        alert('Quantum experiment execution timed out (45s limit reached). Please try again with fewer shots or samples.');
+      } else {
+        alert('Unable to reach backend API. Please ensure the backend server is reachable.');
+      }
     } finally {
+      clearTimeout(timeoutId);
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-space-950 text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-space-950 text-slate-100 flex flex-col font-sans overflow-x-hidden">
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      <main className="flex-1 p-6 md:p-8">
+      <main className="flex-1 p-3.5 sm:p-6 md:p-8 max-w-7xl w-full mx-auto overflow-x-hidden">
         {activeTab === 'dashboard' && (
           <Dashboard
             onStartExperiment={() => setActiveTab('workspace')}
@@ -90,6 +113,7 @@ export function App() {
           <ResultsDashboard
             result={lastResult}
             onNavigateToRobustness={() => setActiveTab('robustness')}
+            onNavigateToWorkspace={() => setActiveTab('workspace')}
           />
         )}
 
