@@ -62,6 +62,7 @@ notebook = {
                 "from src.processors import load_all_processors, load_processor\n",
                 "from src.quantum_core import QuantumCircuit, StatevectorSimulator\n",
                 "from src.transpiler import Transpiler, compare_transpilation_on_all_processors\n",
+                "from src.routing import transpile_for_processor\n",
                 "from src.noise_models import CalibratedNoiseModel, NoisyCircuitExecutor\n",
                 "from src.mitigation import QuantumMitigationEngine, ReadoutMitigator, ZeroNoiseExtrapolator\n",
                 "from src.vqc import VariationalQuantumClassifier, ClassicalLogisticRegression, build_vqc_circuit\n",
@@ -161,8 +162,10 @@ notebook = {
             "source": [
                 "### Step 5: Hardware Transpilation & Architecture Benchmarking (A vs B vs C)\n",
                 "Compare the physical gate routing across all three architectures for the 4-qubit cyclic ansatz.\n",
-                "*Note on Transpilation Models*: This step displays the structural graph-routing model (`src/transpiler.py`) with layout swap-back preservation (Depth 23, 8 SWAPs, 32 physical CX on Proc A; Depth 15, 0 SWAPs, 8 physical CX on Proc B).\n",
-                "In Step 6 and the benchmark tables, Qiskit's native basis-gate transpiler (`src/routing.py`, `rz/sx/x/cx`, Sabre layout) is used for Aer simulation (Depth 31, 3 SWAPs, 17 physical CX on Proc A; Depth 18, 0 SWAPs, 8 physical CX on Proc B)."
+                "\n",
+                "To prevent compilation ambiguity, both standard compilation models are explicitly reported and separated:\n",
+                "1. **Qiskit Native Basis-Gate Transpiler** (`src/routing.py`, `optimization_level=1, seed_transpiler=42`, basis `['rz', 'sx', 'x', 'cx']`): Target basis gate decomposition used in Aer simulator executions.\n",
+                "2. **Custom Structural Graph-Routing Model** (`src/transpiler.py`): Un-decomposed topological routing enforcing layout coordinate preservation via bidirectional SWAPs."
             ]
         },
         {
@@ -172,11 +175,20 @@ notebook = {
             "outputs": [],
             "source": [
                 "sample_qc = build_vqc_circuit(X_test[0], vqc.weights, 4, 2)\n",
-                "transpile_comp = compare_transpilation_on_all_processors(sample_qc)\n",
+                "procs = load_all_processors()\n",
                 "\n",
+                "print('=== MODEL 1: AUTHORITATIVE QISKIT NATIVE TRANSPILATION (Basis Gates: rz, sx, x, cx) ===')\n",
                 "print(f'{\"Processor\":<15} | {\"Depth\":<6} | {\"Alg CX\":<7} | {\"SWAPs\":<6} | {\"Phys CX\":<8} | {\"Topology Description\"}')\n",
                 "print('-'*75)\n",
-                "for proc_name, desc in [('A', '5-Qubit Star-Linear (Hub Q1)'), ('B', '9-Qubit Heavy-Hex Lattice'), ('C', '8-Qubit Ring-Augmented')]:\n",
+                "for p_key, p_desc in [('A', '5-Qubit Star-Linear (Hub Q1)'), ('B', '9-Qubit Heavy-Hex Lattice'), ('C', '8-Qubit Ring-Augmented (Phase 2 Projected)')]:\n",
+                "    _, arch = transpile_for_processor(sample_qc, procs[p_key].get_stats(), seed_transpiler=42)\n",
+                "    print(f'Processor {p_key:<5} | {arch[\"circuit_depth\"]:>5} | {arch[\"algorithmic_cx\"]:>6} | {arch[\"swap_count\"]:>5} | {arch[\"total_physical_cx\"]:>7} | {p_desc}')\n",
+                "\n",
+                "print('\\n=== MODEL 2: CUSTOM STRUCTURAL GRAPH ROUTER (Coordinate-Preserving Layout) ===')\n",
+                "transpile_comp = compare_transpilation_on_all_processors(sample_qc)\n",
+                "print(f'{\"Processor\":<15} | {\"Depth\":<6} | {\"Alg CX\":<7} | {\"SWAPs\":<6} | {\"Phys CX\":<8} | {\"Topology Description\"}')\n",
+                "print('-'*75)\n",
+                "for proc_name, desc in [('A', '5-Qubit Star-Linear (8 bidirectional SWAPs)'), ('B', '9-Qubit Heavy-Hex Lattice (Native 4-cycle)'), ('C', '8-Qubit Ring-Augmented (Native Ring)')]:\n",
                 "    t = transpile_comp[proc_name]\n",
                 "    print(f'Processor {proc_name:<5} | {t[\"transpiled_depth\"]:>5} | {t[\"algorithmic_cx\"]:>6} | {t[\"swap_count\"]:>5} | {t[\"total_physical_cx\"]:>7} | {desc}')"
             ]
@@ -195,7 +207,6 @@ notebook = {
             "metadata": {},
             "outputs": [],
             "source": [
-                "procs = load_all_processors()\n",
                 "proc_a = procs['A']\n",
                 "proc_b = procs['B']\n",
                 "\n",
@@ -213,22 +224,22 @@ notebook = {
                 "res_b_dual  = vqc.evaluate_batch(X_test, y_test, processor=proc_b, noise_model=noise_b, mitigation_method='dual')\n",
                 "\n",
                 "print('=== PROCESSOR A MEASURED METRICS ===')\n",
-                "print(f'  Unmitigated Noisy: Accuracy={res_a_noisy[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall={res_a_noisy[\"ml_metrics\"][\"recall\"]*100:.1f}%, Circuits={res_a_noisy[\"architecture_metrics\"][\"circuits_executed\"]}')\n",
-                "print(f'  ZNE Mitigated:     Accuracy={res_a_zne[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall={res_a_zne[\"ml_metrics\"][\"recall\"]*100:.1f}%, Circuits={res_a_zne[\"architecture_metrics\"][\"circuits_executed\"]}')\n",
-                "print(f'  Readout Mitigated: Accuracy={res_a_rem[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall={res_a_rem[\"ml_metrics\"][\"recall\"]*100:.1f}%, Circuits={res_a_rem[\"architecture_metrics\"][\"circuits_executed\"]}')\n",
-                "print(f'  Dual Mitigated:    Accuracy={res_a_dual[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall={res_a_dual[\"ml_metrics\"][\"recall\"]*100:.1f}%, Circuits={res_a_dual[\"architecture_metrics\"][\"circuits_executed\"]}')\n",
+                "print(f'  Unmitigated Noisy: Accuracy={res_a_noisy[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall={res_a_noisy[\"ml_metrics\"][\"recall\"]*100:.1f}%, Loss={res_a_noisy[\"ml_metrics\"][\"loss\"]:.4f}, Circuits={res_a_noisy[\"architecture_metrics\"][\"circuits_executed\"]}')\n",
+                "print(f'  ZNE Mitigated:     Accuracy={res_a_zne[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall={res_a_zne[\"ml_metrics\"][\"recall\"]*100:.1f}%, Loss={res_a_zne[\"ml_metrics\"][\"loss\"]:.4f}, Circuits={res_a_zne[\"architecture_metrics\"][\"circuits_executed\"]}')\n",
+                "print(f'  Readout Mitigated: Accuracy={res_a_rem[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall={res_a_rem[\"ml_metrics\"][\"recall\"]*100:.1f}%, Loss={res_a_rem[\"ml_metrics\"][\"loss\"]:.4f}, Circuits={res_a_rem[\"architecture_metrics\"][\"circuits_executed\"]}')\n",
+                "print(f'  Dual Mitigated:    Accuracy={res_a_dual[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall={res_a_dual[\"ml_metrics\"][\"recall\"]*100:.1f}%, Loss={res_a_dual[\"ml_metrics\"][\"loss\"]:.4f}, Circuits={res_a_dual[\"architecture_metrics\"][\"circuits_executed\"]}')\n",
                 "\n",
                 "print('=== PROCESSOR B MEASURED METRICS ===')\n",
-                "print(f'  Unmitigated Noisy: Accuracy={res_b_noisy[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall={res_b_noisy[\"ml_metrics\"][\"recall\"]*100:.1f}%')\n",
-                "print(f'  Dual Mitigated:    Accuracy={res_b_dual[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall={res_b_dual[\"ml_metrics\"][\"recall\"]*100:.1f}%')"
+                "print(f'  Unmitigated Noisy: Accuracy={res_b_noisy[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall={res_b_noisy[\"ml_metrics\"][\"recall\"]*100:.1f}%, Loss={res_b_noisy[\"ml_metrics\"][\"loss\"]:.4f}')\n",
+                "print(f'  Dual Mitigated:    Accuracy={res_b_dual[\"ml_metrics\"][\"accuracy\"]*100:.1f}%, Recall={res_b_dual[\"ml_metrics\"][\"recall\"]*100:.1f}%, Loss={res_b_dual[\"ml_metrics\"][\"loss\"]:.4f}')"
             ]
         },
         {
             "cell_type": "markdown",
             "metadata": {},
             "source": [
-                "### Step 7: Repeated-Run Variance and Uncertainty Reporting\n",
-                "Measure empirical variance across independent random sampling runs to quantify shot noise."
+                "### Step 7: Repeated-Run Variance and Uncertainty Reporting (Processors A & B)\n",
+                "Measure empirical variance across independent random seeds ([42, 101, 777]) to quantify finite-shot sampling uncertainty on both architectures."
             ]
         },
         {
@@ -237,27 +248,28 @@ notebook = {
             "metadata": {},
             "outputs": [],
             "source": [
-                "noisy_accs = []\n",
-                "dual_accs = []\n",
                 "seeds = [42, 101, 777]\n",
-                "noise_model = CalibratedNoiseModel.from_processor(proc_a.get_stats())\n",
                 "\n",
-                "for s in seeds:\n",
-                "    ra = vqc.evaluate_batch(X_test, y_test, processor=proc_a, noise_model=noise_model, mitigation_method='none', seed=s)\n",
-                "    rd = vqc.evaluate_batch(X_test, y_test, processor=proc_a, noise_model=noise_model, mitigation_method='dual', seed=s)\n",
-                "    noisy_accs.append(ra['ml_metrics']['accuracy'])\n",
-                "    dual_accs.append(rd['ml_metrics']['accuracy'])\n",
-                "\n",
-                "print('Repeated Runs across 3 Seeds on Processor A:')\n",
-                "print(f'  Noisy Accuracies: {[round(a*100, 1) for a in noisy_accs]}% -> Mean: {np.mean(noisy_accs)*100:.1f}% +/- {np.std(noisy_accs)*100:.2f}%')\n",
-                "print(f'  Dual Mitigated:   {[round(a*100, 1) for a in dual_accs]}% -> Mean: {np.mean(dual_accs)*100:.1f}% +/- {np.std(dual_accs)*100:.2f}%')"
+                "for p_key, proc, noise in [('Processor A', proc_a, noise_a), ('Processor B', proc_b, noise_b)]:\n",
+                "    u_accs, d_accs = [], []\n",
+                "    for s in seeds:\n",
+                "        ru = vqc.evaluate_batch(X_test, y_test, processor=proc, noise_model=noise, mitigation_method='none', seed=s)\n",
+                "        rd = vqc.evaluate_batch(X_test, y_test, processor=proc, noise_model=noise, mitigation_method='dual', seed=s)\n",
+                "        u_accs.append(ru['ml_metrics']['accuracy'])\n",
+                "        d_accs.append(rd['ml_metrics']['accuracy'])\n",
+                "    u_mean, u_std, u_se = np.mean(u_accs)*100, np.std(u_accs)*100, (np.std(u_accs)/np.sqrt(len(seeds)))*100\n",
+                "    d_mean, d_std, d_se = np.mean(d_accs)*100, np.std(d_accs)*100, (np.std(d_accs)/np.sqrt(len(seeds)))*100\n",
+                "    print(f'=== {p_key} Repeated Runs across 3 Seeds {[42, 101, 777]} ===')\n",
+                "    print(f'  Unmitigated Accuracies: {[round(a*100, 1) for a in u_accs]}% -> Mean: {u_mean:.1f}% +/- {u_std:.2f}% (SE: {u_se:.2f}%)')\n",
+                "    print(f'  Dual Mitigated:         {[round(a*100, 1) for a in d_accs]}% -> Mean: {d_mean:.1f}% +/- {d_std:.2f}% (SE: {d_se:.2f}%)\\n')"
             ]
         },
         {
             "cell_type": "markdown",
             "metadata": {},
             "source": [
-                "### Step 8: Mitigation Overhead & Shot Accounting Analysis"
+                "### Step 8: Mitigation Overhead & Shot Accounting Analysis\n",
+                "Detailed breakdown separating evaluation circuits/shots from offline readout calibration circuits/shots."
             ]
         },
         {
@@ -266,14 +278,18 @@ notebook = {
             "metadata": {},
             "outputs": [],
             "source": [
-                "shots_per_circuit = 1024\n",
+                "shots_per_eval = 1024\n",
+                "shots_per_cal = 2048\n",
                 "n_samples = len(X_test)\n",
+                "cal_circuits = 16  # 2^4 basis state calibration circuits for REM\n",
+                "cal_shots = cal_circuits * shots_per_cal  # 32,768 calibration shots\n",
                 "\n",
-                "print(f'{\"Pipeline\":<22} | {\"Circuits/Patient\":<16} | {\"Total Circuits\":<14} | {\"Total Shots\":<12} | {\"Overhead\":<10}')\n",
-                "print('-'*80)\n",
-                "print(f'{\"Unmitigated / REM\":<22} | {1:<16} | {n_samples:<14} | {n_samples * shots_per_circuit:<12} | 1.0x (Baseline)')\n",
-                "print(f'{\"ZNE (r=1,3,5)\":<22} | {3:<16} | {n_samples * 3:<14} | {n_samples * 3 * shots_per_circuit:<12} | 3.0x Circuits')\n",
-                "print(f'{\"Dual (ZNE + REM)\":<22} | {3:<16} | {n_samples * 3:<14} | {n_samples * 3 * shots_per_circuit:<12} | 3.0x Circuits')"
+                "print(f'{\"Pipeline\":<22} | {\"Eval Circ\":<10} | {\"Eval Shots\":<11} | {\"Cal Circ\":<9} | {\"Cal Shots\":<10} | {\"Total Shots\":<12} | {\"Overhead\":<10}')\n",
+                "print('-'*95)\n",
+                "print(f'{\"Unmitigated Noisy\":<22} | {n_samples:<10} | {n_samples*shots_per_eval:<11} | {0:<9} | {0:<10} | {n_samples*shots_per_eval:<12} | 1.0x')\n",
+                "print(f'{\"Readout Mitigated\":<22} | {n_samples:<10} | {n_samples*shots_per_eval:<11} | {cal_circuits:<9} | {cal_shots:<10} | {n_samples*shots_per_eval + cal_shots:<12} | 1.0x eval + cal')\n",
+                "print(f'{\"ZNE Mitigated\":<22} | {n_samples*3:<10} | {n_samples*3*shots_per_eval:<11} | {0:<9} | {0:<10} | {n_samples*3*shots_per_eval:<12} | 3.0x eval')\n",
+                "print(f'{\"Dual (ZNE + REM)\":<22} | {n_samples*3:<10} | {n_samples*3*shots_per_eval:<11} | {cal_circuits:<9} | {cal_shots:<10} | {n_samples*3*shots_per_eval + cal_shots:<12} | 3.0x eval + cal')"
             ]
         },
         {

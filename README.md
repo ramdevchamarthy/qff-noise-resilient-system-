@@ -57,15 +57,24 @@ It provides rigorous, reproducible benchmarks across the organizer-prescribed **
 
 All values are empirically derived from genuine Qiskit circuit transpilation (`optimization_level=1`, `seed_transpiler=42`) and finite-shot (1024 shots) `qiskit_aer.AerSimulator` executions using the trained model (`data/processed/trained_vqc_weights.json`) over the held-out test partition ($N=50$, 31 normal / 19 arrhythmia). No metrics are hardcoded or fabricated:
 
-| Platform / Configuration | Accuracy | Recall (Sensitivity) | Precision | F1-Score | Binary Loss | Transpiled Depth | Algorithmic CX | SWAP Count | Total Physical CX | Exec Overhead |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Classical Logistic Regression** | **90.0%** | **73.7%** | 100.0% | 84.9% | 0.3120 | — | — | — | — | 1× (Classical) |
-| **Ideal Reference VQC** | **74.0%** | **31.6%** | 100.0% | 48.0% | 0.5427 | 5 (Logical) | 8 | 0 | 8 | 1× |
-| **Processor A (Unmitigated Noisy)** | 74.0% | 31.6% | 100.0% | 48.0% | 0.5552 *(Degraded)* | 31 | 8 | 3 | 17 | 1× (50 circuits, 51.2k shots) |
-| **Processor A (Dual Mitigated)** | **74.0%** | **31.6%** | 100.0% | 48.0% | **0.5499** *(Recovered)* | 31 | 8 | 3 | 17 | 3× (150 circuits, 153.6k shots) |
-| **Processor B (Unmitigated Noisy)** | **76.0%** | **36.8%** *(Native Ring)* | 100.0% | 53.8% | 0.5543 | 18 | 8 | 0 | 8 | 1× (50 circuits, 51.2k shots) |
-| **Processor B (Dual Mitigated)** | 74.0% | 31.6% *(Shot Variance)* | 100.0% | 48.0% | **0.5471** *(Recovered)* | 18 | 8 | 0 | 8 | 3× (150 circuits, 153.6k shots) |
-| **Processor C (Proposed Phase 2)** | *Projected* | *Projected* | — | — | — | **18** | 8 | **0** | **8** | 1× Native |
+| Platform / Configuration | Accuracy | Recall (Sensitivity) | Precision | F1-Score | Binary Loss | Transpiled Depth (Sabre) | Algorithmic CX | SWAP Count | Total Physical CX | Eval Circuits (Shots) | Calib Circuits (Shots) | Total Executed Shots |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Classical Logistic Regression** | **90.0%** | **73.7%** | 100.0% | 84.9% | 0.3120 | — | — | — | — | 1× (Classical) | — | — |
+| **Ideal Reference VQC** | **74.0%** | **31.6%** | 100.0% | 48.0% | 0.5427 | 5 (Logical) | 8 | 0 | 8 | 50 (51.2k) | 0 (0) | 51,200 |
+| **Processor A (Unmitigated Noisy)** | 74.0% | 31.6% | 100.0% | 48.0% | 0.5552 *(Degraded)* | 31 | 8 | 3 | 17 | 50 (51.2k) | 0 (0) | 51,200 |
+| **Processor A (Dual Mitigated)** | **74.0%** | **31.6%** | 100.0% | 48.0% | **0.5499** *(Recovered)* | 31 | 8 | 3 | 17 | 150 (153.6k) | 16 (32.8k) | **186,368** |
+| **Processor B (Unmitigated Noisy)** | **76.0%** | **36.8%** *(Native Ring)* | 100.0% | 53.8% | 0.5543 | 18 | 8 | 0 | 8 | 50 (51.2k) | 0 (0) | 51,200 |
+| **Processor B (Dual Mitigated)** | 74.0% | 31.6% *(Shot Variance)* | 100.0% | 48.0% | **0.5471** *(Recovered)* | 18 | 8 | 0 | 8 | 150 (153.6k) | 16 (32.8k) | **186,368** |
+| **Processor C (Proposed Phase 2)** | *Projected* | *Projected* | — | — | — | **18** | 8 | **0** | **8** | 150 (153.6k) | 16 (32.8k) | *Projected 186.4k* |
+
+> **Repeated-Run Variance & Statistical Uncertainty (Seeds [42, 101, 777])**:
+> - **Processor A**:
+>   - Unmitigated Noisy: Accuracies [74.0%, 72.0%, 72.0%] -> Mean: **72.7%**, Std: **±0.94%**, Standard Error (SE): **±0.54%**
+>   - Dual Mitigated: Accuracies [74.0%, 72.0%, 72.0%] -> Mean: **72.7%**, Std: **±0.94%**, Standard Error (SE): **±0.54%**
+> - **Processor B**:
+>   - Unmitigated Noisy: Accuracies [76.0%, 72.0%, 74.0%] -> Mean: **74.0%**, Std: **±1.63%**, Standard Error (SE): **±0.94%**
+>   - Dual Mitigated: Accuracies [74.0%, 72.0%, 74.0%] -> Mean: **73.3%**, Std: **±0.94%**, Standard Error (SE): **±0.54%**
+> - *Observation*: Dual error mitigation stabilizes sampling variance across random seeds on Processor B, reducing standard deviation from ±1.63% down to ±0.94%.
 
 > **Reconciliation of Hardware Circuit Metrics**:
 > - **Authoritative Qiskit Native Transpilation (Table above & `results/tables/`)**: When compiling into hardware basis gates `['rz', 'sx', 'x', 'cx']` with `qiskit.transpile(optimization_level=1, seed_transpiler=42)`, Qiskit's Sabre router discovers dynamic physical permutations:
@@ -151,6 +160,7 @@ npm run dev
 ```
 qff-noise-resilient-system/
 ├── README.md                      # Comprehensive project guide and official report
+├── report.md                      # Official Phase 1 technical analysis & interpretation report
 ├── main.ipynb                     # Fully executed reproducible Jupyter notebook
 ├── requirements.txt               # Verified software dependencies
 ├── create_notebook.py             # Notebook builder utility
@@ -208,6 +218,7 @@ qff-noise-resilient-system/
 │   │   ├── processor_A_metrics.csv
 │   │   ├── processor_B_metrics.csv
 │   │   ├── AB_comparison.csv
+│   │   ├── final_comparison.csv
 │   │   └── robustness_sweep.csv
 │   └── figures/
 │       ├── processor_A_graph.png
@@ -219,6 +230,7 @@ qff-noise-resilient-system/
 ├── docs/
 │   ├── requirements.md            # Verified hackathon requirements
 │   ├── compliance-matrix.md       # Evidence-based compliance matrix
+│   ├── dataset-provenance.md      # Dataset & model provenance audit report
 │   ├── problem-analysis.md        # Technical problem definition
 │   ├── architecture.md            # System architecture document
 │   ├── testing.md                 # Test plan and validation strategy

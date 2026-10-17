@@ -3,7 +3,7 @@ Physical Qubits,5,9,8,+4 Qubits,Heavy-Hex lattice layout vs star-chain
 Coupling Edges,4,12,12,+8 Edges,Heavy-Hex introduces alternate cyclic paths
 Transpiled Depth,31,18,18,-13,"Processor B natively embeds 4-cycle, lowering basis-gate depth from 31 to 18"
 Algorithmic CX,8,8,8,0,Identical logical ansatz
-SWAP Count,3,0,0,-3,"Processor B contains native physical 4-cycle; zero SWAPs needed (A requires 3 SWAPs under Qiskit Sabre)"
+SWAP Count,3,0,0,-3,Processor B contains native physical 4-cycle; zero SWAPs needed (A requires 3 SWAPs under Qiskit Sabre)
 Total Physical CX,17,8,8,-9,"Eliminating 3 SWAPs saves 9 physical CX gates (3 CX/SWAP; A=17, B=8, C=8)"
 Unmitigated Accuracy,0.74,0.76,N/A,+0.02,Lower gate depth on B preserves state fidelity under noise
 Dual Mitigated Accuracy,0.74,0.74,N/A,+0.0,ZNE recovers fidelity on A; lower-noise B experiences sampling variance

@@ -1,0 +1,29 @@
+metric,processor_a,processor_b,difference_b_minus_a,notes_and_architectural_cause
+Physical Qubits,5,9,+4,Heavy-Hex lattice layout vs star-chain topology
+Coupling Edges,4,12,+8,Heavy-Hex introduces alternate cyclic routing paths
+Transpiled Depth (Qiskit Sabre),31,18,-13,"Processor B natively embeds 4-cycle, reducing basis-gate depth"
+Algorithmic CX,8,8,0,Identical 4-qubit cyclic ansatz
+SWAP Count (Qiskit Sabre),3,0,-3,Processor B embeds 4-cycle natively; 0 SWAPs required
+Total Physical CX (Qiskit Sabre),17,8,-9,Eliminating 3 SWAPs saves 9 physical CX gates
+Static Structural Depth,23,15,-8,Custom graph router preserving coordinates
+Static Structural SWAPs,8,0,-8,Star hub routing requires 8 bidirectional SWAPs on A
+Static Structural Physical CX,32,8,-24,8 algorithmic CX + 8*3 routing CX
+Unmitigated Accuracy (Seed 42),0.74,0.76,+0.02,Lower CX depth on B preserves state fidelity
+Dual Mitigated Accuracy (Seed 42),0.74,0.74,+0.0,ZNE + REM recovers classification margin
+Unmitigated Binary Loss (Seed 42),0.5552,0.5543,-0.0009,Processor B shows slightly lower entropy accumulation
+Dual Mitigated Binary Loss (Seed 42),0.5499,0.5471,-0.0028,Dual mitigation recovers loss toward ideal baseline (0.5427)
+Mitigated Recall (Seed 42),0.3158,0.3158,+0.0,Clinical sensitivity (6 TP / 19 positive cases)
+Mitigated Precision (Seed 42),1.0,1.0,0.0,Zero false positives achieved (6 TP / 6 predicted positives)
+Mitigated F1-Score (Seed 42),0.48,0.48,0.0,Harmonic mean of precision (1.0) and recall (0.3158)
+3-Seed Mean Unmitigated Acc,0.7267,0.74,+0.0133,"Average over seeds [42, 101, 777]"
+3-Seed Std Unmitigated Acc,0.0094,0.0163,+0.0069,Finite-shot variance across seeds
+3-Seed SE Unmitigated Acc,0.0054,0.0094,+0.004,Standard error of the mean
+3-Seed Mean Dual Mitigated Acc,0.7267,0.7333,+0.0067,Average mitigated performance
+3-Seed Std Dual Mitigated Acc,0.0094,0.0094,+0.0,Mitigation stabilizes variance across seeds
+3-Seed SE Dual Mitigated Acc,0.0054,0.0054,+0.0,Standard error of the mitigated mean
+Evaluation Circuits (Dual),150,150,0,"3 scale factors (r=1,3,5) x 50 test samples"
+Evaluation Shots (Dual),153600,153600,0,150 circuits x 1024 shots
+Calibration Circuits (REM),16,16,0,2^4 basis states measured once and reused
+Calibration Shots (REM),32768,32768,0,16 circuits x 2048 shots
+Total Executed Circuits (Dual),166,166,0,150 eval + 16 cal circuits
+Total Executed Shots (Dual),186368,186368,0,153600 eval + 32768 cal shots

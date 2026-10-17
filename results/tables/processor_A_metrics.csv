@@ -1,6 +1,6 @@
-condition,accuracy,recall,precision,f1_score,loss,circuit_depth,algorithmic_cx,swap_count,total_physical_cx,circuits_executed,total_shots
-Ideal Reference,0.74,0.3158,1.0,0.48,0.5427,31,8,3,17,50,51200
-Unmitigated Noisy,0.74,0.3158,1.0,0.48,0.5552,31,8,3,17,50,51200
-ZNE Mitigated,0.74,0.3158,1.0,0.48,0.5524,31,8,3,17,150,153600
-Readout Mitigated,0.74,0.3158,1.0,0.48,0.5525,31,8,3,17,50,51200
-Dual Mitigated,0.74,0.3158,1.0,0.48,0.5499,31,8,3,17,150,153600
+condition,accuracy,recall,precision,f1_score,loss,circuit_depth,algorithmic_cx,swap_count,total_physical_cx,eval_circuits,eval_shots,calibration_circuits,calibration_shots,total_circuits,total_shots
+Ideal Reference,0.74,0.3158,1.0,0.48,0.5427,31,8,3,17,50,51200,0,0,50,51200
+Unmitigated Noisy,0.74,0.3158,1.0,0.48,0.5552,31,8,3,17,50,51200,0,0,50,51200
+ZNE Mitigated,0.74,0.3158,1.0,0.48,0.5524,31,8,3,17,150,153600,0,0,150,153600
+Readout Mitigated,0.74,0.3158,1.0,0.48,0.5525,31,8,3,17,50,51200,16,32768,66,83968
+Dual Mitigated,0.74,0.3158,1.0,0.48,0.5499,31,8,3,17,150,153600,16,32768,166,186368

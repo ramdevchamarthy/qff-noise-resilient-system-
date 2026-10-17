@@ -10,7 +10,7 @@
 This document provides a transparent, rigorous provenance record for the dataset and variational quantum classifier (VQC) model evaluated in the Q-ResQ Phase 1 submission.
 
 - **Current Evaluation Dataset**: Statistically calibrated synthetic ECG feature dataset (`src/data_loader.py`) modeling 4 clinical biomarkers from the MIT-BIH Arrhythmia Database.
-- **Current Model Parameters**: Deterministic frozen parameter vector ($\vec{\theta} \in \mathbb{R}^{12}$, `seed=42`) evaluated under identical conditions across Ideal, Processor A (Noisy/Mitigated), and Processor B (Noisy/Mitigated).
+- **Current Model Parameters**: 16-parameter variational vector ($\vec{\theta} \in \mathbb{R}^{16}$) trained via SPSA optimization on the ideal statevector simulator starting from `seed=42`, and subsequently held strictly frozen across all hardware benchmarks (Ideal Reference, Processor A Noisy/Mitigated, Processor B Noisy/Mitigated) to isolate hardware architecture and error mitigation effects.
 - **Compliance Status**: **BLOCKED** on upstream artifact provision (PS-Q1/PS-Q2 upstream outputs were not distributed in team workspace or repository).
 - **Integrity Guarantee**: In strict accordance with hackathon ethics, **synthetic data is explicitly disclosed** and never falsely presented as real PhysioNet WFDB records.
 
@@ -37,14 +37,14 @@ The 4 features extracted/generated model key electrophysiological indicators use
 ### 3.2 Statistical Parameter Matching
 In `src/data_loader.py`, the synthetic generator is parameterized as follows:
 - **Sample Count**: $N=250$ total (200 training samples, 50 test samples).
-- **Class Balance**: 50% Normal Sinus Rhythm (Class 0), 50% Arrhythmic/Ectopic (Class 1).
-- **Feature Normalization**: Min-Max scaled to $[0, \pi]$ for angle encoding via $R_y$ gates on 4 qubits.
+- **Class Balance**: 60% Normal Sinus Rhythm (Class 0), 40% Arrhythmic/Ectopic (Class 1) in generation; stratified split yields 31 Normal (0) and 19 Arrhythmia (1) in the held-out test partition ($N=50$).
+- **Feature Normalization**: Min-Max scaled to $[0, \pi]$ using training partition bounds to prevent data leakage for angle encoding via $R_y$ and $R_z$ gates on 4 qubits.
 - **Reproducibility**: Controlled via fixed seed (`seed=42`).
 
 ### 3.3 Variational Model Parameters
-- **Architecture**: 4 qubits, 2 variational layers ($R_y$ and $R_z$ rotations) with full circular entangling $CX$ gates.
-- **Parameter Count**: $4 \times 3 = 12$ variational parameters.
-- **Freezing**: Parameters are initialized with fixed seed (`seed=42`) and held strictly constant across all noisy and mitigated benchmark evaluations to isolate the pure effect of hardware noise and error mitigation.
+- **Architecture**: 4 qubits, 2 variational layers ($R_y$ and $R_z$ rotations) with full cyclic circular entangling $CX$ gates (`0->1, 1->2, 2->3, 3->0`).
+- **Parameter Count**: $2 \text{ layers} \times 4 \text{ qubits} \times 2 \text{ angles} = \mathbf{16}$ variational parameters (`trained_vqc_weights.json`).
+- **Training & Freezing**: Parameters were optimized on the ideal simulator using Simultaneous Perturbation Stochastic Approximation (SPSA, 80 epochs, $a=0.25, c=0.12$) initialized from `seed=42`. Once trained, the parameter vector was saved to `data/processed/trained_vqc_weights.json` and held strictly frozen across all noisy and mitigated benchmark evaluations on Processors A and B to isolate the pure effect of hardware topology, device noise, and error mitigation.
 
 ---
 
@@ -53,7 +53,7 @@ In `src/data_loader.py`, the synthetic generator is parameterized as follows:
 The following artifacts would be required for strict upstream PS-Q1/PS-Q2 reuse:
 1. `mitbih_train_features.csv`: 4-column feature matrix with binary classification labels (200+ samples).
 2. `mitbih_test_features.csv`: 4-column feature matrix with binary classification labels (50 test samples).
-3. `ps_q1_model_weights.json` (or `.npy`): 12-element trained parameter vector $\vec{\theta}^*$.
+3. `ps_q1_model_weights.json` (or `.npy`): 16-element trained parameter vector $\vec{\theta}^*$.
 
 ---
 
